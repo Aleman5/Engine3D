@@ -1,0 +1,24 @@
+#version 330 core
+
+// Input vertex data, different for all executions of this shader.
+layout(location = 0) in vec3 vertexPosition_modelspace;
+
+// Nota que “1” aquí es igual al “1” en glVertexAttribPointer
+layout(location = 1) in vec3 vertexColor;
+
+uniform mat4 MVP;
+
+// Datos de salida, serán interpolados para cada fragmento.
+out vec3 fragmentColor;
+
+void main(){
+
+	gl_Position = MVP * vec4(vertexPosition_modelspace, 1);
+    //gl_Position.xyz = vertexPosition_modelspace;
+    //gl_Position.w = 1.0;
+
+	// El color de cada vértice será interpolado
+    // para producir el color de cada fragmento
+    fragmentColor = vertexColor;
+}
+
