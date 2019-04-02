@@ -14,6 +14,14 @@
 
 class ENGINEDLL_API Renderer
 {
+	enum Perspectives
+	{
+		Orthogonal = 0,
+		Pespective
+	};
+
+	Perspectives persp;
+
 	Window* window;				// Reference to the actual window
 
 	GLuint VertexArrayID;		// Id of the Vertex Array
@@ -101,6 +109,12 @@ public:
 		glm::mat4 model				// Model matrix of the entity
 	);
 	void SetMVP();
+
+
+
+	void SetProjOrtho(float left, float right, float bottom, float top);
+	void SetProjOrtho(float left, float right, float bottom, float top, float zNear, float zFar);
+	void SetProjPersp(float fovy, float aspect, float zNear, float zFar);
 
 	glm::mat4& GetMVP();
 	unsigned int GetWindowWidht()  { return window->GetWidth();  };

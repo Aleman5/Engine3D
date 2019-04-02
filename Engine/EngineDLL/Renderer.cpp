@@ -37,7 +37,7 @@ bool Renderer::Start(Window* win)
 	glGenVertexArrays(1, &VertexArrayID);
 	glBindVertexArray(VertexArrayID);
 
-	projectionMatrix = glm::ortho(0.0f, 1024.0f, 0.0f, 768.0f, 0.0f, 100.0f);
+	SetProjOrtho(0.0f, (float)window->GetWidth(), 0.0f, (float)window->GetHeight(), 0.0f, 100.0f);
 
 	cameraPosition = glm::vec3(0, 0, 3);
 	eyePosition = glm::vec3(0, 0, 0);
@@ -228,6 +228,21 @@ void Renderer::MultiplyModelMatrix(glm::mat4 model)
 void Renderer::SetMVP()
 {
 	MVP = projectionMatrix * viewMatrix * modelMatrix;
+}
+
+void Renderer::SetProjOrtho(float left, float right, float bottom, float top)
+{
+	projectionMatrix = glm::ortho(left, right, bottom, top);
+}
+
+void Renderer::SetProjOrtho(float left, float right, float bottom, float top, float zNear, float zFar)
+{
+	projectionMatrix = glm::ortho(left, right, bottom, top, zNear, zFar);
+}
+
+void Renderer::SetProjPersp(float fovy, float aspect, float zNear, float zFar)
+{
+	projectionMatrix = glm::perspective(fovy, aspect, zNear, zFar);
 }
 
 glm::mat4& Renderer::GetMVP()
