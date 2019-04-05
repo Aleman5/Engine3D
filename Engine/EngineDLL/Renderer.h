@@ -26,8 +26,9 @@ class ENGINEDLL_API Renderer
 
 	GLuint VertexArrayID;		// Id of the Vertex Array
 
-	glm::vec3 eyePosition;		// Actual position of the Camera
 	glm::vec3 cameraPosition;	// View of the Camera
+	glm::vec3 eyePosition;		// Actual position of the Camera
+	glm::vec3 headUpPosition;	// Head Up of the Camera
 
 	glm::mat4 modelMatrix;		// Position of the entity based on the origin
 	glm::mat4 viewMatrix;		// Position of the entity based on the camera
@@ -110,8 +111,17 @@ public:
 	);
 	void SetMVP();
 
+	// MVP View parameter Set functions
+	void SetCameraPosition(vec3 position);
+	void SetCameraPosition(float x, float y, float z);
 
+	void SetCameraeEyePosition(vec3 newEyePosition);
+	void SetCameraeEyePosition(float x, float y, float z);
 
+	void SetHeadUpPosition(vec3 newEyePosition);
+	void SetHeadUpPosition(float x, float y, float z);
+
+	// MVP Projection parameter Set functions
 	void SetProjOrtho(float left, float right, float bottom, float top);
 	void SetProjOrtho(float left, float right, float bottom, float top, float zNear, float zFar);
 	void SetProjPersp(float fovy, float aspect, float zNear, float zFar);

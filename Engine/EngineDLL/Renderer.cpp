@@ -39,13 +39,15 @@ bool Renderer::Start(Window* win)
 
 	SetProjOrtho(0.0f, (float)window->GetWidth(), 0.0f, (float)window->GetHeight(), 0.0f, 100.0f);
 
-	cameraPosition = glm::vec3(0, 0, 3);
-	eyePosition = glm::vec3(0, 0, 0);
+	//					   Default values
+	cameraPosition	= glm::vec3(0, 0, 3);
+	eyePosition		= glm::vec3(0, 0, 0);
+	headUpPosition	= glm::vec3(0, 1, 0);
 
 	viewMatrix = glm::lookAt(
-		cameraPosition,		// Camera is at (0, 0, 3), is World Space
-		eyePosition,		// Looks at the origin
-		glm::vec3(0, 1, 0)  // Head is up to (0, 1, 0)
+		cameraPosition,
+		eyePosition,
+		headUpPosition
 	);
 
 	return true;
@@ -230,19 +232,97 @@ void Renderer::SetMVP()
 	MVP = projectionMatrix * viewMatrix * modelMatrix;
 }
 
+void Renderer::SetCameraPosition(vec3 newPosition)
+{
+	viewMatrix = glm::lookAt(
+		cameraPosition + newPosition,
+		eyePosition,
+		headUpPosition
+	);
+
+	SetMVP();
+}
+
+void Renderer::SetCameraPosition(float x, float y, float z)
+{
+	vec3 newVec = vec3(x, y, z);
+
+	viewMatrix = glm::lookAt(
+		cameraPosition + newVec,
+		eyePosition,
+		headUpPosition
+	);
+
+	SetMVP();
+}
+
+void Renderer::SetCameraeEyePosition(vec3 newPosition)
+{
+	viewMatrix = glm::lookAt(
+		cameraPosition,
+		eyePosition + newPosition,
+		headUpPosition
+	);
+
+	SetMVP();
+}
+
+void Renderer::SetCameraeEyePosition(float x, float y, float z)
+{
+	vec3 newVec = vec3(x, y, z);
+
+	viewMatrix = glm::lookAt(
+		cameraPosition,
+		eyePosition + newVec,
+		headUpPosition
+	);
+
+	SetMVP();
+}
+
+void Renderer::SetHeadUpPosition(vec3 newPosition)
+{
+	viewMatrix = glm::lookAt(
+		cameraPosition,
+		eyePosition,
+		headUpPosition + newPosition
+	);
+
+	SetMVP();
+}
+
+void Renderer::SetHeadUpPosition(float x, float y, float z)
+{
+	vec3 newVec = vec3(x, y, z);
+
+	viewMatrix = glm::lookAt(
+		cameraPosition,
+		eyePosition,
+		headUpPosition + newVec
+	);
+
+	SetMVP();
+}
+
 void Renderer::SetProjOrtho(float left, float right, float bottom, float top)
 {
 	projectionMatrix = glm::ortho(left, right, bottom, top);
+
+	SetMVP();
 }
 
 void Renderer::SetProjOrtho(float left, float right, float bottom, float top, float zNear, float zFar)
 {
 	projectionMatrix = glm::ortho(left, right, bottom, top, zNear, zFar);
+
+	SetMVP();
 }
 
 void Renderer::SetProjPersp(float fovy, float aspect, float zNear, float zFar)
 {
 	projectionMatrix = glm::perspective(fovy, aspect, zNear, zFar);
+
+	SetMVP();
 }
 
 glm::mat4& Renderer::GetMVP()
