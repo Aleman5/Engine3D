@@ -1,6 +1,7 @@
 #pragma once
 
 #include "GameBase.h"
+#include "Camera.h"
 #include "Triangle.h"
 #include "Rectangle.h"
 #include "Circle.h"
@@ -20,6 +21,7 @@ enum GameState
 
 class Game : public GameBase
 {
+	Camera* camera;
 	Input* input;
 	Material* material;
 	Material* matTexture;

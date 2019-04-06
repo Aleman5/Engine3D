@@ -1,1 +1,87 @@
-﻿LINK : fatal error LNK1104: no se puede abrir el archivo 'C:\Users\Ale\Desktop\Repos\Engine3D\Engine\x64\Debug\ EngineDLL.lib'
+﻿  Game.cpp
+c:\users\administrador\desktop\engine3d\engine\enginedll\renderer.h(29): warning C4251: 'Renderer::cameraPosition': struct 'glm::vec<3,float,0>' necesita tener una interfaz DLL para que la utilicen los clientes de class 'Renderer'
+  c:\users\administrador\desktop\engine3d\engine\external\glm-0.9.9.0\glm\detail\type_vec.hpp(229): note: vea la declaración de 'glm::vec<3,float,0>'
+c:\users\administrador\desktop\engine3d\engine\enginedll\renderer.h(30): warning C4251: 'Renderer::eyePosition': struct 'glm::vec<3,float,0>' necesita tener una interfaz DLL para que la utilicen los clientes de class 'Renderer'
+  c:\users\administrador\desktop\engine3d\engine\external\glm-0.9.9.0\glm\detail\type_vec.hpp(229): note: vea la declaración de 'glm::vec<3,float,0>'
+c:\users\administrador\desktop\engine3d\engine\enginedll\renderer.h(31): warning C4251: 'Renderer::headUpPosition': struct 'glm::vec<3,float,0>' necesita tener una interfaz DLL para que la utilicen los clientes de class 'Renderer'
+  c:\users\administrador\desktop\engine3d\engine\external\glm-0.9.9.0\glm\detail\type_vec.hpp(229): note: vea la declaración de 'glm::vec<3,float,0>'
+c:\users\administrador\desktop\engine3d\engine\enginedll\renderer.h(33): warning C4251: 'Renderer::modelMatrix': struct 'glm::mat<4,4,float,0>' necesita tener una interfaz DLL para que la utilicen los clientes de class 'Renderer'
+  c:\users\administrador\desktop\engine3d\engine\external\glm-0.9.9.0\glm\detail\type_mat.hpp(303): note: vea la declaración de 'glm::mat<4,4,float,0>'
+c:\users\administrador\desktop\engine3d\engine\enginedll\renderer.h(34): warning C4251: 'Renderer::viewMatrix': struct 'glm::mat<4,4,float,0>' necesita tener una interfaz DLL para que la utilicen los clientes de class 'Renderer'
+  c:\users\administrador\desktop\engine3d\engine\external\glm-0.9.9.0\glm\detail\type_mat.hpp(303): note: vea la declaración de 'glm::mat<4,4,float,0>'
+c:\users\administrador\desktop\engine3d\engine\enginedll\renderer.h(35): warning C4251: 'Renderer::projectionMatrix': struct 'glm::mat<4,4,float,0>' necesita tener una interfaz DLL para que la utilicen los clientes de class 'Renderer'
+  c:\users\administrador\desktop\engine3d\engine\external\glm-0.9.9.0\glm\detail\type_mat.hpp(303): note: vea la declaración de 'glm::mat<4,4,float,0>'
+c:\users\administrador\desktop\engine3d\engine\enginedll\renderer.h(36): warning C4251: 'Renderer::MVP': struct 'glm::mat<4,4,float,0>' necesita tener una interfaz DLL para que la utilicen los clientes de class 'Renderer'
+  c:\users\administrador\desktop\engine3d\engine\external\glm-0.9.9.0\glm\detail\type_mat.hpp(303): note: vea la declaración de 'glm::mat<4,4,float,0>'
+c:\users\administrador\desktop\engine3d\engine\enginedll\entity.h(17): warning C4251: 'Entity::vectorPosition': struct 'glm::vec<3,float,0>' necesita tener una interfaz DLL para que la utilicen los clientes de class 'Entity'
+  c:\users\administrador\desktop\engine3d\engine\external\glm-0.9.9.0\glm\detail\type_vec.hpp(229): note: vea la declaración de 'glm::vec<3,float,0>'
+c:\users\administrador\desktop\engine3d\engine\enginedll\entity.h(18): warning C4251: 'Entity::vectorRotation': struct 'glm::vec<3,float,0>' necesita tener una interfaz DLL para que la utilicen los clientes de class 'Entity'
+  c:\users\administrador\desktop\engine3d\engine\external\glm-0.9.9.0\glm\detail\type_vec.hpp(229): note: vea la declaración de 'glm::vec<3,float,0>'
+c:\users\administrador\desktop\engine3d\engine\enginedll\entity.h(19): warning C4251: 'Entity::vectorScale': struct 'glm::vec<3,float,0>' necesita tener una interfaz DLL para que la utilicen los clientes de class 'Entity'
+  c:\users\administrador\desktop\engine3d\engine\external\glm-0.9.9.0\glm\detail\type_vec.hpp(229): note: vea la declaración de 'glm::vec<3,float,0>'
+c:\users\administrador\desktop\engine3d\engine\enginedll\entity.h(21): warning C4251: 'Entity::model': struct 'glm::mat<4,4,float,0>' necesita tener una interfaz DLL para que la utilicen los clientes de class 'Entity'
+  c:\users\administrador\desktop\engine3d\engine\external\glm-0.9.9.0\glm\detail\type_mat.hpp(303): note: vea la declaración de 'glm::mat<4,4,float,0>'
+c:\users\administrador\desktop\engine3d\engine\enginedll\entity.h(23): warning C4251: 'Entity::translationMatrix': struct 'glm::mat<4,4,float,0>' necesita tener una interfaz DLL para que la utilicen los clientes de class 'Entity'
+  c:\users\administrador\desktop\engine3d\engine\external\glm-0.9.9.0\glm\detail\type_mat.hpp(303): note: vea la declaración de 'glm::mat<4,4,float,0>'
+c:\users\administrador\desktop\engine3d\engine\enginedll\entity.h(24): warning C4251: 'Entity::rotateX': struct 'glm::mat<4,4,float,0>' necesita tener una interfaz DLL para que la utilicen los clientes de class 'Entity'
+  c:\users\administrador\desktop\engine3d\engine\external\glm-0.9.9.0\glm\detail\type_mat.hpp(303): note: vea la declaración de 'glm::mat<4,4,float,0>'
+c:\users\administrador\desktop\engine3d\engine\enginedll\entity.h(25): warning C4251: 'Entity::rotateY': struct 'glm::mat<4,4,float,0>' necesita tener una interfaz DLL para que la utilicen los clientes de class 'Entity'
+  c:\users\administrador\desktop\engine3d\engine\external\glm-0.9.9.0\glm\detail\type_mat.hpp(303): note: vea la declaración de 'glm::mat<4,4,float,0>'
+c:\users\administrador\desktop\engine3d\engine\enginedll\entity.h(26): warning C4251: 'Entity::rotateZ': struct 'glm::mat<4,4,float,0>' necesita tener una interfaz DLL para que la utilicen los clientes de class 'Entity'
+  c:\users\administrador\desktop\engine3d\engine\external\glm-0.9.9.0\glm\detail\type_mat.hpp(303): note: vea la declaración de 'glm::mat<4,4,float,0>'
+c:\users\administrador\desktop\engine3d\engine\enginedll\entity.h(27): warning C4251: 'Entity::scallingMatrix': struct 'glm::mat<4,4,float,0>' necesita tener una interfaz DLL para que la utilicen los clientes de class 'Entity'
+  c:\users\administrador\desktop\engine3d\engine\external\glm-0.9.9.0\glm\detail\type_mat.hpp(303): note: vea la declaración de 'glm::mat<4,4,float,0>'
+c:\users\administrador\desktop\engine3d\engine\enginedll\entity.h(30): warning C4251: 'Entity::col': struct 'glm::vec<2,float,0>' necesita tener una interfaz DLL para que la utilicen los clientes de class 'Entity'
+  c:\users\administrador\desktop\engine3d\engine\external\glm-0.9.9.0\glm\detail\type_vec.hpp(119): note: vea la declaración de 'glm::vec<2,float,0>'
+c:\users\administrador\desktop\engine3d\engine\enginedll\triangle.h(6): warning C4275: se ha utilizado una interfaz no de DLL class 'Shape' como base para la interfaz DLL class 'Triangle'
+  c:\users\administrador\desktop\engine3d\engine\enginedll\shape.h(6): note: vea la declaración de 'Shape'
+  c:\users\administrador\desktop\engine3d\engine\enginedll\triangle.h(5): note: vea la declaración de 'Triangle'
+c:\users\administrador\desktop\engine3d\engine\enginedll\rectangle.h(6): warning C4275: se ha utilizado una interfaz no de DLL class 'Shape' como base para la interfaz DLL class 'Rectangle'
+  c:\users\administrador\desktop\engine3d\engine\enginedll\shape.h(6): note: vea la declaración de 'Shape'
+  c:\users\administrador\desktop\engine3d\engine\enginedll\rectangle.h(5): note: vea la declaración de 'Rectangle'
+c:\users\administrador\desktop\engine3d\engine\enginedll\circle.h(7): warning C4275: se ha utilizado una interfaz no de DLL class 'Shape' como base para la interfaz DLL class 'Circle'
+  c:\users\administrador\desktop\engine3d\engine\enginedll\shape.h(6): note: vea la declaración de 'Shape'
+  c:\users\administrador\desktop\engine3d\engine\enginedll\circle.h(6): note: vea la declaración de 'Circle'
+c:\users\administrador\desktop\engine3d\engine\enginedll\textureimporter.h(31): warning C4091: 'static ': se ha omitido a la izquierda de 'TextureImporter' cuando no hay ninguna variable declarada
+c:\users\administrador\desktop\engine3d\engine\enginedll\tilemap.h(43): warning C4251: 'Tilemap::level': class 'std::vector<std::vector<int,std::allocator<_Ty>>,std::allocator<std::vector<_Ty,std::allocator<_Ty>>>>' necesita tener una interfaz DLL para que la utilicen los clientes de class 'Tilemap'
+          with
+          [
+              _Ty=int
+          ]
+  c:\users\administrador\desktop\engine3d\engine\enginedll\tilemap.h(43): note: vea la declaración de 'std::vector<std::vector<int,std::allocator<_Ty>>,std::allocator<std::vector<_Ty,std::allocator<_Ty>>>>'
+          with
+          [
+              _Ty=int
+          ]
+c:\users\administrador\desktop\engine3d\engine\enginedll\tilemap.h(44): warning C4251: 'Tilemap::tiles': class 'std::vector<std::vector<Tile,std::allocator<_Ty>>,std::allocator<std::vector<_Ty,std::allocator<_Ty>>>>' necesita tener una interfaz DLL para que la utilicen los clientes de class 'Tilemap'
+          with
+          [
+              _Ty=Tile
+          ]
+  c:\users\administrador\desktop\engine3d\engine\enginedll\tilemap.h(44): note: vea la declaración de 'std::vector<std::vector<Tile,std::allocator<_Ty>>,std::allocator<std::vector<_Ty,std::allocator<_Ty>>>>'
+          with
+          [
+              _Ty=Tile
+          ]
+c:\users\administrador\desktop\engine3d\engine\enginedll\tilemap.h(67): warning C4251: 'Tilemap::actualPosition': struct 'glm::vec<2,float,0>' necesita tener una interfaz DLL para que la utilicen los clientes de class 'Tilemap'
+  c:\users\administrador\desktop\engine3d\engine\external\glm-0.9.9.0\glm\detail\type_vec.hpp(119): note: vea la declaración de 'glm::vec<2,float,0>'
+c:\users\administrador\desktop\engine3d\engine\enginedll\tilemap.h(68): warning C4251: 'Tilemap::realPosition': struct 'glm::vec<2,float,0>' necesita tener una interfaz DLL para que la utilicen los clientes de class 'Tilemap'
+  c:\users\administrador\desktop\engine3d\engine\external\glm-0.9.9.0\glm\detail\type_vec.hpp(119): note: vea la declaración de 'glm::vec<2,float,0>'
+c:\users\administrador\desktop\engine3d\engine\enginedll\tilemap.h(70): warning C4251: 'Tilemap::accumTrans': struct 'glm::vec<2,float,0>' necesita tener una interfaz DLL para que la utilicen los clientes de class 'Tilemap'
+  c:\users\administrador\desktop\engine3d\engine\external\glm-0.9.9.0\glm\detail\type_vec.hpp(119): note: vea la declaración de 'glm::vec<2,float,0>'
+c:\users\administrador\desktop\engine3d\engine\enginedll\sprite.h(10): warning C4275: se ha utilizado una interfaz no de DLL class 'Shape' como base para la interfaz DLL class 'Sprite'
+  c:\users\administrador\desktop\engine3d\engine\enginedll\shape.h(6): note: vea la declaración de 'Shape'
+  c:\users\administrador\desktop\engine3d\engine\enginedll\sprite.h(9): note: vea la declaración de 'Sprite'
+c:\users\administrador\desktop\engine3d\engine\enginedll\sprite.h(22): warning C4251: 'Sprite::originalPosition': struct 'glm::vec<2,float,0>' necesita tener una interfaz DLL para que la utilicen los clientes de class 'Sprite'
+  c:\users\administrador\desktop\engine3d\engine\external\glm-0.9.9.0\glm\detail\type_vec.hpp(119): note: vea la declaración de 'glm::vec<2,float,0>'
+c:\users\administrador\desktop\engine3d\engine\enginedll\collisionmanager.h(15): warning C4251: 'CollisionManager::listsOfEntities': class 'std::vector<std::list<Entity *,std::allocator<_Ty>>,std::allocator<std::list<_Ty,std::allocator<_Ty>>>>' necesita tener una interfaz DLL para que la utilicen los clientes de class 'CollisionManager'
+          with
+          [
+              _Ty=Entity *
+          ]
+  c:\users\administrador\desktop\engine3d\engine\enginedll\collisionmanager.h(15): note: vea la declaración de 'std::vector<std::list<Entity *,std::allocator<_Ty>>,std::allocator<std::list<_Ty,std::allocator<_Ty>>>>'
+          with
+          [
+              _Ty=Entity *
+          ]
+  TestEngine.vcxproj -> C:\Users\Administrador\Desktop\Engine3D\Engine\x64\Debug\TestEngine.exe

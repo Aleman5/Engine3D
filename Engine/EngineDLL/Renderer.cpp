@@ -38,6 +38,8 @@ bool Renderer::Start(Window* win)
 	glBindVertexArray(VertexArrayID);
 
 	SetProjOrtho(0.0f, (float)window->GetWidth(), 0.0f, (float)window->GetHeight(), 0.0f, 100.0f);
+	//projectionMatrix = glm::perspective(10.0f, 16.0f / 9.0f, 0.1f, 100.0f);
+
 
 	//					   Default values
 	cameraPosition	= glm::vec3(0, 0, 3);
@@ -234,8 +236,11 @@ void Renderer::SetMVP()
 
 void Renderer::SetCameraPosition(vec3 newPosition)
 {
+	cameraPosition += newPosition;
+	eyePosition += newPosition;
+
 	viewMatrix = glm::lookAt(
-		cameraPosition + newPosition,
+		cameraPosition,
 		eyePosition,
 		headUpPosition
 	);
@@ -245,10 +250,10 @@ void Renderer::SetCameraPosition(vec3 newPosition)
 
 void Renderer::SetCameraPosition(float x, float y, float z)
 {
-	vec3 newVec = vec3(x, y, z);
+	cameraPosition = vec3(x, y, z);
 
 	viewMatrix = glm::lookAt(
-		cameraPosition + newVec,
+		cameraPosition,
 		eyePosition,
 		headUpPosition
 	);
@@ -258,9 +263,11 @@ void Renderer::SetCameraPosition(float x, float y, float z)
 
 void Renderer::SetCameraeEyePosition(vec3 newPosition)
 {
+	eyePosition = newPosition;
+
 	viewMatrix = glm::lookAt(
 		cameraPosition,
-		eyePosition + newPosition,
+		eyePosition,
 		headUpPosition
 	);
 
@@ -269,11 +276,11 @@ void Renderer::SetCameraeEyePosition(vec3 newPosition)
 
 void Renderer::SetCameraeEyePosition(float x, float y, float z)
 {
-	vec3 newVec = vec3(x, y, z);
+	eyePosition += vec3(x, y, z);
 
 	viewMatrix = glm::lookAt(
 		cameraPosition,
-		eyePosition + newVec,
+		eyePosition,
 		headUpPosition
 	);
 
@@ -282,10 +289,12 @@ void Renderer::SetCameraeEyePosition(float x, float y, float z)
 
 void Renderer::SetHeadUpPosition(vec3 newPosition)
 {
+	headUpPosition += newPosition;
+
 	viewMatrix = glm::lookAt(
 		cameraPosition,
 		eyePosition,
-		headUpPosition + newPosition
+		headUpPosition
 	);
 
 	SetMVP();
@@ -293,12 +302,12 @@ void Renderer::SetHeadUpPosition(vec3 newPosition)
 
 void Renderer::SetHeadUpPosition(float x, float y, float z)
 {
-	vec3 newVec = vec3(x, y, z);
+	headUpPosition += vec3(x, y, z);
 
 	viewMatrix = glm::lookAt(
 		cameraPosition,
 		eyePosition,
-		headUpPosition + newVec
+		headUpPosition
 	);
 
 	SetMVP();
@@ -306,21 +315,21 @@ void Renderer::SetHeadUpPosition(float x, float y, float z)
 
 void Renderer::SetProjOrtho(float left, float right, float bottom, float top)
 {
-	projectionMatrix = glm::ortho(left, right, bottom, top);
+	projectionMatrix += glm::ortho(left, right, bottom, top);
 
 	SetMVP();
 }
 
 void Renderer::SetProjOrtho(float left, float right, float bottom, float top, float zNear, float zFar)
 {
-	projectionMatrix = glm::ortho(left, right, bottom, top, zNear, zFar);
+	projectionMatrix += glm::ortho(left, right, bottom, top, zNear, zFar);
 
 	SetMVP();
 }
 
 void Renderer::SetProjPersp(float fovy, float aspect, float zNear, float zFar)
 {
-	projectionMatrix = glm::perspective(fovy, aspect, zNear, zFar);
+	projectionMatrix += glm::perspective(fovy, aspect, zNear, zFar);
 
 	SetMVP();
 }

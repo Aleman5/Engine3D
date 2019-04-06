@@ -10,6 +10,10 @@ Game::~Game()
 
 bool Game::OnStart()
 {
+	GetRenderer()->SetProjPersp(45.0f, 16.0f / 9.0f, 0.1f, 100.0f);
+
+	camera = new Camera(GetRenderer(), matTexture, Default);
+	
 	input = Input::getInstance();
 	input->SetWindowContext(GetWindow());
 
@@ -171,6 +175,11 @@ bool Game::OnUpdate()
 				gameState = LOSE;
 				player->Die();
 			}
+	
+		if (input->isInput(GLFW_KEY_SPACE))
+		{
+			camera->Walk(0.5f);
+		}
 	}
 		break;
 	case WIN:
