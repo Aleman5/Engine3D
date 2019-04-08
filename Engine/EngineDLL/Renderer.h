@@ -12,28 +12,31 @@
 #include <glm\gtx\transform.hpp>
 #include <glm\glm.hpp>
 
+enum CameraType
+{
+	Orthogonal = 0,
+	Perspective
+};
+
 class ENGINEDLL_API Renderer
 {
-	enum Perspectives
-	{
-		Orthogonal = 0,
-		Pespective
-	};
-
-	Perspectives persp;
+	CameraType cameraType;
 
 	Window* window;				// Reference to the actual window
 
 	GLuint VertexArrayID;		// Id of the Vertex Array
 
-	glm::vec3 cameraPosition;	// View of the Camera
-	glm::vec3 eyePosition;		// Actual position of the Camera
-	glm::vec3 headUpPosition;	// Head Up of the Camera
+	vec3 cameraPosition;	// View of the Camera
+	vec3 eyePosition;		// Actual position of the Camera
+	vec3 headUpPosition;	// Head Up of the Camera
 
-	glm::mat4 modelMatrix;		// Position of the entity based on the origin
-	glm::mat4 viewMatrix;		// Position of the entity based on the camera
-	glm::mat4 projectionMatrix;	// Position of the entity based on the frustum of the camera
-	glm::mat4 MVP;				// The final position of the entity in world space
+	mat4 modelMatrix;		// Position of the entity based on the origin
+	mat4 viewMatrix;		// Position of the entity based on the camera
+	mat4 projectionMatrix;	// Position of the entity based on the frustum of the camera
+	mat4 MVP;				// The final position of the entity in world space
+
+	mat4 orthoMatrix;
+	mat4 perspMatrix;
 
 public:
 	bool Start(
@@ -94,8 +97,10 @@ public:
 	void DisableBlend();
 
 	void MoveCamera(
-		glm::vec3 newPos			// Position added to the actual View Matrix position
+		vec3 newPos			// Position added to the actual View Matrix position
 	);
+
+	void RotateCamera(vec3 rot);
 
 	void ResetCamera(
 		float x,
@@ -115,8 +120,8 @@ public:
 	void SetCameraPosition(vec3 position);
 	void SetCameraPosition(float x, float y, float z);
 
-	void SetCameraeEyePosition(vec3 newEyePosition);
-	void SetCameraeEyePosition(float x, float y, float z);
+	void SetCameraEyePosition(vec3 newEyePosition);
+	void SetCameraEyePosition(float x, float y, float z);
 
 	void SetHeadUpPosition(vec3 newEyePosition);
 	void SetHeadUpPosition(float x, float y, float z);

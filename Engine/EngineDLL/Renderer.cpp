@@ -40,11 +40,12 @@ bool Renderer::Start(Window* win)
 	SetProjOrtho(0.0f, (float)window->GetWidth(), 0.0f, (float)window->GetHeight(), 0.0f, 100.0f);
 	//projectionMatrix = glm::perspective(10.0f, 16.0f / 9.0f, 0.1f, 100.0f);
 
+	cameraType = Perspective;
 
 	//					   Default values
-	cameraPosition	= glm::vec3(0, 0, 3);
-	eyePosition		= glm::vec3(0, 0, 0);
-	headUpPosition	= glm::vec3(0, 1, 0);
+	cameraPosition	= vec3(0, 0, 30);
+	eyePosition		= vec3(0, 0, 0);
+	headUpPosition	= vec3(0, 1, 0);
 
 	viewMatrix = glm::lookAt(
 		cameraPosition,
@@ -181,40 +182,50 @@ void Renderer::DisableBlend()
 	glDisable(GL_BLEND);
 }
 
-void Renderer::MoveCamera(glm::vec3 newPos)
+void Renderer::MoveCamera(vec3 newPos)
 {
-	cameraPosition += glm::vec3(newPos.x, newPos.y, 0);
+	cameraPosition += vec3(newPos.x, newPos.y, 0);
 	eyePosition += newPos;
 
 	viewMatrix = glm::lookAt(
 		cameraPosition,
 		eyePosition,
-		glm::vec3(0, 1, 0)  // Head is up to (0, 1, 0)
+		headUpPosition
 	);
+}
+
+void Renderer::RotateCamera(vec3 rot)
+{
+	viewMatrix = rotate(viewMatrix, rot.y, vec3(-1.0f, 0.0f, 0.0f));
+	viewMatrix = rotate(viewMatrix, rot.x, vec3(0.0f, 1.0f, 0.0f));
+	viewMatrix = rotate(viewMatrix, rot.z, vec3(0.0f, 0.0f, 1.0f));
+	modelMatrix= scale (mat4(1.0f), vec3(0.5f));
+	SetMVP();
 }
 
 void Renderer::ResetCamera(float x, float y)
 {
-	glm::vec3 newPos = glm::vec3(x, y, 3);
+	glm::vec3 newPos = vec3(x, y, 3);
 
-	cameraPosition = glm::vec3(newPos.x, newPos.y, newPos.z);
-	eyePosition = glm::vec3(0.0f, newPos.y, 0.0f);
+	cameraPosition = vec3(newPos.x, newPos.y, newPos.z);
+	eyePosition = vec3(0.0f, newPos.y, 0.0f);
+	headUpPosition = vec3(0.0f, 1.0f, 0.0f);
 
 	viewMatrix = glm::lookAt(
 		cameraPosition,
 		eyePosition,
-		glm::vec3(0, 1, 0)  // Head is up to (0, 1, 0)
+		headUpPosition
 	);
 }
 
 void Renderer::loadIdentityMatrix()
 {
-	modelMatrix = glm::mat4(1.0f);
+	modelMatrix = mat4(1.0f);
 
 	SetMVP();
 }
 
-void Renderer::SetModelMatrix(glm::mat4 model)
+void Renderer::SetModelMatrix(mat4 model)
 {
 	modelMatrix = model;
 
@@ -222,7 +233,7 @@ void Renderer::SetModelMatrix(glm::mat4 model)
 }
 
 
-void Renderer::MultiplyModelMatrix(glm::mat4 model)
+void Renderer::MultiplyModelMatrix(mat4 model)
 {
 	modelMatrix *= model;
 
@@ -261,7 +272,7 @@ void Renderer::SetCameraPosition(float x, float y, float z)
 	SetMVP();
 }
 
-void Renderer::SetCameraeEyePosition(vec3 newPosition)
+void Renderer::SetCameraEyePosition(vec3 newPosition)
 {
 	eyePosition = newPosition;
 
@@ -274,7 +285,7 @@ void Renderer::SetCameraeEyePosition(vec3 newPosition)
 	SetMVP();
 }
 
-void Renderer::SetCameraeEyePosition(float x, float y, float z)
+void Renderer::SetCameraEyePosition(float x, float y, float z)
 {
 	eyePosition += vec3(x, y, z);
 
@@ -315,21 +326,21 @@ void Renderer::SetHeadUpPosition(float x, float y, float z)
 
 void Renderer::SetProjOrtho(float left, float right, float bottom, float top)
 {
-	projectionMatrix += glm::ortho(left, right, bottom, top);
+	projectionMatrix = glm::ortho(left, right, bottom, top);
 
 	SetMVP();
 }
 
 void Renderer::SetProjOrtho(float left, float right, float bottom, float top, float zNear, float zFar)
 {
-	projectionMatrix += glm::ortho(left, right, bottom, top, zNear, zFar);
+	projectionMatrix = glm::ortho(left, right, bottom, top, zNear, zFar);
 
 	SetMVP();
 }
 
 void Renderer::SetProjPersp(float fovy, float aspect, float zNear, float zFar)
 {
-	projectionMatrix += glm::perspective(fovy, aspect, zNear, zFar);
+	projectionMatrix = glm::perspective(fovy, aspect, zNear, zFar);
 
 	SetMVP();
 }

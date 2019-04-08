@@ -16,9 +16,9 @@ public:
 
 	void Walk(float mount);
 	void Strafe(float mount);
-	void Pitch();	// Rota sobre el eje x
-	void Yaw();		// Rota sobre el eje y
-	void Roll();	// Rota sobre el eje z
+	void Pitch(float degrees);	// Rota sobre el eje x
+	void Yaw(float degrees);		// Rota sobre el eje y
+	void Roll(float degrees);	// Rota sobre el eje z
 
 	Camera(
 		Renderer* renderer,	// Renderer reference

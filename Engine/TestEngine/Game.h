@@ -29,7 +29,7 @@ class Game : public GameBase
 	list<Asteroid*>* asteroids;
 	Tilemap* tilemap;
 
-	float speed;		// Speed
+	float speed;
 
 	const int totalAsteroids = 25;
 

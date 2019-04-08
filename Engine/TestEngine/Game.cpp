@@ -146,9 +146,8 @@ bool Game::OnUpdate()
 	{
 		vec2 move = vec2(speed * Defs::getInstance()->deltaTime, 0.0f);
 
-		GetRenderer()->MoveCamera(glm::vec3(move.x, 0.0f, 0.0f));
-		tilemap->Translate(glm::vec3(move.x, 0.0f, 0.0f));
-		//tilemap->Move(move.x, 0.0f);
+		//GetRenderer()->MoveCamera(glm::vec3(move.x, 0.0f, 0.0f));
+		//tilemap->Translate(glm::vec3(move.x, 0.0f, 0.0f));
 
 		player->Move();
 
@@ -195,8 +194,8 @@ bool Game::OnUpdate()
 		break;
 	}
 
-	for (list<Asteroid*>::iterator ast = asteroids->begin(); ast != asteroids->end(); ast++)
-		(*ast)->Move();
+	/*for (list<Asteroid*>::iterator ast = asteroids->begin(); ast != asteroids->end(); ast++)
+		(*ast)->Move();*/
 	
 	tilemap->UpdateUV();
 
@@ -226,11 +225,11 @@ bool Game::OnDraw()
 
 void Game::Restart()
 {
-	tilemap->Teleport(0.0f, 64.0f, 0.0f);
+	/*tilemap->Teleport(0.0f, 64.0f, 0.0f);
 	GetRenderer()->ResetCamera(0.0f, 64.0f);
 	player->ReturnToOriginalPosition();
 	for (list<Asteroid*>::iterator ast = asteroids->begin(); ast != asteroids->end(); ast++)
-		(*ast)->ReturnToOriginalPosition();
+		(*ast)->ReturnToOriginalPosition();*/
 
 	gameState = CONTINUE;
 }
