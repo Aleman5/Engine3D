@@ -34,7 +34,11 @@ void Camera::Walk(float mount)
 
 void Camera::Strafe(float mount)
 {
+	GetRenderer()->SetCameraPosition(vec3(mount, 0.0f, 0.0f));
 
+	vec3 pos = GetRenderer()->GetCameraPosition();
+
+	cout << "x: " << pos.x << " y: " << pos.y << " z: " << pos.z << endl;
 }
 
 void Camera::Pitch(float degrees)

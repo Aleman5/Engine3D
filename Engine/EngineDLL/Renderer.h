@@ -113,22 +113,29 @@ public:
 	);
 	void MultiplyModelMatrix(
 		glm::mat4 model				// Model matrix of the entity
-	);
+	); 
 	void SetMVP();
 
-	// MVP View parameter Set functions
+	/// <summary>Updates the position of the camera</summary>
 	void SetCameraPosition(vec3 position);
+	/// <summary>Updates the position of the camera</summary>
 	void SetCameraPosition(float x, float y, float z);
 
+	/// <summary>Updates the position of the camera</summary>
 	void SetCameraEyePosition(vec3 newEyePosition);
+	/// <summary>Updates the position of the camera</summary>
 	void SetCameraEyePosition(float x, float y, float z);
-
+	
+	/// <summary>Updates the position of the camera</summary>
 	void SetHeadUpPosition(vec3 newEyePosition);
+	/// <summary>Updates the position of the camera</summary>
 	void SetHeadUpPosition(float x, float y, float z);
 
-	// MVP Projection parameter Set functions
+	/// <summary>Updates the values of the orthographic projection</summary>
 	void SetProjOrtho(float left, float right, float bottom, float top);
+	/// <summary>Updates the values of the orthographic projection</summary>
 	void SetProjOrtho(float left, float right, float bottom, float top, float zNear, float zFar);
+	/// <summary>Updates the values of the perspective projection</summary>
 	void SetProjPersp(float fovy, float aspect, float zNear, float zFar);
 
 	glm::mat4& GetMVP();
