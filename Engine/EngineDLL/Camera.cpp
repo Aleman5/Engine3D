@@ -2,7 +2,7 @@
 
 Camera::Camera(Renderer* renderer, Material* material, Layers tag) : Entity(renderer, material, tag)
 {
-	vectorPosition = renderer->GetCameraPosition();
+	vMatrix = renderer->GetViewMatrix();
 }
 Camera::~Camera()
 {
@@ -22,36 +22,30 @@ unsigned int Camera::SetVertices(float* vertices, int count)
 
 void Camera::Walk(float mount)
 {
-	//vectorPosition.z += mount;
-	//vectorPosition.z += mount;
-
-	GetRenderer()->SetCameraPosition(vec3(0.0f, 0.0f, mount));
-
-	vec3 pos = GetRenderer()->GetCameraPosition();
-
-	cout << "x: " << pos.x << " y: " << pos.y << " z: " << pos.z << endl;
+	vMatrix = glm::translate(vMatrix, vec3(0.0f, 0.0f, mount));
+	renderer->SetCameraPosition(vMatrix);
 }
 
 void Camera::Strafe(float mount)
 {
-	GetRenderer()->SetCameraPosition(vec3(mount, 0.0f, 0.0f));
-
-	vec3 pos = GetRenderer()->GetCameraPosition();
-
-	cout << "x: " << pos.x << " y: " << pos.y << " z: " << pos.z << endl;
+	vMatrix = glm::translate(vMatrix, vec3(mount, 0.0f, 0.0f));
+	renderer->SetCameraPosition(vMatrix);
 }
 
 void Camera::Pitch(float degrees)
 {
-	GetRenderer()->RotateCamera(vec3(0, degrees, 0));
+	vMatrix = glm::rotate(vMatrix, degrees, vec3(-1.0f, 0.0f, 0.0f));
+	renderer->SetCameraPosition(vMatrix);
 }
 
 void Camera::Yaw(float degrees)
 {
-	GetRenderer()->RotateCamera(vec3(degrees, 0, 0));
+	vMatrix = glm::rotate(vMatrix, degrees, vec3(0.0f, 1.0f, 0.0f));
+	renderer->SetCameraPosition(vMatrix);
 }
 
 void Camera::Roll(float degrees)
 {
-	GetRenderer()->RotateCamera(vec3(0, 0, degrees));
+	vMatrix = glm::rotate(vMatrix, degrees, vec3(0.0f, 0.0f, 1.0f));
+	renderer->SetCameraPosition(vMatrix);
 }

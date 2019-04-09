@@ -37,8 +37,8 @@ bool Renderer::Start(Window* win)
 	glGenVertexArrays(1, &VertexArrayID);
 	glBindVertexArray(VertexArrayID);
 
-	SetProjOrtho(0.0f, (float)window->GetWidth(), 0.0f, (float)window->GetHeight(), 0.0f, 100.0f);
-	//projectionMatrix = glm::perspective(10.0f, 16.0f / 9.0f, 0.1f, 100.0f);
+	SetProjOrtho(0.0f, (float)window->GetWidth(), 0.0f, (float)window->GetHeight(), 0.0f, 1000.0f);
+	//projectionMatrix = glm::perspective(glm::radians(45.0f), 16.0f / 9.0f, 0.1f, 100.0f);
 
 	cameraType = Perspective;
 
@@ -245,17 +245,9 @@ void Renderer::SetMVP()
 	MVP = projectionMatrix * viewMatrix * modelMatrix;
 }
 
-void Renderer::SetCameraPosition(vec3 newPosition)
+void Renderer::SetCameraPosition(mat4 newPosition)
 {
-	cameraPosition += newPosition;
-	eyePosition += newPosition;
-
-	viewMatrix = glm::lookAt(
-		cameraPosition,
-		eyePosition,
-		headUpPosition
-	);
-
+	viewMatrix = newPosition;
 	SetMVP();
 }
 
@@ -272,16 +264,9 @@ void Renderer::SetCameraPosition(float x, float y, float z)
 	SetMVP();
 }
 
-void Renderer::SetCameraEyePosition(vec3 newPosition)
+void Renderer::SetCameraEyePosition(mat4 newPosition)
 {
-	eyePosition = newPosition;
-
-	viewMatrix = glm::lookAt(
-		cameraPosition,
-		eyePosition,
-		headUpPosition
-	);
-
+	viewMatrix = newPosition;
 	SetMVP();
 }
 
@@ -298,16 +283,9 @@ void Renderer::SetCameraEyePosition(float x, float y, float z)
 	SetMVP();
 }
 
-void Renderer::SetHeadUpPosition(vec3 newPosition)
+void Renderer::SetHeadUpPosition(mat4 newPosition)
 {
-	headUpPosition += newPosition;
-
-	viewMatrix = glm::lookAt(
-		cameraPosition,
-		eyePosition,
-		headUpPosition
-	);
-
+	viewMatrix = newPosition;
 	SetMVP();
 }
 

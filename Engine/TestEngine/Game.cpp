@@ -10,7 +10,7 @@ Game::~Game()
 
 bool Game::OnStart()
 {
-	GetRenderer()->SetProjPersp(45.0f, 16.0f / 9.0f, 0.1f, 100.0f);
+	GetRenderer()->SetProjPersp(glm::radians(45.0f), 16.0f / 9.0f, 0.1f, 100.0f);
 
 	camera = new Camera(GetRenderer(), matTexture, Default);
 	
@@ -174,11 +174,21 @@ bool Game::OnUpdate()
 				gameState = LOSE;
 				player->Die();
 			}
-	
-		if (input->isInput(GLFW_KEY_SPACE))
-		{
-			camera->Walk(0.5f);
-		}
+
+		if (input->isInput(GLFW_KEY_E))
+			camera->Roll(Defs::getInstance()->deltaTime);
+		if (input->isInput(GLFW_KEY_Q))
+			camera->Pitch(Defs::getInstance()->deltaTime);
+		if (input->isInput(GLFW_KEY_R))
+			camera->Yaw(Defs::getInstance()->deltaTime);
+		if (input->isInput(GLFW_KEY_W))
+			camera->Walk(Defs::getInstance()->deltaTime);
+		if (input->isInput(GLFW_KEY_S))
+			camera->Walk(-Defs::getInstance()->deltaTime);
+		if (input->isInput(GLFW_KEY_R))
+			camera->Strafe(Defs::getInstance()->deltaTime);
+		if (input->isInput(GLFW_KEY_R))
+			camera->Strafe(-Defs::getInstance()->deltaTime);
 	}
 		break;
 	case WIN:

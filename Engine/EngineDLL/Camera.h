@@ -5,6 +5,8 @@
 
 class ENGINEDLL_API Camera : public Entity
 {
+	mat4 vMatrix;
+
 public:
 	void Draw() override;
 	void ShouldDispose() override;

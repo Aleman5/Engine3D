@@ -117,17 +117,17 @@ public:
 	void SetMVP();
 
 	/// <summary>Updates the position of the camera</summary>
-	void SetCameraPosition(vec3 position);
+	void SetCameraPosition(mat4 position);
 	/// <summary>Updates the position of the camera</summary>
 	void SetCameraPosition(float x, float y, float z);
 
 	/// <summary>Updates the position of the camera</summary>
-	void SetCameraEyePosition(vec3 newEyePosition);
+	void SetCameraEyePosition(mat4 newEyePosition);
 	/// <summary>Updates the position of the camera</summary>
 	void SetCameraEyePosition(float x, float y, float z);
 	
 	/// <summary>Updates the position of the camera</summary>
-	void SetHeadUpPosition(vec3 newEyePosition);
+	void SetHeadUpPosition(mat4 newEyePosition);
 	/// <summary>Updates the position of the camera</summary>
 	void SetHeadUpPosition(float x, float y, float z);
 
@@ -138,10 +138,13 @@ public:
 	/// <summary>Updates the values of the perspective projection</summary>
 	void SetProjPersp(float fovy, float aspect, float zNear, float zFar);
 
-	glm::mat4& GetMVP();
 	unsigned int GetWindowWidht()  { return window->GetWidth();  };
 	unsigned int GetWindowHeight() { return window->GetHeight(); };
-	glm::vec3 GetCameraPosition()  { return eyePosition;		 };
+	vec3 GetCameraPosition()	   { return eyePosition;		 };
+	mat4& GetProjMatrix()		   { return projectionMatrix;	 };
+	mat4& GetViewMatrix()		   { return viewMatrix;			 };
+	mat4& GetModelMatrix()		   { return modelMatrix;		 };
+	mat4& GetMVP();
 
 	Renderer();
 	~Renderer();
