@@ -10,7 +10,7 @@ Game::~Game()
 
 bool Game::OnStart()
 {
-	GetRenderer()->SetProjPersp(glm::radians(45.0f), 16.0f / 9.0f, 0.1f, 100.0f);
+	GetRenderer()->SetProjPersp(glm::radians(45.0f), 16.0f / 9.0f, 0.1f, 1000.0f);
 
 	camera = new Camera(GetRenderer(), matTexture, Default);
 	
@@ -175,20 +175,29 @@ bool Game::OnUpdate()
 				player->Die();
 			}
 
-		if (input->isInput(GLFW_KEY_E))
-			camera->Roll(Defs::getInstance()->deltaTime);
+		float cameraSpeed = 2.0f;
+
 		if (input->isInput(GLFW_KEY_Q))
-			camera->Pitch(Defs::getInstance()->deltaTime);
-		if (input->isInput(GLFW_KEY_R))
-			camera->Yaw(Defs::getInstance()->deltaTime);
+			camera->Walk(8 * cameraSpeed * Defs::getInstance()->deltaTime);
+		if (input->isInput(GLFW_KEY_A))
+			camera->Walk(8 * cameraSpeed * -Defs::getInstance()->deltaTime);
 		if (input->isInput(GLFW_KEY_W))
-			camera->Walk(Defs::getInstance()->deltaTime);
+			camera->Strafe(cameraSpeed * Defs::getInstance()->deltaTime);
 		if (input->isInput(GLFW_KEY_S))
-			camera->Walk(-Defs::getInstance()->deltaTime);
+			camera->Strafe(cameraSpeed * -Defs::getInstance()->deltaTime);
+		if (input->isInput(GLFW_KEY_E))
+			camera->Roll(cameraSpeed * Defs::getInstance()->deltaTime);
+		if (input->isInput(GLFW_KEY_D))
+			camera->Roll(cameraSpeed * -Defs::getInstance()->deltaTime);
 		if (input->isInput(GLFW_KEY_R))
-			camera->Strafe(Defs::getInstance()->deltaTime);
-		if (input->isInput(GLFW_KEY_R))
-			camera->Strafe(-Defs::getInstance()->deltaTime);
+			camera->Pitch(cameraSpeed * Defs::getInstance()->deltaTime);
+		if (input->isInput(GLFW_KEY_F))
+			camera->Pitch(cameraSpeed * -Defs::getInstance()->deltaTime);
+		if (input->isInput(GLFW_KEY_T))
+			camera->Yaw(cameraSpeed * Defs::getInstance()->deltaTime);
+		if (input->isInput(GLFW_KEY_G))
+			camera->Yaw(cameraSpeed * -Defs::getInstance()->deltaTime);
+		
 	}
 		break;
 	case WIN:
