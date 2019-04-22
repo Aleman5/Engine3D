@@ -12,7 +12,7 @@ bool Game::OnStart()
 {
 	GetRenderer()->SetProjPersp(glm::radians(45.0f), 16.0f / 9.0f, 0.1f, 1000.0f);
 
-	camera = new Camera(GetRenderer(), matTexture, Default);
+	camera = new Camera(GetRenderer());
 	
 	input = Input::getInstance();
 	input->SetWindowContext(GetWindow());
@@ -178,13 +178,13 @@ bool Game::OnUpdate()
 		float cameraSpeed = 2.0f;
 
 		if (input->isInput(GLFW_KEY_Q))
-			camera->Walk(20 * cameraSpeed * Defs::getInstance()->deltaTime);
+			camera->Walk(cameraSpeed * Defs::getInstance()->deltaTime);
 		if (input->isInput(GLFW_KEY_A))
-			camera->Walk(20 * cameraSpeed * -Defs::getInstance()->deltaTime);
+			camera->Walk(cameraSpeed * -Defs::getInstance()->deltaTime);
 		if (input->isInput(GLFW_KEY_W))
-			camera->Strafe(20 * cameraSpeed * Defs::getInstance()->deltaTime);
+			camera->Strafe(cameraSpeed * Defs::getInstance()->deltaTime);
 		if (input->isInput(GLFW_KEY_S))
-			camera->Strafe(20 * cameraSpeed * -Defs::getInstance()->deltaTime);
+			camera->Strafe(cameraSpeed * -Defs::getInstance()->deltaTime);
 		if (input->isInput(GLFW_KEY_E))
 			camera->Roll(cameraSpeed * Defs::getInstance()->deltaTime);
 		if (input->isInput(GLFW_KEY_D))

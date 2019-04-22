@@ -3,19 +3,17 @@
 #include "Exports.h"
 #include "Entity.h"
 
-class ENGINEDLL_API Camera : public Entity
+class ENGINEDLL_API Camera
 {
+	Renderer* renderer;
+
 	mat4 vMatrix;
+	vec4 x;
+	vec4 y;
+	vec4 z;
+	vec4 pos;
 
 public:
-	void Draw() override;
-	void ShouldDispose() override;
-
-	virtual unsigned int SetVertices(
-		float* vertices,	// Vertices data
-		int count			// Total of vertices
-	) override;
-
 	/// <summary>Affects on the 'z' axis.
 	/// <para>Camera goes 'forward'</para>
 	/// <param name="mount">How much the camera advance</param>
@@ -44,12 +42,8 @@ public:
 	/// <para>Camera rotates</para>
 	/// <param name="degrees">How much the camera rotates</param>
 	/// </summary>
-	void Roll(float degrees);	// Rota sobre el eje z
+	void Roll(float degrees);
 
-	Camera(
-		Renderer* renderer,	// Renderer reference
-		Material* material, // Material reference
-		Layers tag			// Tag of the Entity
-	);
+	Camera(Renderer* renderer);
 	~Camera();
 };
