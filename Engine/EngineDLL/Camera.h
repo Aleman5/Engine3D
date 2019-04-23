@@ -8,9 +8,9 @@ class ENGINEDLL_API Camera
 	Renderer* renderer;
 
 	mat4 vMatrix;
-	vec4 x;
-	vec4 y;
-	vec4 z;
+	vec4 right;
+	vec4 up;
+	vec4 forward;
 	vec4 pos;
 
 public:
@@ -18,13 +18,7 @@ public:
 	/// <para>Camera goes 'forward'</para>
 	/// <param name="mount">How much the camera advance</param>
 	/// </summary>
-	void Walk(float mount);
-
-	/// <summary>Affects on the 'x' axis.
-	/// <para>Camera goes to the sides</para>
-	/// <param name="mount">How much the camera advance</param>
-	/// </summary>
-	void Strafe(float mount);
+	void Walk(float mountX, float mountZ);
 
 	/// <summary>Affects on the 'x' axis.
 	/// <para>Camera rotates</para>

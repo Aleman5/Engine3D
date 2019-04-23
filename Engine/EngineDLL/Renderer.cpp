@@ -95,6 +95,16 @@ unsigned int Renderer::GenBuffer(float* buffer, int size)
 	return vertexbuffer;
 }
 
+unsigned int Renderer::GenElementBuffer(vector<unsigned int> indices, float* buffer, int size)
+{
+	unsigned int elementbuffer;
+	glGenBuffers(1, &elementbuffer);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, elementbuffer);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(unsigned int), &indices[0], GL_STATIC_DRAW);
+
+	return elementbuffer;
+}
+
 unsigned int Renderer::GenTexture(unsigned int width, unsigned int height, unsigned char* data)
 {
 	// Identificar el vertex buffer
@@ -158,6 +168,17 @@ void Renderer::BindTextureBuffer(unsigned int bufferId, unsigned int attributebI
 		GL_FALSE,           // normalizado?
 		0,                  // corrimiento
 		(void*)0            // desfase del buffer
+	);
+}
+
+void Renderer::BindElementBuffer(unsigned int bufferId, vector<unsigned int> indices)
+{
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, bufferId);
+	glDrawElements(
+		GL_TRIANGLES,      // mode
+		indices.size(),    // count
+		GL_UNSIGNED_INT,   // type
+		(void*)0           // element array buffer offset
 	);
 }
 

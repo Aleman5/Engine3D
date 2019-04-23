@@ -61,6 +61,12 @@ public:
 		int size					// Size of the data
 	);
 
+	unsigned int GenElementBuffer(
+		vector<unsigned int> indices,
+		float* buffer,				// Data to fill in the buffer
+		int size					// Size of the data
+	);
+
 	unsigned int GenTexture(
 		unsigned int width,			// Width of the image
 		unsigned int height,		// Height of the image
@@ -83,6 +89,10 @@ public:
 	void BindTextureBuffer(
 		unsigned int bufferId,		// Buffer to use.
 		unsigned int attributeId	// Location to fill in
+	);
+	void BindElementBuffer(
+		unsigned int bufferId,
+		vector<unsigned int> indices
 	);
 	void DrawBuffer(
 		unsigned int attributeId,	// Location to fill in

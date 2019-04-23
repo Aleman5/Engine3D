@@ -178,13 +178,13 @@ bool Game::OnUpdate()
 		float cameraSpeed = 2.0f;
 
 		if (input->isInput(GLFW_KEY_Q))
-			camera->Walk(cameraSpeed * Defs::getInstance()->deltaTime);
+			camera->Walk(0.0f, 3.0f * cameraSpeed * Defs::getInstance()->deltaTime);
 		if (input->isInput(GLFW_KEY_A))
-			camera->Walk(cameraSpeed * -Defs::getInstance()->deltaTime);
+			camera->Walk(0.0f, 3.0f * cameraSpeed * -Defs::getInstance()->deltaTime);
 		if (input->isInput(GLFW_KEY_W))
-			camera->Strafe(cameraSpeed * Defs::getInstance()->deltaTime);
+			camera->Walk(3.0f * cameraSpeed * Defs::getInstance()->deltaTime, 0.0f);
 		if (input->isInput(GLFW_KEY_S))
-			camera->Strafe(cameraSpeed * -Defs::getInstance()->deltaTime);
+			camera->Walk(3.0f * cameraSpeed * -Defs::getInstance()->deltaTime, 0.0f);
 		if (input->isInput(GLFW_KEY_E))
 			camera->Roll(cameraSpeed * Defs::getInstance()->deltaTime);
 		if (input->isInput(GLFW_KEY_D))
