@@ -13,9 +13,6 @@ protected:
 	int variables;			// Total data for each vertice
 
 	vector<unsigned int> indices;
-
-	
-
 public:
 	void Draw() override;
 	void ShouldDispose() override;

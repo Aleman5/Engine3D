@@ -10,7 +10,7 @@ Game::~Game()
 
 bool Game::OnStart()
 {
-	GetRenderer()->SetProjPersp(glm::radians(45.0f), 4.0f / 3.0f, 0.1f, 1000.0f);
+	GetRenderer()->SetProjPersp(glm::radians(45.0f), 4.0f / 3.0f, 0.1f, 100.0f);
 
 	camera = new Camera(GetRenderer());
 	
@@ -53,7 +53,6 @@ bool Game::OnStart()
 	tilemap->SetTileProperty(10,Win_Trigger);
 
 	mesh = new Mesh(GetRenderer(), material, Default);
-	//mesh->Teleport(camera->GetPosition().x, camera->GetPosition().y, camera->GetPosition().z + 2.0f);
 	mesh->Teleport(0.0f, 0.0f, 0.0f);
 
 	player = new Player(GetRenderer(), matTexture, Character, "Ship3.bmp", true, 2, 6, 40.0f, 20.0f, true, tilemap);

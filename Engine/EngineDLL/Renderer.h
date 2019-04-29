@@ -91,13 +91,15 @@ public:
 		unsigned int attributeId	// Location to fill in
 	);
 	void BindElementBuffer(
-		unsigned int bufferId,
-		vector<unsigned int> indices
+		unsigned int bufferId
 	);
 	void DrawBuffer(
 		unsigned int attributeId,	// Location to fill in
 		int size,					// Total of vertices to draw
 		GLenum mode					// Draw mode
+	);
+	void DrawElementBuffer(
+		vector<unsigned int> indices
 	);
 	void DisableAttributes(
 		unsigned int attributeId	// Location to fill in

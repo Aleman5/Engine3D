@@ -171,20 +171,24 @@ void Renderer::BindTextureBuffer(unsigned int bufferId, unsigned int attributebI
 	);
 }
 
-void Renderer::BindElementBuffer(unsigned int bufferId, vector<unsigned int> indices)
+void Renderer::BindElementBuffer(unsigned int bufferId)
 {
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, bufferId);
+}
+
+void Renderer::DrawBuffer(unsigned int attributeId, int size, GLenum mode)
+{
+	glDrawArrays(mode, 0, size);
+}
+
+void Renderer::DrawElementBuffer(vector<unsigned int> indices)
+{
 	glDrawElements(
 		GL_TRIANGLES,      // mode
 		indices.size(),    // count
 		GL_UNSIGNED_INT,   // type
 		(void*)0           // element array buffer offset
 	);
-}
-
-void Renderer::DrawBuffer(unsigned int attributeId, int size, GLenum mode)
-{
-	glDrawArrays(mode, 0, size);
 }
 
 void Renderer::DisableAttributes(unsigned int attributeId)
