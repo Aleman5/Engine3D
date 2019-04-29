@@ -9,15 +9,15 @@ Mesh::Mesh(Renderer* renderer, Material* material, Layers tag) : Entity(renderer
 
 	float* vertices = new float[count * variables]{
 		// Front
-		-1.0, -1.0,  1.0,
-		1.0, -1.0,  1.0,
-		1.0,  1.0,  1.0,
-		-1.0,  1.0,  1.0,
+		-1.0, -1.0, 1.0,
+		1.0, -1.0, 1.0,
+		1.0, 1.0, 1.0,
+		-1.0, 1.0, 1.0,
 		// Back
 		-1.0, -1.0, -1.0,
 		1.0, -1.0, -1.0,
-		1.0,  1.0, -1.0,
-		-1.0,  1.0, -1.0,
+		1.0, 1.0, -1.0,
+		-1.0, 1.0, -1.0,
 	};
 
 	vector<unsigned int> tempIndices {
@@ -44,6 +44,7 @@ Mesh::Mesh(Renderer* renderer, Material* material, Layers tag) : Entity(renderer
 	indices = tempIndices;
 
 	bufferId = SetVertices(vertices, count);
+	bufferIndices = renderer->GenElementBuffer(indices, NULL, 0);
 }
 Mesh::~Mesh()
 {
@@ -68,8 +69,8 @@ unsigned int Mesh::SetVertices(float* vertices, int count)
 {
 	verticesData = vertices;
 
-	//unsigned int id = renderer->GenBuffer(verticesData, sizeof(float) * count * variables);
-	unsigned int id = renderer->GenElementBuffer(indices, verticesData, sizeof(float) * count * variables);
+	unsigned int id = renderer->GenBuffer(verticesData, sizeof(float) * count * variables);
+	//unsigned int id = renderer->GenBuffer(indices, verticesData, sizeof(float) * count * variables);
 	shouldDispose = true;
 
 	return id;
@@ -88,9 +89,9 @@ void Mesh::Draw()
 
 	renderer->EnableAttributes(0);
 	//renderer->EnableAttributes(1);
-	//renderer->BindBuffer(bufferId, 0);
+	renderer->BindBuffer(bufferId, 0);
 	//renderer->BindTextureBuffer(uvBufferId, 1);
-	renderer->BindElementBuffer(bufferId, indices);
+	renderer->BindElementBuffer(bufferIndices, indices);
 	//renderer->DrawBuffer(0, count, drawMode);
 	renderer->DisableAttributes(0);
 	//renderer->DisableAttributes(1);

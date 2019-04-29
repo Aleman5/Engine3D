@@ -22,9 +22,9 @@ class ENGINEDLL_API Renderer
 {
 	CameraType cameraType;
 
-	Window* window;				// Reference to the actual window
+	Window* window;			// Reference to the actual window
 
-	GLuint VertexArrayID;		// Id of the Vertex Array
+	GLuint VertexArrayID;	// Id of the Vertex Array
 
 	vec3 cameraPosition;	// View of the Camera
 	vec3 eyePosition;		// Actual position of the Camera
