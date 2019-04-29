@@ -6,6 +6,7 @@
 #include "Rectangle.h"
 #include "Circle.h"
 #include "Sprite.h"
+#include "Mesh.h"
 #include "Tilemap.h"
 #include "Input.h"
 #include "CollisionManager.h"
@@ -28,6 +29,8 @@ class Game : public GameBase
 	Player* player;
 	list<Asteroid*>* asteroids;
 	Tilemap* tilemap;
+
+	Mesh* mesh;
 
 	float speed;
 

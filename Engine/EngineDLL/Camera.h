@@ -14,29 +14,32 @@ class ENGINEDLL_API Camera
 	vec4 pos;
 
 public:
-	/// <summary>Affects on the 'z' axis.
+	/// <summary>Affects on the 'z' axis
 	/// <para>Camera goes 'forward'</para>
 	/// <param name="mount">How much the camera advance</param>
 	/// </summary>
 	void Walk(float mountX, float mountZ);
 
-	/// <summary>Affects on the 'x' axis.
+	/// <summary>Affects on the 'x' axis
 	/// <para>Camera rotates</para>
 	/// <param name="degrees">How much the camera rotates</param>
 	/// </summary>
 	void Pitch(float degrees);
 
-	/// <summary>Affects on the 'y' axis.
+	/// <summary>Affects on the 'y' axis
 	/// <para>Camera rotates</para>
 	/// <param name="degrees">How much the camera rotates</param>
 	/// </summary>
 	void Yaw(float degrees);
 
-	/// <summary>Affects on the 'z' axis.
+	/// <summary>Affects on the 'z' axis
 	/// <para>Camera rotates</para>
 	/// <param name="degrees">How much the camera rotates</param>
 	/// </summary>
 	void Roll(float degrees);
+
+	/// <summary>Returns the position</summary>
+	vec3 GetPosition() { return vec3(pos.x, pos.y, pos.z); };
 
 	Camera(Renderer* renderer);
 	~Camera();

@@ -10,16 +10,20 @@ protected:
 	int count;				// Total vertices
 	int variables;			// Total data for each vertice
 
-	void Update();
+	vector<unsigned int> indices;
+
+	
 
 public:
-	virtual void Draw() = 0;
+	void Draw() override;
 	void ShouldDispose() override;
 
 	unsigned int SetVertices(
 		float* vertices,	// Data of the vertices
 		int count			// Total Vertices
 	) override;
+
+	void Update();
 
 	Mesh(Renderer* renderer, Material* material, Layers tag);
 	~Mesh();

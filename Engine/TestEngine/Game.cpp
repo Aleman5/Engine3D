@@ -10,7 +10,7 @@ Game::~Game()
 
 bool Game::OnStart()
 {
-	GetRenderer()->SetProjPersp(glm::radians(45.0f), 16.0f / 9.0f, 0.1f, 1000.0f);
+	GetRenderer()->SetProjPersp(glm::radians(45.0f), 4.0f / 3.0f, 0.1f, 1000.0f);
 
 	camera = new Camera(GetRenderer());
 	
@@ -51,6 +51,10 @@ bool Game::OnStart()
 	tilemap->SetTileProperty(8, Death_Trigger);
 	tilemap->SetTileProperty(9, Death_Trigger);
 	tilemap->SetTileProperty(10,Win_Trigger);
+
+	mesh = new Mesh(GetRenderer(), material, Default);
+	//mesh->Teleport(camera->GetPosition().x, camera->GetPosition().y, camera->GetPosition().z + 2.0f);
+	mesh->Teleport(0.0f, 0.0f, 0.0f);
 
 	player = new Player(GetRenderer(), matTexture, Character, "Ship3.bmp", true, 2, 6, 40.0f, 20.0f, true, tilemap);
 	player->SetSpeed(100.0f);
@@ -134,6 +138,7 @@ bool Game::OnStop()
 	delete player;
 	delete asteroids;
 	delete tilemap;
+	delete mesh;
 
 	return true;
 }
@@ -178,13 +183,13 @@ bool Game::OnUpdate()
 		float cameraSpeed = 2.0f;
 
 		if (input->isInput(GLFW_KEY_Q))
-			camera->Walk(0.0f, 3.0f * cameraSpeed * Defs::getInstance()->deltaTime);
+			camera->Walk(0.0f, 5.0f * cameraSpeed * Defs::getInstance()->deltaTime);
 		if (input->isInput(GLFW_KEY_A))
-			camera->Walk(0.0f, 3.0f * cameraSpeed * -Defs::getInstance()->deltaTime);
+			camera->Walk(0.0f, 5.0f * cameraSpeed * -Defs::getInstance()->deltaTime);
 		if (input->isInput(GLFW_KEY_W))
-			camera->Walk(3.0f * cameraSpeed * Defs::getInstance()->deltaTime, 0.0f);
+			camera->Walk(5.0f * cameraSpeed * Defs::getInstance()->deltaTime, 0.0f);
 		if (input->isInput(GLFW_KEY_S))
-			camera->Walk(3.0f * cameraSpeed * -Defs::getInstance()->deltaTime, 0.0f);
+			camera->Walk(5.0f * cameraSpeed * -Defs::getInstance()->deltaTime, 0.0f);
 		if (input->isInput(GLFW_KEY_E))
 			camera->Roll(cameraSpeed * Defs::getInstance()->deltaTime);
 		if (input->isInput(GLFW_KEY_D))
@@ -216,9 +221,11 @@ bool Game::OnUpdate()
 	/*for (list<Asteroid*>::iterator ast = asteroids->begin(); ast != asteroids->end(); ast++)
 		(*ast)->Move();*/
 	
-	tilemap->UpdateUV();
+	//tilemap->UpdateUV();
 
 	player->Update();
+
+	mesh->Update();
 
 	for (list<Asteroid*>::iterator ast = asteroids->begin(); ast != asteroids->end(); ast++)
 		(*ast)->Update();
@@ -233,11 +240,13 @@ bool Game::OnUpdate()
 
 bool Game::OnDraw()
 {
+	mesh->Draw();
+
 	player->Draw();
 	for (list<Asteroid*>::iterator ast = asteroids->begin(); ast != asteroids->end(); ast++)
 		(*ast)->Draw();
 
-	tilemap->Draw();
+	//tilemap->Draw();
 
 	return true;
 }
