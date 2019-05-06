@@ -16,9 +16,10 @@ class ENGINEDLL_API ModelImporter
 	static ModelImporter *instance;
 
 	const aiScene* scene = NULL;
+	Assimp::Importer importer;
 	
 public:
-	bool Import3DFromFile(const char& modelPath);
+	bool Import3DFromFile(const std::string& modelPath);
 
 	static ModelImporter* getInstance()
 	{

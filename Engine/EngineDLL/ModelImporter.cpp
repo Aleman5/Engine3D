@@ -1,21 +1,23 @@
 #include "ModelImporter.h"
 
+ModelImporter * ModelImporter::instance = NULL;
+
 ModelImporter::ModelImporter()
 {
 }
 
-bool ModelImporter::Import3DFromFile(const char& modelPath)
+bool ModelImporter::Import3DFromFile(const std::string& modelPath)
 {
 	// Check if file exists
-	std::ifstream fin(modelPath.c_str());
+	std::ifstream fin(modelPath);
 	if (!fin.fail())
 	{
 		fin.close();
 	}
 	else
 	{
-		MessageBox(NULL, ("Couldn't open file: " + pFile).c_str(), "ERROR", MB_OK | MB_ICONEXCLAMATION);
-		logInfo(importer.GetErrorString());
+		printf("Couldn't open file");
+		printf(importer.GetErrorString());
 		return false;
 	}
 
