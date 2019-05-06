@@ -77,17 +77,19 @@
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
       <PreprocessorDefinitions>_WINDLL;%(PreprocessorDefinitions);ENGINEDLL_EXPORTS</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)External\glew-2.1.0\include;$(SolutionDir)External\glfw-3.2.1\include;$(SolutionDir)External\glm-0.9.9.0;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)External\glew-2.1.0\include;$(SolutionDir)External\glfw-3.2.1\include;$(SolutionDir)External\glm-0.9.9.0;$(SolutionDir)External\Assimp\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <ImportLibrary>$(OutDir) $(TargetName).lib</ImportLibrary>
+      <AdditionalLibraryDirectories>$(SolutionDir)External\Assimp\lib\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <CustomBuildStep>
       <Outputs>
       </Outputs>
     </CustomBuildStep>
     <PostBuildEvent>
-      <Command>copy "$(SolutionDir)External\glew-2.1.0\bin\Release\Win32\glew32.dll" "$(OutDir)"</Command>
+      <Command>copy "$(SolutionDir)External\glew-2.1.0\bin\Release\Win32\glew32.dll" "$(OutDir)"
+copy "$(SolutionDir)External\Assimp\bin\x64\*.dll" "$(OutDir)"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -146,6 +148,7 @@
     <ClInclude Include="Input.h" />
     <ClInclude Include="Material.h" />
     <ClInclude Include="Mesh.h" />
+    <ClInclude Include="ModelImporter.h" />
     <ClInclude Include="Rectangle.h" />
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="Shape.h" />
@@ -168,6 +171,7 @@
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="Material.cpp" />
     <ClCompile Include="Mesh.cpp" />
+    <ClCompile Include="ModelImporter.cpp" />
     <ClCompile Include="Rectangle.cpp" />
     <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="Shape.cpp" />
