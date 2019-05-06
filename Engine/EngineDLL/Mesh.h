@@ -9,6 +9,7 @@ protected:
 	unsigned int bufferIndices;
 
 	float* verticesData;	// Data of the Vertices
+	float* verticesColorData; // Data of the Color Vertices
 	int count;				// Total vertices
 	int variables;			// Total data for each vertice
 

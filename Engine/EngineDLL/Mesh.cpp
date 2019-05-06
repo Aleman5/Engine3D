@@ -41,8 +41,20 @@ Mesh::Mesh(Renderer* renderer, Material* material, Layers tag) : Entity(renderer
 		6, 7, 3,
 	};
 
+	verticesColorData = new float[count * variables]{
+		0.583f, 0.771f, 0.014f,
+		0.609f, 0.115f, 0.436f,
+		0.327f, 0.483f, 0.844f,
+		0.822f, 0.569f, 0.201f,
+		0.234f, 0.125f, 0.753f,
+		0.852f, 0.199f, 0.254f,
+		0.578f, 0.985f, 0.025f,
+		0.747f, 0.695f, 0.141f,
+	};
+
 	indices = tempIndices;
 
+	colorBufferId = SetVertices(verticesColorData, count);
 	bufferId = SetVertices(vertices, count);
 	bufferIndices = renderer->GenElementBuffer(indices, NULL, 0);
 }
@@ -88,12 +100,12 @@ void Mesh::Draw()
 	}
 
 	renderer->EnableAttributes(0);
-	//renderer->EnableAttributes(1);
+	renderer->EnableAttributes(1);
 	renderer->BindBuffer(bufferId, 0);
-	//renderer->BindTextureBuffer(uvBufferId, 1);
+	renderer->BindTextureBuffer(colorBufferId, 1);
 	renderer->BindElementBuffer(bufferIndices);
 	//renderer->DrawBuffer(0, count, drawMode);
 	renderer->DrawElementBuffer(indices);
 	renderer->DisableAttributes(0);
-	//renderer->DisableAttributes(1);
+	renderer->DisableAttributes(1);
 }
