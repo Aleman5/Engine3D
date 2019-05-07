@@ -6,7 +6,7 @@ ModelImporter::ModelImporter()
 {
 }
 
-bool ModelImporter::Import3DFromFile(const std::string& modelPath)
+bool ModelImporter::Import3DFromFile(const std::string& modelPath, glm::vec3& vertices, unsigned int& indices)
 {
 	// Check if file exists
 	std::ifstream fin(modelPath);
@@ -23,6 +23,9 @@ bool ModelImporter::Import3DFromFile(const std::string& modelPath)
 
 	scene = importer.ReadFile(modelPath, aiProcessPreset_TargetRealtime_Quality);
 
+	//vertices = scene->mMeshes[0]->mVertices;
+	//scene->mMeshes[0]->mFaces->mIndices;
+	
 	// If the import failed, report it
 	if (!scene)
 	{

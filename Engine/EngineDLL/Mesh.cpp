@@ -1,11 +1,13 @@
 #include "Mesh.h"
 
-Mesh::Mesh(Renderer* renderer, Material* material, Layers tag) : Entity(renderer, material, tag)
+Mesh::Mesh(Renderer* renderer, Material* material, Layers tag, const string modelPath) : Entity(renderer, material, tag)
 {
 	srand(time(0));
 
 	count = 8;
 	variables = 3;
+
+	ModelImporter::getInstance()->Import3DFromFile(modelPath);
 
 	float* vertices = new float[count * variables]{
 		// Front

@@ -2,6 +2,7 @@
 
 #include <time.h> // Used for random purposes
 #include "Entity.h"
+#include "ModelImporter.h"
 
 class ENGINEDLL_API Mesh : public Entity
 {
@@ -25,6 +26,6 @@ public:
 
 	void Update();
 
-	Mesh(Renderer* renderer, Material* material, Layers tag);
+	Mesh(Renderer* renderer, Material* material, Layers tag, string modelPath);
 	~Mesh();
 };
