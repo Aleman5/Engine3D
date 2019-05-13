@@ -2,7 +2,9 @@
 
 #include <time.h> // Used for random purposes
 #include "Entity.h"
+#include "Definitions.h"
 #include "ModelImporter.h"
+#include "TextureImporter.h"
 
 class ENGINEDLL_API Mesh : public Entity
 {
@@ -14,7 +16,13 @@ protected:
 	int count;				// Total vertices
 	int variables;			// Total data for each vertice
 
-	vector<unsigned int> indices;
+	vector<unsigned int>* indices;
+
+	vector<MeshEntry> m_Entries;
+	vector<Header*> m_Textures;
+
+	void Clear();
+
 public:
 	void Draw() override;
 	void ShouldDispose() override;
@@ -25,6 +33,9 @@ public:
 	) override;
 
 	void Update();
+
+	bool LoadMesh(const string& fileName);
+	
 
 	Mesh(Renderer* renderer, Material* material, Layers tag, string modelPath);
 	~Mesh();

@@ -3,6 +3,7 @@
 #include "Exports.h"
 #include "Window.h"
 #include "Material.h"
+#include "Definitions.h"
 #include "GL\glew.h"
 #include "GLFW\glfw3.h"
 
@@ -24,7 +25,7 @@ class ENGINEDLL_API Renderer
 
 	Window* window;			// Reference to the actual window
 
-	GLuint VertexArrayID;	// Id of the Vertex Array
+	unsigned int VertexArrayID;	// Id of the Vertex Array
 
 	vec3 cameraPosition;	// View of the Camera
 	vec3 eyePosition;		// Actual position of the Camera
@@ -61,10 +62,12 @@ public:
 		int size					// Size of the data
 	);
 
+	unsigned int GenVertexBuffer(
+		const vector<Vertex>& vertex // Data to fill in the buffer
+	);
+
 	unsigned int GenElementBuffer(
-		vector<unsigned int> indices,
-		float* buffer,				// Data to fill in the buffer
-		int size					// Size of the data
+		vector<unsigned int> indices
 	);
 
 	unsigned int GenTexture(
@@ -90,6 +93,9 @@ public:
 		unsigned int bufferId,		// Buffer to use.
 		unsigned int attributeId	// Location to fill in
 	);
+	void BindMeshBuffer(
+		unsigned int bufferId		// Buffer to use.
+	);
 	void BindElementBuffer(
 		unsigned int bufferId
 	);
@@ -99,7 +105,7 @@ public:
 		GLenum mode					// Draw mode
 	);
 	void DrawElementBuffer(
-		vector<unsigned int> indices
+		unsigned int indices
 	);
 	void DisableAttributes(
 		unsigned int attributeId	// Location to fill in

@@ -43,7 +43,7 @@ bool Renderer::Start(Window* win)
 	cameraType = Perspective;
 
 	//					   Default values
-	cameraPosition	= vec3(0, 0, 30);
+	cameraPosition	= vec3(0, 0, -5);
 	eyePosition		= vec3(0, 0, 0);
 	headUpPosition	= vec3(0, 1, 0);
 
@@ -95,7 +95,17 @@ unsigned int Renderer::GenBuffer(float* buffer, int size)
 	return vertexbuffer;
 }
 
-unsigned int Renderer::GenElementBuffer(vector<unsigned int> indices, float* buffer, int size)
+unsigned int Renderer::GenVertexBuffer(const vector<Vertex>& vertex)
+{
+	unsigned int vertexBuffer;
+	glGenBuffers(1, &vertexBuffer);
+	glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer);
+	glBufferData(GL_ARRAY_BUFFER, vertex.size() * sizeof(Vertex), &vertex[0], GL_STATIC_DRAW);
+
+	return vertexBuffer;
+}
+
+unsigned int Renderer::GenElementBuffer(vector<unsigned int> indices)
 {
 	unsigned int elementbuffer;
 	glGenBuffers(1, &elementbuffer);
@@ -171,6 +181,14 @@ void Renderer::BindTextureBuffer(unsigned int bufferId, unsigned int attributebI
 	);
 }
 
+void Renderer::BindMeshBuffer(unsigned int bufferId)
+{
+	glBindBuffer(GL_ARRAY_BUFFER, bufferId);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), 0);
+	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (const GLvoid*)12);
+	glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (const GLvoid*)20);
+}
+
 void Renderer::BindElementBuffer(unsigned int bufferId)
 {
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, bufferId);
@@ -181,11 +199,11 @@ void Renderer::DrawBuffer(unsigned int attributeId, int size, GLenum mode)
 	glDrawArrays(mode, 0, size);
 }
 
-void Renderer::DrawElementBuffer(vector<unsigned int> indices)
+void Renderer::DrawElementBuffer(unsigned int indices)
 {
 	glDrawElements(
 		GL_TRIANGLES,      // mode
-		indices.size(),    // count
+		indices,    // count
 		GL_UNSIGNED_INT,   // type
 		(void*)0           // element array buffer offset
 	);

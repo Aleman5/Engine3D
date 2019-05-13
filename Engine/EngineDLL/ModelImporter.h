@@ -4,7 +4,10 @@
 #include <fstream>
 #include <sstream>
 #include <string>
+#include <vector>
+#include "TextureImporter.h"
 #include "Exports.h"
+#include "Definitions.h"
 #include "assimp/Importer.hpp"	//OO version Header!
 #include "assimp/postprocess.h"
 #include "assimp/scene.h"
@@ -19,6 +22,8 @@
 #include <glm\gtx\transform.hpp>
 #include <glm\glm.hpp>
 
+using namespace std;
+
 class ENGINEDLL_API ModelImporter
 {
 	static ModelImporter *instance;
@@ -26,8 +31,14 @@ class ENGINEDLL_API ModelImporter
 	const aiScene* scene = NULL;
 	Assimp::Importer importer;
 	
+	void Clear(vector<Header*>& m_Textures);
+
+	bool InitFromScene(const aiScene* pScene, const string& Filename, vector<MeshEntry>& m_Entries, vector<Header*>& m_Textures, Renderer* renderer);
+	void InitMesh(unsigned int Index, const aiMesh* paiMesh, vector<MeshEntry>& m_Entries, Renderer* renderer);
+	bool InitMaterials(const aiScene* pScene, const string& Filename, vector<Header*>& m_Textures);
+
 public:
-	bool Import3DFromFile(const std::string& modelPath, glm::vec3& vertices, unsigned int& indices);
+	bool Import3DFromFile(const string& modelPath, vector<MeshEntry>& m_Entries, vector<Header*>& m_Textures, Renderer* renderer);
 
 	static ModelImporter* getInstance()
 	{

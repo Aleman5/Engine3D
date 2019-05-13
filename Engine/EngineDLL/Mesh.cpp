@@ -1,5 +1,29 @@
 #include "Mesh.h"
 
+MeshEntry::MeshEntry()
+{
+	verticesBuffer = NULL;
+	indicesBuffer = NULL;
+	NumIndices = 0;
+	MaterialIndex = NULL;
+};
+
+MeshEntry::~MeshEntry()
+{
+	if (verticesBuffer != NULL) glDeleteBuffers(1, &verticesBuffer);
+	if (indicesBuffer != NULL) glDeleteBuffers(1, &indicesBuffer);
+}
+
+void MeshEntry::Init(const vector<Vertex>& Vertices,
+	const vector<unsigned int>& Indices,
+	Renderer* renderer)
+{
+	NumIndices = Indices.size();
+
+	verticesBuffer = renderer->GenVertexBuffer(Vertices);
+	indicesBuffer = renderer->GenElementBuffer(Indices);
+}
+
 Mesh::Mesh(Renderer* renderer, Material* material, Layers tag, const string modelPath) : Entity(renderer, material, tag)
 {
 	srand(time(0));
@@ -7,9 +31,12 @@ Mesh::Mesh(Renderer* renderer, Material* material, Layers tag, const string mode
 	count = 8;
 	variables = 3;
 
-	ModelImporter::getInstance()->Import3DFromFile(modelPath);
+	float* vertices = new float;
+	indices = new vector<unsigned int>;
 
-	float* vertices = new float[count * variables]{
+	LoadMesh(modelPath);
+
+	/*float* vertices = new float[count * variables]{
 		// Front
 		-1.0, -1.0, 1.0,
 		1.0, -1.0, 1.0,
@@ -22,7 +49,7 @@ Mesh::Mesh(Renderer* renderer, Material* material, Layers tag, const string mode
 		-1.0, 1.0, -1.0,
 	};
 
-	vector<unsigned int> tempIndices {
+	vector<unsigned int> tempIndices = {
 		// front
 		0, 1, 2,
 		2, 3, 0,
@@ -54,19 +81,32 @@ Mesh::Mesh(Renderer* renderer, Material* material, Layers tag, const string mode
 		0.747f, 0.695f, 0.141f,
 	};
 
-	indices = tempIndices;
+	indices = new vector<unsigned int>;
+	*indices = tempIndices;*/
 
 	colorBufferId = SetVertices(verticesColorData, count);
-	bufferId = SetVertices(vertices, count);
-	bufferIndices = renderer->GenElementBuffer(indices, NULL, 0);
+	//bufferId = SetVertices(vertices, count);
+	//bufferIndices = renderer->GenElementBuffer(*indices);
 }
 Mesh::~Mesh()
 {
+	Clear();
+}
+
+void Mesh::Clear()
+{
+	for (unsigned int i = 0; i < m_Textures.size(); i++)
+		SAFE_DELETE(m_Textures[i]);
 }
 
 void Mesh::Update()
 {
 	Entity::Update();
+}
+
+bool Mesh::LoadMesh(const string& fileName)
+{
+	return ModelImporter::getInstance()->Import3DFromFile(fileName, m_Entries, m_Textures, renderer);
 }
 
 void Mesh::ShouldDispose()
@@ -101,13 +141,31 @@ void Mesh::Draw()
 		material->SetMatrixProperty("MVP", renderer->GetMVP());
 	}
 
+
 	renderer->EnableAttributes(0);
 	renderer->EnableAttributes(1);
-	renderer->BindBuffer(bufferId, 0);
+	renderer->EnableAttributes(2);
+
+	for (unsigned int i = 0; i < m_Entries.size(); i++) {
+		renderer->BindMeshBuffer(m_Entries[i].verticesBuffer);
+		renderer->BindElementBuffer(bufferIndices);
+
+		/*const unsigned int MaterialIndex = m_Entries[i].MaterialIndex;
+
+		if (MaterialIndex < m_Textures.size() && m_Textures[MaterialIndex]) {
+			m_Textures[MaterialIndex]->Bind(GL_TEXTURE0);
+		}*/
+
+		renderer->DrawElementBuffer(m_Entries[i].NumIndices);
+	}
+
+	renderer->DisableAttributes(0);
+	renderer->DisableAttributes(1);
+	renderer->DisableAttributes(2);
+}
+
+/*renderer->BindBuffer(bufferId, 0);
 	renderer->BindTextureBuffer(colorBufferId, 1);
 	renderer->BindElementBuffer(bufferIndices);
 	//renderer->DrawBuffer(0, count, drawMode);
-	renderer->DrawElementBuffer(indices);
-	renderer->DisableAttributes(0);
-	renderer->DisableAttributes(1);
-}
+	renderer->DrawElementBuffer(*indices);*/
