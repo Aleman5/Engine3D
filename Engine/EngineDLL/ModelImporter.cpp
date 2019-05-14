@@ -12,7 +12,7 @@ void ModelImporter::Clear(vector<Header*>& m_Textures)
 		SAFE_DELETE(m_Textures[i]);
 }
 
-bool ModelImporter::Import3DFromFile(const string& modelPath, vector<MeshEntry>& m_Entries, vector<Header*>& m_Textures, Renderer* renderer)
+bool ModelImporter::Import3DFromFile(const string& modelPath, const string& texturePath, vector<MeshEntry>& m_Entries, vector<Header*>& m_Textures, Renderer* renderer)
 {
 	// Release the previously loaded mesh (if it exists)
 	Clear(m_Textures);
@@ -23,7 +23,7 @@ bool ModelImporter::Import3DFromFile(const string& modelPath, vector<MeshEntry>&
 	const aiScene* pScene = Importer.ReadFile(modelPath.c_str(), ASSIMP_LOAD_FLAGS);
 
 	if (pScene) {
-		Ret = InitFromScene(pScene, modelPath, m_Entries, m_Textures, renderer);
+		Ret = InitFromScene(pScene, modelPath, texturePath, m_Entries, m_Textures, renderer);
 	}
 	else {
 		printf("Error parsing '%s': '%s'\n", modelPath.c_str(), Importer.GetErrorString());
@@ -32,7 +32,7 @@ bool ModelImporter::Import3DFromFile(const string& modelPath, vector<MeshEntry>&
 	return Ret;
 }
 
-bool ModelImporter::InitFromScene(const aiScene* pScene, const string& Filename, vector<MeshEntry>& m_Entries, vector<Header*>& m_Textures, Renderer* renderer)
+bool ModelImporter::InitFromScene(const aiScene* pScene, const string& Filename, const string& texturePath, vector<MeshEntry>& m_Entries, vector<Header*>& m_Textures, Renderer* renderer)
 {
 	m_Entries.resize(pScene->mNumMeshes);
 	m_Textures.resize(pScene->mNumMaterials);
@@ -44,7 +44,7 @@ bool ModelImporter::InitFromScene(const aiScene* pScene, const string& Filename,
 		InitMesh(i, paiMesh, m_Entries, renderer);
 	}
 
-	return InitMaterials(pScene, Filename, m_Textures);
+	return InitMaterials(pScene, Filename, texturePath, m_Textures);
 }
 
 void ModelImporter::InitMesh(unsigned int Index, const aiMesh* paiMesh, vector<MeshEntry>& m_Entries, Renderer* renderer)
@@ -62,7 +62,7 @@ void ModelImporter::InitMesh(unsigned int Index, const aiMesh* paiMesh, vector<M
 		const aiVector3D* pNormal = &(paiMesh->mNormals[i]);
 		const aiVector3D* pTexCoord = paiMesh->HasTextureCoords(0) ? &(paiMesh->mTextureCoords[0][i]) : &Zero3D;
 
-		Vertex v(vec3((float)pPos->x, (float)pPos->y, (float)pPos->z),
+		Vertex v(vec3(pPos->x, (float)pPos->y, (float)pPos->z),
 			vec2((float)pTexCoord->x, (float)pTexCoord->y),
 			vec3((float)pNormal->x, (float)pNormal->y, (float)pNormal->z));
 
@@ -81,7 +81,7 @@ void ModelImporter::InitMesh(unsigned int Index, const aiMesh* paiMesh, vector<M
 	m_Entries[Index].Init(Vertices, Indices, renderer);
 }
 
-bool ModelImporter::InitMaterials(const aiScene* pScene, const string& Filename, vector<Header*>& m_Textures)
+bool ModelImporter::InitMaterials(const aiScene* pScene, const string& Filename, const string& texturePath, vector<Header*>& m_Textures)
 {
 	// Extract the directory part from the file name
 	/*string::size_type SlashIndex = Filename.find_last_of("/");
@@ -116,7 +116,9 @@ bool ModelImporter::InitMaterials(const aiScene* pScene, const string& Filename,
 			if (pMaterial->GetTexture(aiTextureType_DIFFUSE, 0, &Path, NULL, NULL, NULL, NULL, NULL) == AI_SUCCESS)
 			{
 				std::string FullPath = Dir + "/" + Path.data;
-				m_Textures[i] = new Header(GL_TEXTURE_2D, FullPath.c_str());
+				//m_Textures[i] = new Header(FullPath.c_str());
+				m_Textures[i] = &TextureImporter::loadBMP_custom(FullPath.c_str());
+				//m_Textures[i] = &TextureImporter::loadBMP_custom(texturePath.c_str());
 
 				if (!m_Textures[i]->Load())
 				{
@@ -135,9 +137,9 @@ bool ModelImporter::InitMaterials(const aiScene* pScene, const string& Filename,
 		// Load a white texture in case the model does not include its own texture
 		if (!m_Textures[i])
 		{
-			m_Textures[i] = new Header(GL_TEXTURE_2D, "../Content/white.png");
+			m_Textures[i] = &TextureImporter::loadBMP_custom(texturePath.c_str());
 
-			Ret = m_Textures[i]->Load();
+			//Ret = m_Textures[i]->Load();
 		}
 	}
 

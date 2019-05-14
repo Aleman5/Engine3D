@@ -33,8 +33,14 @@ bool Game::OnStart()
 
 	matTexture = new Material();
 	matTexture->LoadShader("Shaders\\TextureVertexShader.vertexshader"		// Vertex Shader
-						, "Shaders\\TextureFragmentShader.fragmentshader"	// Fragment Shader
+						 , "Shaders\\TextureFragmentShader.fragmentshader"	// Fragment Shader
 	);
+
+	matMesh = new Material();
+	matMesh->LoadShader("Shaders\\MeshVertexShader.vertexshader"		// Vertex Shader
+					  , "Shaders\\MeshFragmentShader.fragmentshader"	// Fragment Shader
+	);
+
 	//																									 4800  960
 	tilemap = new Tilemap(GetRenderer(), matTexture, Default, "SpaceTiles.bmp", 3, 4, "SpaceLevel3.csv", 4800, 960);
 	tilemap->SetOriginalPosition(0.0f, 64.0f);
@@ -52,7 +58,8 @@ bool Game::OnStart()
 	tilemap->SetTileProperty(9, Death_Trigger);
 	tilemap->SetTileProperty(10,Win_Trigger);
 
-	mesh = new Mesh(GetRenderer(), material, Default, "spider.obj");
+	//mesh = new Mesh(GetRenderer(), matMesh, Default, "spider.obj", "spider.mtl");
+	mesh = new Mesh(GetRenderer(), matMesh, Default, "spider.obj", "Ship3.bmp");
 	mesh->Teleport(0.0f, 0.0f, 0.0f);
 
 	player = new Player(GetRenderer(), matTexture, Character, "Ship3.bmp", true, 2, 6, 40.0f, 20.0f, true, tilemap);

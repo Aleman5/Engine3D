@@ -24,7 +24,7 @@ void MeshEntry::Init(const vector<Vertex>& Vertices,
 	indicesBuffer = renderer->GenElementBuffer(Indices);
 }
 
-Mesh::Mesh(Renderer* renderer, Material* material, Layers tag, const string modelPath) : Entity(renderer, material, tag)
+Mesh::Mesh(Renderer* renderer, Material* material, Layers tag, const string modelPath, string texturePath) : Entity(renderer, material, tag)
 {
 	srand(time(0));
 
@@ -34,7 +34,7 @@ Mesh::Mesh(Renderer* renderer, Material* material, Layers tag, const string mode
 	float* vertices = new float;
 	indices = new vector<unsigned int>;
 
-	LoadMesh(modelPath);
+	LoadMesh(modelPath, texturePath);
 
 	/*float* vertices = new float[count * variables]{
 		// Front
@@ -70,6 +70,11 @@ Mesh::Mesh(Renderer* renderer, Material* material, Layers tag, const string mode
 		6, 7, 3,
 	};
 
+	
+
+	indices = new vector<unsigned int>;
+	*indices = tempIndices;*/
+
 	verticesColorData = new float[count * variables]{
 		0.583f, 0.771f, 0.014f,
 		0.609f, 0.115f, 0.436f,
@@ -80,9 +85,6 @@ Mesh::Mesh(Renderer* renderer, Material* material, Layers tag, const string mode
 		0.578f, 0.985f, 0.025f,
 		0.747f, 0.695f, 0.141f,
 	};
-
-	indices = new vector<unsigned int>;
-	*indices = tempIndices;*/
 
 	colorBufferId = SetVertices(verticesColorData, count);
 	//bufferId = SetVertices(vertices, count);
@@ -104,9 +106,9 @@ void Mesh::Update()
 	Entity::Update();
 }
 
-bool Mesh::LoadMesh(const string& fileName)
+bool Mesh::LoadMesh(const string& fileName, const string& textureName)
 {
-	return ModelImporter::getInstance()->Import3DFromFile(fileName, m_Entries, m_Textures, renderer);
+	return ModelImporter::getInstance()->Import3DFromFile(fileName, textureName, m_Entries, m_Textures, renderer);
 }
 
 void Mesh::ShouldDispose()
@@ -150,11 +152,11 @@ void Mesh::Draw()
 		renderer->BindMeshBuffer(m_Entries[i].verticesBuffer);
 		renderer->BindElementBuffer(bufferIndices);
 
-		/*const unsigned int MaterialIndex = m_Entries[i].MaterialIndex;
+		const unsigned int MaterialIndex = m_Entries[i].MaterialIndex;
 
 		if (MaterialIndex < m_Textures.size() && m_Textures[MaterialIndex]) {
-			m_Textures[MaterialIndex]->Bind(GL_TEXTURE0);
-		}*/
+			//m_Textures[MaterialIndex]->Bind(GL_TEXTURE0);
+		}
 
 		renderer->DrawElementBuffer(m_Entries[i].NumIndices);
 	}

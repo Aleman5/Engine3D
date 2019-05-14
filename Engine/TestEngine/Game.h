@@ -26,6 +26,7 @@ class Game : public GameBase
 	Input* input;
 	Material* material;
 	Material* matTexture;
+	Material* matMesh;
 	Player* player;
 	list<Asteroid*>* asteroids;
 	Tilemap* tilemap;

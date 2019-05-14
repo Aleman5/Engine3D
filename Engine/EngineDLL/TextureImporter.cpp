@@ -2,9 +2,11 @@
 
 TextureImporter::TextureImporter()
 {
+
 }
 TextureImporter::~TextureImporter()
 {
+
 }
 
 Header TextureImporter::loadBMP_custom(const char* imagePath)

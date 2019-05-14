@@ -34,9 +34,9 @@ public:
 
 	void Update();
 
-	bool LoadMesh(const string& fileName);
+	bool LoadMesh(const string& fileName, const string& textureName);
 	
 
-	Mesh(Renderer* renderer, Material* material, Layers tag, string modelPath);
+	Mesh(Renderer* renderer, Material* material, Layers tag, string modelPath, string texturePath);
 	~Mesh();
 };

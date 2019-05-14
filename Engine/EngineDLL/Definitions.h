@@ -3,6 +3,11 @@
 #include "Exports.h"
 #include "GL\glew.h"
 
+#include <glm/vec2.hpp>
+#include <glm/vec3.hpp>
+
+#include <vector>
+
 #define GLM_ENABLE_EXPERIMENTAL
 
 #include "GLFW\glfw3.h"
@@ -10,15 +15,17 @@
 #define SAFE_DELETE(p) if (p) { delete p; p = NULL; }
 #define ASSIMP_LOAD_FLAGS (aiProcess_Triangulate | aiProcess_GenSmoothNormals | aiProcess_FlipUVs | aiProcess_JoinIdenticalVertices)
 
+class Renderer;
+
 struct Vertex
 {
-	vec3 m_pos;
-	vec2 m_tex;
-	vec3 m_normal;
+	glm::vec3 m_pos;
+	glm::vec2 m_tex;
+	glm::vec3 m_normal;
 
 	Vertex() {}
 
-	Vertex(const vec3& pos, const vec2& tex, const vec3& normal)
+	Vertex(const glm::vec3& pos, const glm::vec2& tex, const glm::vec3& normal)
 	{
 		m_pos = pos;
 		m_tex = tex;
@@ -29,8 +36,8 @@ struct Vertex
 struct MeshEntry
 {
 	void Init(
-		const vector<Vertex>& Vertices,
-		const vector<unsigned int>& Indices,
+		const std::vector<Vertex>& Vertices,
+		const std::vector<unsigned int>& Indices,
 		Renderer* renderer
 	);
 

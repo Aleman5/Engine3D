@@ -33,12 +33,12 @@ class ENGINEDLL_API ModelImporter
 	
 	void Clear(vector<Header*>& m_Textures);
 
-	bool InitFromScene(const aiScene* pScene, const string& Filename, vector<MeshEntry>& m_Entries, vector<Header*>& m_Textures, Renderer* renderer);
+	bool InitFromScene(const aiScene* pScene, const string& Filename, const string& texturePath, vector<MeshEntry>& m_Entries, vector<Header*>& m_Textures, Renderer* renderer);
 	void InitMesh(unsigned int Index, const aiMesh* paiMesh, vector<MeshEntry>& m_Entries, Renderer* renderer);
-	bool InitMaterials(const aiScene* pScene, const string& Filename, vector<Header*>& m_Textures);
+	bool InitMaterials(const aiScene* pScene, const string& Filename, const string& texturePath, vector<Header*>& m_Textures);
 
 public:
-	bool Import3DFromFile(const string& modelPath, vector<MeshEntry>& m_Entries, vector<Header*>& m_Textures, Renderer* renderer);
+	bool Import3DFromFile(const string& modelPath, const string& texturePath, vector<MeshEntry>& m_Entries, vector<Header*>& m_Textures, Renderer* renderer);
 
 	static ModelImporter* getInstance()
 	{
