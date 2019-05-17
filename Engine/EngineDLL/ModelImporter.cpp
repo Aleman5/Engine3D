@@ -83,67 +83,8 @@ void ModelImporter::InitMesh(unsigned int Index, const aiMesh* paiMesh, vector<M
 
 bool ModelImporter::InitMaterials(const aiScene* pScene, const string& Filename, const string& texturePath, vector<Header*>& m_Textures)
 {
-	// Extract the directory part from the file name
-	/*string::size_type SlashIndex = Filename.find_last_of("/");
-	string Dir;
-
-	if (SlashIndex == string::npos)
-	{
-		Dir = ".";
-	}
-	else if (SlashIndex == 0)
-	{
-		Dir = "/";
-	}
-	else
-	{
-		Dir = Filename.substr(0, SlashIndex);
-	}
-
-	bool Ret = true;
-
-	// Initialize the materials
 	for (unsigned int i = 0; i < pScene->mNumMaterials; i++)
-	{
-		const aiMaterial* pMaterial = pScene->mMaterials[i];
-
-		m_Textures[i] = NULL;
-
-		if (pMaterial->GetTextureCount(aiTextureType_DIFFUSE) > 0)
-		{
-			aiString Path;
-
-			if (pMaterial->GetTexture(aiTextureType_DIFFUSE, 0, &Path, NULL, NULL, NULL, NULL, NULL) == AI_SUCCESS)
-			{
-				std::string FullPath = Dir + "/" + Path.data;
-				//m_Textures[i] = new Header(FullPath.c_str());
-				m_Textures[i] = &TextureImporter::loadBMP_custom(FullPath.c_str());
-				//m_Textures[i] = &TextureImporter::loadBMP_custom(texturePath.c_str());
-
-				if (!m_Textures[i]->Load())
-				{
-					printf("Error loading texture '%s'\n", FullPath.c_str());
-					delete m_Textures[i];
-					m_Textures[i] = NULL;
-					Ret = false;
-				}
-				else
-				{
-					printf("Loaded texture '%s'\n", FullPath.c_str());
-				}
-			}
-		}
-
-		// Load a white texture in case the model does not include its own texture
-		if (!m_Textures[i])
-		{
-			m_Textures[i] = &TextureImporter::loadBMP_custom(texturePath.c_str());
-
-			//Ret = m_Textures[i]->Load();
-		}
-	}
-
-	return Ret;*/
+		m_Textures[i] = &TextureImporter::loadBMP_custom(texturePath.c_str());
 
 	return true;
 }

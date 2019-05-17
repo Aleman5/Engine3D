@@ -97,7 +97,13 @@ public:
 		unsigned int bufferId		// Buffer to use.
 	);
 	void BindElementBuffer(
-		unsigned int bufferId
+		unsigned int bufferId		// Buffer to use.
+	);
+	void BindTexture(
+		unsigned int bufferId,		// Buffer to use.
+		unsigned int width,			// Width of the image
+		unsigned int height,		// Height of the image
+		unsigned char* data			// Data of the file
 	);
 	void DrawBuffer(
 		unsigned int attributeId,	// Location to fill in

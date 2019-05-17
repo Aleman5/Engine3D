@@ -185,13 +185,25 @@ void Renderer::BindMeshBuffer(unsigned int bufferId)
 {
 	glBindBuffer(GL_ARRAY_BUFFER, bufferId);
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), 0);
-	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (const GLvoid*)12);
-	glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (const GLvoid*)20);
+	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, Vertex::m_tex));
+	glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, Vertex::m_normal));
 }
 
 void Renderer::BindElementBuffer(unsigned int bufferId)
 {
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, bufferId);
+}
+
+void Renderer::BindTexture(unsigned int bufferId, unsigned int width, unsigned int height, unsigned char* data)
+{
+	// Se "Ata" la nueva textura : Todas las futuras funciones de texturas van a modificar esta textura
+	glBindTexture(GL_TEXTURE_2D, bufferId);
+
+	// Se le pasa la imagen a OpenGL
+	/*glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_BGR, GL_UNSIGNED_BYTE, data);
+
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);*/
 }
 
 void Renderer::DrawBuffer(unsigned int attributeId, int size, GLenum mode)

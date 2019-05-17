@@ -118,6 +118,14 @@ void Material::Bind(const char* texName, unsigned int texture)
 
 }
 
+void Material::BindTexture(unsigned int texture)
+{
+	glUseProgram(programId);
+
+	glUniform1i(texture, 0);
+
+}
+
 void Material::SetMatrixProperty(const char* name, glm::mat4& mat)
 {
 	matrixId = glGetUniformLocation(programId, name);

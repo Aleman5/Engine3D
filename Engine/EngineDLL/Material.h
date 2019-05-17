@@ -24,6 +24,7 @@ public:
 	
 	void Bind();
 	void Bind(const char* texName, unsigned int texture);
+	void BindTexture(unsigned int texture);
 	void SetMatrixProperty(
 		const char* name,	// Name of the matrix to fill a material
 		glm::mat4& mat		// Value of the matrix

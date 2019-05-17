@@ -20,8 +20,26 @@ void MeshEntry::Init(const vector<Vertex>& Vertices,
 {
 	NumIndices = Indices.size();
 
-	verticesBuffer = renderer->GenVertexBuffer(Vertices);
+	float* positions = new float[Vertices.size() * 3];
+	float* textures  = new float[Vertices.size() * 2];
+	float* normals   = new float[Vertices.size() * 3];
+
+	for (size_t i = 0; i < Vertices.size(); i++)
+	{
+		positions[i * 3] = Vertices[i].m_pos.x;
+		positions[i * 3 + 1] = Vertices[i].m_pos.y;
+		positions[i * 3 + 2] = Vertices[i].m_pos.z;
+		textures[i * 2] = Vertices[i].m_tex.x;
+		textures[i * 2 + 1] = Vertices[i].m_tex.y;
+		normals[i * 3] = Vertices[i].m_normal.x;
+		normals[i * 3 + 1] = Vertices[i].m_normal.y;
+		normals[i * 3 + 2] = Vertices[i].m_normal.z;
+	}
+
+	//verticesBuffer = renderer->GenVertexBuffer(Vertices);
+	verticesBuffer = renderer->GenBuffer(positions, sizeof(float) * Vertices.size() * 3);
 	indicesBuffer = renderer->GenElementBuffer(Indices);
+	uvBuffer = renderer->GenBuffer(textures, sizeof(float) * Vertices.size() * 2);
 }
 
 Mesh::Mesh(Renderer* renderer, Material* material, Layers tag, const string modelPath, string texturePath) : Entity(renderer, material, tag)
@@ -34,7 +52,19 @@ Mesh::Mesh(Renderer* renderer, Material* material, Layers tag, const string mode
 	float* vertices = new float;
 	indices = new vector<unsigned int>;
 
+	//strcpy(this->texturePath, texturePath.c_str());
+	this->texturePath = new char[texturePath.size() + 1];
+	texturePath.copy(this->texturePath, texturePath.size() + 1);
+	this->texturePath[texturePath.size()] = '\0';
+
 	LoadMesh(modelPath, texturePath);
+
+	for (unsigned int i = 0; i < m_Textures.size(); i++)
+	{
+		bufferTextures.push_back(renderer->GenTexture(m_Textures[i]->width, m_Textures[i]->height, m_Textures[i]->data));
+	}
+
+	
 
 	/*float* vertices = new float[count * variables]{
 		// Front
@@ -97,8 +127,8 @@ Mesh::~Mesh()
 
 void Mesh::Clear()
 {
-	for (unsigned int i = 0; i < m_Textures.size(); i++)
-		SAFE_DELETE(m_Textures[i]);
+	/*for (unsigned int i = 0; i < m_Textures.size(); i++)
+		SAFE_DELETE(m_Textures[i]);*/
 }
 
 void Mesh::Update()
@@ -139,31 +169,26 @@ void Mesh::Draw()
 
 	if (material != NULL)
 	{
-		material->Bind();
+		material->Bind(texturePath, bufferTextures[0]);
 		material->SetMatrixProperty("MVP", renderer->GetMVP());
 	}
 
 
 	renderer->EnableAttributes(0);
 	renderer->EnableAttributes(1);
-	renderer->EnableAttributes(2);
 
 	for (unsigned int i = 0; i < m_Entries.size(); i++) {
-		renderer->BindMeshBuffer(m_Entries[i].verticesBuffer);
-		renderer->BindElementBuffer(bufferIndices);
 
-		const unsigned int MaterialIndex = m_Entries[i].MaterialIndex;
-
-		if (MaterialIndex < m_Textures.size() && m_Textures[MaterialIndex]) {
-			//m_Textures[MaterialIndex]->Bind(GL_TEXTURE0);
-		}
-
+		renderer->BindBuffer(m_Entries[i].verticesBuffer, 0);
+		//renderer->BindTextureBuffer(colorBufferId, 1);
+		//renderer->BindTextureBuffer(bufferTextures[i], 1);
+		renderer->BindTextureBuffer(m_Entries[i].uvBuffer, 1);
+		renderer->BindElementBuffer(m_Entries[i].indicesBuffer);
 		renderer->DrawElementBuffer(m_Entries[i].NumIndices);
 	}
 
 	renderer->DisableAttributes(0);
 	renderer->DisableAttributes(1);
-	renderer->DisableAttributes(2);
 }
 
 /*renderer->BindBuffer(bufferId, 0);
