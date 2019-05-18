@@ -58,9 +58,13 @@ bool Game::OnStart()
 	tilemap->SetTileProperty(9, Death_Trigger);
 	tilemap->SetTileProperty(10,Win_Trigger);
 
-	//mesh = new Mesh(GetRenderer(), matMesh, Default, "spider.obj", "spider.mtl");
+	
 	mesh = new Mesh(GetRenderer(), matTexture, Default, "M4A1\\M4A1.FBX", "M4A1\\M4A1Tex.bmp");  //"Nanosuit\\nanosuit.obj", "SpaceTiles.bmp");
 	mesh->Teleport(0.0f, -100.0f, 0.0f);
+	mesh2 = new Mesh(GetRenderer(), matTexture, Default, "spider.obj", "SpiderTex.bmp");
+	mesh2->Teleport(-50.0f, -50.0f, 50.0f);
+	mesh3 = new Mesh(GetRenderer(), matTexture, Default, "Nanosuit\\nanosuit.obj", "M4A1\\M4A1Tex.bmp");
+	mesh3->Teleport(-50.0f, -50.0f, 50.0f);
 
 	player = new Player(GetRenderer(), matTexture, Character, "Ship3.bmp", true, 2, 6, 40.0f, 20.0f, true, tilemap);
 	player->SetSpeed(100.0f);
@@ -232,6 +236,8 @@ bool Game::OnUpdate()
 	player->Update();
 
 	mesh->Update();
+	mesh2->Update();
+	mesh3->Update();
 
 	for (list<Asteroid*>::iterator ast = asteroids->begin(); ast != asteroids->end(); ast++)
 		(*ast)->Update();
@@ -247,6 +253,8 @@ bool Game::OnUpdate()
 bool Game::OnDraw()
 {
 	mesh->Draw();
+	mesh2->Draw();
+	mesh3->Draw();
 
 	player->Draw();
 	for (list<Asteroid*>::iterator ast = asteroids->begin(); ast != asteroids->end(); ast++)

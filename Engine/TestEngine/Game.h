@@ -32,6 +32,8 @@ class Game : public GameBase
 	Tilemap* tilemap;
 
 	Mesh* mesh;
+	Mesh* mesh2;
+	Mesh* mesh3;
 
 	float speed;
 
