@@ -21,7 +21,7 @@ protected:
 	vector<unsigned int>* indices;
 
 	vector<MeshEntry> m_Entries;
-	vector<Header*> m_Textures;
+	vector<Header> m_Textures;
 
 	vector<unsigned int> bufferTextures;
 

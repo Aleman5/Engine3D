@@ -59,51 +59,7 @@ Mesh::Mesh(Renderer* renderer, Material* material, Layers tag, const string mode
 
 	LoadMesh(modelPath, texturePath);
 
-	for (unsigned int i = 0; i < m_Textures.size(); i++)
-	{
-		bufferTextures.push_back(renderer->GenTexture(m_Textures[i]->width, m_Textures[i]->height, m_Textures[i]->data));
-	}
-
 	
-
-	/*float* vertices = new float[count * variables]{
-		// Front
-		-1.0, -1.0, 1.0,
-		1.0, -1.0, 1.0,
-		1.0, 1.0, 1.0,
-		-1.0, 1.0, 1.0,
-		// Back
-		-1.0, -1.0, -1.0,
-		1.0, -1.0, -1.0,
-		1.0, 1.0, -1.0,
-		-1.0, 1.0, -1.0,
-	};
-
-	vector<unsigned int> tempIndices = {
-		// front
-		0, 1, 2,
-		2, 3, 0,
-		// top
-		1, 5, 6,
-		6, 2, 1,
-		// back
-		7, 6, 5,
-		5, 4, 7,
-		// bottom
-		4, 0, 3,
-		3, 7, 4,
-		// left
-		4, 5, 1,
-		1, 0, 4,
-		// right
-		3, 2, 6,
-		6, 7, 3,
-	};
-
-	
-
-	indices = new vector<unsigned int>;
-	*indices = tempIndices;*/
 
 	verticesColorData = new float[count * variables]{
 		0.583f, 0.771f, 0.014f,
@@ -138,7 +94,12 @@ void Mesh::Update()
 
 bool Mesh::LoadMesh(const string& fileName, const string& textureName)
 {
-	return ModelImporter::getInstance()->Import3DFromFile(fileName, textureName, m_Entries, m_Textures, renderer);
+	bool state = ModelImporter::getInstance()->Import3DFromFile(fileName, textureName, m_Entries, m_Textures, renderer);
+
+	for (int i = 0; i < m_Textures.size(); i++)
+		bufferTextures.push_back(renderer->GenTexture(m_Textures[i].width, m_Textures[i].height, m_Textures[i].data));
+
+	return state;
 }
 
 void Mesh::ShouldDispose()
@@ -169,7 +130,7 @@ void Mesh::Draw()
 
 	if (material != NULL)
 	{
-		material->Bind(texturePath, bufferTextures[0]);
+		material->Bind("myTextureSampler", bufferTextures[0]);
 		material->SetMatrixProperty("MVP", renderer->GetMVP());
 	}
 

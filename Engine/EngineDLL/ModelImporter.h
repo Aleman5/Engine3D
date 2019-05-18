@@ -31,14 +31,11 @@ class ENGINEDLL_API ModelImporter
 	const aiScene* scene = NULL;
 	Assimp::Importer importer;
 	
-	void Clear(vector<Header*>& m_Textures);
-
-	bool InitFromScene(const aiScene* pScene, const string& Filename, const string& texturePath, vector<MeshEntry>& m_Entries, vector<Header*>& m_Textures, Renderer* renderer);
+	bool InitFromScene(const aiScene* pScene, const string& texturePath, vector<MeshEntry>& m_Entries, vector<Header>& m_Textures, Renderer* renderer);
 	void InitMesh(unsigned int Index, const aiMesh* paiMesh, vector<MeshEntry>& m_Entries, Renderer* renderer);
-	bool InitMaterials(const aiScene* pScene, const string& Filename, const string& texturePath, vector<Header*>& m_Textures);
 
 public:
-	bool Import3DFromFile(const string& modelPath, const string& texturePath, vector<MeshEntry>& m_Entries, vector<Header*>& m_Textures, Renderer* renderer);
+	bool Import3DFromFile(const string& modelPath, const string& texturePath, vector<MeshEntry>& m_Entries, vector<Header>& m_Textures, Renderer* renderer);
 
 	static ModelImporter* getInstance()
 	{

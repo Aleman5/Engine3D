@@ -6,33 +6,22 @@ ModelImporter::ModelImporter()
 {
 }
 
-void ModelImporter::Clear(vector<Header*>& m_Textures)
+bool ModelImporter::Import3DFromFile(const string& modelPath, const string& texturePath, vector<MeshEntry>& m_Entries, vector<Header>& m_Textures, Renderer* renderer)
 {
-	for (unsigned int i = 0; i < m_Textures.size(); i++)
-		SAFE_DELETE(m_Textures[i]);
-}
-
-bool ModelImporter::Import3DFromFile(const string& modelPath, const string& texturePath, vector<MeshEntry>& m_Entries, vector<Header*>& m_Textures, Renderer* renderer)
-{
-	// Release the previously loaded mesh (if it exists)
-	Clear(m_Textures);
-
 	bool Ret = false;
 	Assimp::Importer Importer;
 
 	const aiScene* pScene = Importer.ReadFile(modelPath.c_str(), ASSIMP_LOAD_FLAGS);
 
-	if (pScene) {
-		Ret = InitFromScene(pScene, modelPath, texturePath, m_Entries, m_Textures, renderer);
-	}
-	else {
+	if (pScene)
+		Ret = InitFromScene(pScene, texturePath, m_Entries, m_Textures, renderer);
+	else
 		printf("Error parsing '%s': '%s'\n", modelPath.c_str(), Importer.GetErrorString());
-	}
 
 	return Ret;
 }
 
-bool ModelImporter::InitFromScene(const aiScene* pScene, const string& Filename, const string& texturePath, vector<MeshEntry>& m_Entries, vector<Header*>& m_Textures, Renderer* renderer)
+bool ModelImporter::InitFromScene(const aiScene* pScene, const string& texturePath, vector<MeshEntry>& m_Entries, vector<Header>& m_Textures, Renderer* renderer)
 {
 	m_Entries.resize(pScene->mNumMeshes);
 	m_Textures.resize(pScene->mNumMaterials);
@@ -44,7 +33,11 @@ bool ModelImporter::InitFromScene(const aiScene* pScene, const string& Filename,
 		InitMesh(i, paiMesh, m_Entries, renderer);
 	}
 
-	return InitMaterials(pScene, Filename, texturePath, m_Textures);
+	// Init of the Textures
+	for (unsigned int i = 0; i < pScene->mNumMaterials; i++)
+		m_Textures[i] = TextureImporter::loadBMP_custom(texturePath.c_str());
+
+	return true;
 }
 
 void ModelImporter::InitMesh(unsigned int Index, const aiMesh* paiMesh, vector<MeshEntry>& m_Entries, Renderer* renderer)
@@ -79,12 +72,4 @@ void ModelImporter::InitMesh(unsigned int Index, const aiMesh* paiMesh, vector<M
 	}
 
 	m_Entries[Index].Init(Vertices, Indices, renderer);
-}
-
-bool ModelImporter::InitMaterials(const aiScene* pScene, const string& Filename, const string& texturePath, vector<Header*>& m_Textures)
-{
-	for (unsigned int i = 0; i < pScene->mNumMaterials; i++)
-		m_Textures[i] = &TextureImporter::loadBMP_custom(texturePath.c_str());
-
-	return true;
 }
