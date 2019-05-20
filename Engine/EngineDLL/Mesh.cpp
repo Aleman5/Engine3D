@@ -44,10 +44,11 @@ Mesh::Mesh(Renderer* renderer, Material* material, Layers tag, const string mode
 {
 	srand(time(0));
 
-	count = 8;
-	variables = 3;
-
 	LoadMesh(modelPath, texturePath);
+
+	this->texturePath = new char[texturePath.size() + 1];
+	texturePath.copy(this->texturePath, texturePath.size() + 1);
+	this->texturePath[texturePath.size()] = '\0';
 }
 Mesh::~Mesh()
 {
@@ -89,8 +90,8 @@ void Mesh::Draw()
 
 	if (material != NULL)
 	{
-		material->SetMatrixProperty("MVP", renderer->GetMVP());
 		material->Bind("myTextureSampler", bufferTextures[0]);
+		material->SetMatrixProperty("MVP", renderer->GetMVP());
 	} 
 
 	renderer->EnableAttributes(0);

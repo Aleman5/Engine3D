@@ -9,9 +9,6 @@
 class ENGINEDLL_API Mesh : public Entity
 {
 protected:
-	//unsigned int bufferIndices;
-
-	float* verticesData;	// Data of the Vertices
 	vector<unsigned int> bufferTextures;
 	char* texturePath;
 	vector<MeshEntry> m_Entries;

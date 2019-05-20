@@ -34,8 +34,6 @@ class Game : public GameBase
 
 	float speed;
 
-	const int totalAsteroids = 25;
-
 	GameState gameState;
 
 	void Restart();

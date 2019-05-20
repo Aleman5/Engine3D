@@ -40,19 +40,13 @@ bool Game::OnStart()
 
 	//GetRenderer()->MoveCamera(glm::vec3(0.0f, 64.0f, 0.0f));
 
-	vector<string>* M4A1TexturePaths = new vector<string>();
-	M4A1TexturePaths->push_back("M4A1\\M4A1Tex.bmp");
-	M4A1 = new Mesh(GetRenderer(), matTexture, Default, "M4A1\\M4A1.FBX", *M4A1TexturePaths);
+	M4A1 = new Mesh(GetRenderer(), matTexture, Default, "M4A1\\M4A1.FBX", "M4A1\\M4A1Tex.bmp");
 	M4A1->Teleport(0.0f, -100.0f, 0.0f);
 
-	vector<string>* spiderTexturePaths = new vector<string>();
-	spiderTexturePaths->push_back("SpiderTex.bmp");
-	spider = new Mesh(GetRenderer(), matTexture, Default, "spider.obj", *spiderTexturePaths);
+	spider = new Mesh(GetRenderer(), matTexture, Default, "spider.obj", "SpiderTex.bmp");
 	spider->Teleport(-50.0f, -50.0f, 50.0f);
 
-	vector<string>* nanosuitTexturePaths = new vector<string>();
-	nanosuitTexturePaths->push_back("M4A1\\M4A1Tex.bmp");
-	nanosuit = new Mesh(GetRenderer(), matTexture, Default, "Nanosuit\\nanosuit.obj", *nanosuitTexturePaths);
+	nanosuit = new Mesh(GetRenderer(), matTexture, Default, "Nanosuit\\nanosuit.obj", "M4A1\\M4A1Tex.bmp");
 	nanosuit->Teleport(-50.0f, -50.0f, 50.0f);
 
 	return true;
