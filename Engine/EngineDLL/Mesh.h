@@ -9,23 +9,13 @@
 class ENGINEDLL_API Mesh : public Entity
 {
 protected:
-	unsigned int bufferIndices;
+	//unsigned int bufferIndices;
 
 	float* verticesData;	// Data of the Vertices
-	float* verticesColorData; // Data of the Color Vertices
-	int count;				// Total vertices
-	int variables;			// Total data for each vertice
-
+	vector<unsigned int> bufferTextures;
 	char* texturePath;
-
-	vector<unsigned int>* indices;
-
 	vector<MeshEntry> m_Entries;
 	vector<Header> m_Textures;
-
-	vector<unsigned int> bufferTextures;
-
-	void Clear();
 
 public:
 	void Draw() override;

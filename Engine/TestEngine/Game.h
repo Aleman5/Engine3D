@@ -27,13 +27,10 @@ class Game : public GameBase
 	Material* material;
 	Material* matTexture;
 	Material* matMesh;
-	Player* player;
-	list<Asteroid*>* asteroids;
-	Tilemap* tilemap;
 
-	Mesh* mesh;
-	Mesh* mesh2;
-	Mesh* mesh3;
+	Mesh* M4A1;
+	Mesh* spider;
+	Mesh* nanosuit;
 
 	float speed;
 
@@ -41,7 +38,6 @@ class Game : public GameBase
 
 	GameState gameState;
 
-	void FillAsteroidsData();
 	void Restart();
 
 protected:

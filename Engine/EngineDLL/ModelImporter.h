@@ -11,8 +11,6 @@
 #include "assimp/Importer.hpp"	//OO version Header!
 #include "assimp/postprocess.h"
 #include "assimp/scene.h"
-#include "assimp/DefaultLogger.hpp"
-#include "assimp/LogStream.hpp"
 #include "GL\glew.h"
 #include "GLFW\glfw3.h"
 

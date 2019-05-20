@@ -93,9 +93,6 @@ public:
 		unsigned int bufferId,		// Buffer to use.
 		unsigned int attributeId	// Location to fill in
 	);
-	void BindMeshBuffer(
-		unsigned int bufferId		// Buffer to use.
-	);
 	void BindElementBuffer(
 		unsigned int bufferId		// Buffer to use.
 	);

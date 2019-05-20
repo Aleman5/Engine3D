@@ -11,7 +11,7 @@ bool ModelImporter::Import3DFromFile(const string& modelPath, const string& text
 	bool Ret = false;
 	Assimp::Importer Importer;
 
-	const aiScene* pScene = Importer.ReadFile(modelPath.c_str(), aiProcess_Triangulate | aiProcess_GenSmoothNormals | aiProcess_JoinIdenticalVertices);
+	const aiScene* pScene = Importer.ReadFile(modelPath.c_str(), ASSIMP_LOAD_FLAGS);
 
 	if (pScene)
 		Ret = InitFromScene(pScene, texturePath, m_Entries, m_Textures, renderer);

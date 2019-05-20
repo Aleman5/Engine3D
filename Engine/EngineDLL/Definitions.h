@@ -13,7 +13,7 @@
 #include "GLFW\glfw3.h"
 
 #define SAFE_DELETE(p) if (p) { delete p; p = NULL; }
-#define ASSIMP_LOAD_FLAGS (aiProcess_Triangulate | aiProcess_GenSmoothNormals | aiProcess_FlipUVs | aiProcess_JoinIdenticalVertices)
+#define ASSIMP_LOAD_FLAGS (aiProcess_Triangulate | aiProcess_GenSmoothNormals | aiProcess_JoinIdenticalVertices)
 
 class Renderer;
 

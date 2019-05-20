@@ -181,14 +181,6 @@ void Renderer::BindTextureBuffer(unsigned int bufferId, unsigned int attributebI
 	);
 }
 
-void Renderer::BindMeshBuffer(unsigned int bufferId)
-{
-	glBindBuffer(GL_ARRAY_BUFFER, bufferId);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), 0);
-	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, Vertex::m_tex));
-	glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, Vertex::m_normal));
-}
-
 void Renderer::BindElementBuffer(unsigned int bufferId)
 {
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, bufferId);
