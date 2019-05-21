@@ -95,16 +95,6 @@ unsigned int Renderer::GenBuffer(float* buffer, int size)
 	return vertexbuffer;
 }
 
-unsigned int Renderer::GenVertexBuffer(const vector<Vertex>& vertex)
-{
-	unsigned int vertexBuffer;
-	glGenBuffers(1, &vertexBuffer);
-	glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer);
-	glBufferData(GL_ARRAY_BUFFER, vertex.size() * sizeof(Vertex), &vertex[0], GL_STATIC_DRAW);
-
-	return vertexBuffer;
-}
-
 unsigned int Renderer::GenElementBuffer(vector<unsigned int> indices)
 {
 	unsigned int elementbuffer;

@@ -29,6 +29,7 @@ Entity::~Entity()
 void Entity::Update()
 {
 	if (collision) collision = NULL;
+	UpdateModel();
 }
 
 void Entity::UpdateModel()
@@ -40,9 +41,7 @@ void Entity::Translate(glm::vec3 vector3)
 {
 	vectorPosition += vector3;
 	
-	// Changes the actual position multiplying Matrix4x4 * position
-	translationMatrix = glm::translate(glm::mat4(1.0f), vectorPosition);
-
+	translationMatrix *= glm::translate(glm::mat4(1.0f), vectorPosition);
 
 	UpdateModel();
 }
@@ -52,7 +51,7 @@ void Entity::Translate(float newX, float newY, float newZ)
 	// Changes the actual position multiplying Matrix4x4 * position
 	vectorPosition += glm::vec3(newX, newY, newZ);
 	
-	translationMatrix = glm::translate(glm::mat4(1.0f), vectorPosition);
+	translationMatrix *= glm::translate(glm::mat4(1.0f), vectorPosition);
 
 	UpdateModel();
 }
@@ -69,7 +68,7 @@ void Entity::Teleport(float newX, float newY, float newZ)
 
 void Entity::Scale(glm::vec3 vector3)
 {
-	scallingMatrix = glm::scale(vector3);
+	scallingMatrix *= glm::scale(vector3);
 
 	vectorScale += vector3;
 
@@ -80,7 +79,7 @@ void Entity::Scale(float newX, float newY, float newZ)
 {
 	glm::vec3 vector3(newX, newY, newZ);
 
-	scallingMatrix = glm::scale(vector3);
+	scallingMatrix *= glm::scale(vector3);
 
 	vectorScale += vector3;
 
@@ -94,7 +93,7 @@ void Entity::RotateX(float angle)
 	vecAxis[1] = vecAxis[2] = 0.0f;
 	vecAxis[0] = 1.0f;
 
-	rotateX = glm::rotate(glm::mat4(1.0f), glm::radians(angle), vecAxis);
+	rotateX *= glm::rotate(glm::mat4(1.0f), glm::radians(angle), vecAxis);
 
 	vectorRotation += vecAxis;
 
@@ -108,7 +107,7 @@ void Entity::RotateY(float angle)
 	vecAxis[0] = vecAxis[2] = 0.0f;
 	vecAxis[1] = 1.0f;
 
-	rotateY = glm::rotate(glm::mat4(1.0f), glm::radians(angle), vecAxis);
+	rotateY *= glm::rotate(glm::mat4(1.0f), glm::radians(angle), vecAxis);
 
 	vectorRotation += vecAxis;
 
@@ -122,7 +121,7 @@ void Entity::RotateZ(float angle)
 	vecAxis[0] = vecAxis[1] = 0.0f;
 	vecAxis[2] = 1.0f;
 
-	rotateZ = glm::rotate(glm::mat4(1.0f), glm::radians(angle), vecAxis);
+	rotateZ *= glm::rotate(glm::mat4(1.0f), glm::radians(angle), vecAxis);
 
 	vectorRotation += vecAxis;
 

@@ -12,6 +12,7 @@ Animation::Animation(Sprite* sprite, unsigned int frames[], bool isLooping, floa
 }
 Animation::~Animation()
 {
+	if (frames) delete frames;
 }
 
 void Animation::Play()

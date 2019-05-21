@@ -30,7 +30,7 @@ class Game : public GameBase
 
 	Mesh* M4A1;
 	Mesh* spider;
-	Mesh* nanosuit;
+	Mesh* thorHammer;
 
 	float speed;
 

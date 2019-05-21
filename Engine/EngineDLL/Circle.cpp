@@ -42,6 +42,7 @@ Circle::Circle(Renderer* renderer, Material* material, Layers tag, float radius,
 }
 Circle::~Circle()
 {
+	delete[] verticesColorData;
 }
 
 void Circle::Draw()

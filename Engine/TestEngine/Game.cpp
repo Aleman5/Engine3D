@@ -23,7 +23,7 @@ bool Game::OnStart()
 	cmgr->SetRelation(Character, Wall);
 	cmgr->SetRelation(Enemy, Wall);
 
-	speed = 100.0f;
+	speed = 2.0f;
 	gameState = CONTINUE;
 
 	material = new Material();
@@ -38,16 +38,15 @@ bool Game::OnStart()
 	matMesh->LoadShader("Shaders\\MeshVertexShader.vertexshader"
 					  , "Shaders\\MeshFragmentShader.fragmentshader");
 
-	//GetRenderer()->MoveCamera(glm::vec3(0.0f, 64.0f, 0.0f));
-
 	M4A1 = new Mesh(GetRenderer(), matTexture, Default, "M4A1\\M4A1.FBX", "M4A1\\M4A1Tex.bmp");
 	M4A1->Teleport(0.0f, -100.0f, 0.0f);
 
 	spider = new Mesh(GetRenderer(), matTexture, Default, "spider.obj", "SpiderTex.bmp");
 	spider->Teleport(-50.0f, -50.0f, 50.0f);
 
-	nanosuit = new Mesh(GetRenderer(), matTexture, Default, "Nanosuit\\nanosuit.obj", "M4A1\\M4A1Tex.bmp");
-	nanosuit->Teleport(-50.0f, -50.0f, 50.0f);
+	thorHammer = new Mesh(GetRenderer(), matTexture, Default, "ThorHammer\\thorhammer.obj", "ThorHammer\\thorcolor.bmp");
+	thorHammer->Teleport(-50.0f, 50.0f, 50.0f);
+	thorHammer->RotateX(180.0f);
 
 	return true;
 }
@@ -56,9 +55,10 @@ bool Game::OnStop()
 {
 	delete material;
 	delete matTexture;
+	delete matMesh;
 	delete M4A1;
 	delete spider;
-	delete nanosuit;
+	delete thorHammer;
 
 	return true;
 }
@@ -69,8 +69,6 @@ bool Game::OnUpdate()
 	{
 	case CONTINUE:
 	{
-		vec2 move = vec2(speed * Defs::getInstance()->deltaTime, 0.0f);
-
 		float cameraSpeed = 2.0f;
 
 		if (input->isInput(GLFW_KEY_Q))
@@ -107,9 +105,13 @@ bool Game::OnUpdate()
 		break;
 	}
 
+	M4A1->RotateY(speed * Defs::getInstance()->deltaTime);
+	spider->RotateY(speed * Defs::getInstance()->deltaTime);
+	thorHammer->RotateY(speed * Defs::getInstance()->deltaTime);
+
 	M4A1->Update();
 	spider->Update();
-	nanosuit->Update();
+	thorHammer->Update();
 
 	if (gameState == 0)
 		CollisionManager::getInstance()->DetectCollisions();
@@ -123,7 +125,7 @@ bool Game::OnDraw()
 {
 	M4A1->Draw();
 	spider->Draw();
-	nanosuit->Draw();
+	thorHammer->Draw();
 
 	return true;
 }

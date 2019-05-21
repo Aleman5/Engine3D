@@ -62,10 +62,6 @@ public:
 		int size					// Size of the data
 	);
 
-	unsigned int GenVertexBuffer(
-		const vector<Vertex>& vertex // Data to fill in the buffer
-	);
-
 	unsigned int GenElementBuffer(
 		vector<unsigned int> indices
 	);

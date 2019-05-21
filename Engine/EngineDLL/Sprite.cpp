@@ -51,7 +51,7 @@ Sprite::Sprite(
 
 Sprite::~Sprite()
 {
-	delete verticesData;
+	delete[] verticesData;
 	if (isAnimated) delete anim;
 }
 

@@ -151,11 +151,13 @@ copy "$(SolutionDir)External\Assimp\bin\x64\*.dll" "$(OutDir)"</Command>
     <ClInclude Include="Material.h" />
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="ModelImporter.h" />
+    <ClInclude Include="Node.h" />
     <ClInclude Include="Rectangle.h" />
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="Shape.h" />
     <ClInclude Include="Sprite.h" />
     <ClInclude Include="Layers.h" />
+    <ClInclude Include="Structs.h" />
     <ClInclude Include="TextureImporter.h" />
     <ClInclude Include="Tilemap.h" />
     <ClInclude Include="Triangle.h" />
@@ -174,10 +176,12 @@ copy "$(SolutionDir)External\Assimp\bin\x64\*.dll" "$(OutDir)"</Command>
     <ClCompile Include="Material.cpp" />
     <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="ModelImporter.cpp" />
+    <ClCompile Include="Node.cpp" />
     <ClCompile Include="Rectangle.cpp" />
     <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="Shape.cpp" />
     <ClCompile Include="Sprite.cpp" />
+    <ClCompile Include="Structs.cpp" />
     <ClCompile Include="TextureImporter.cpp" />
     <ClCompile Include="Tilemap.cpp" />
     <ClCompile Include="Triangle.cpp" />

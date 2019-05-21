@@ -26,6 +26,7 @@ Rectangle::Rectangle(Renderer* renderer, Material* material, Layers tag) : Shape
 
 Rectangle::~Rectangle()
 {
+	delete[] verticesColorData;
 }
 
 void Rectangle::Draw()

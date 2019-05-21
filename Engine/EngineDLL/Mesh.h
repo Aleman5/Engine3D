@@ -2,7 +2,7 @@
 
 #include <time.h> // Used for random purposes
 #include "Entity.h"
-#include "Definitions.h"
+#include "Structs.h"
 #include "ModelImporter.h"
 #include "TextureImporter.h"
 

@@ -7,7 +7,7 @@
 #include <vector>
 #include "TextureImporter.h"
 #include "Exports.h"
-#include "Definitions.h"
+#include "Structs.h"
 #include "assimp/Importer.hpp"	//OO version Header!
 #include "assimp/postprocess.h"
 #include "assimp/scene.h"

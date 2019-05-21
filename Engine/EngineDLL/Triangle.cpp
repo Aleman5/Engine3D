@@ -23,6 +23,7 @@ Triangle::Triangle(Renderer* renderer, Material* material, Layers tag) : Shape(r
 }
 Triangle::~Triangle()
 {
+	delete[] verticesColorData;
 }
 
 void Triangle::Draw()
