@@ -1,9 +1,16 @@
 #pragma once
 
 #include "Renderer.h"
+#include "Component.h"
 #include "Layers.h"
 
-class ENGINEDLL_API Transform
+static enum Space
+{
+	Local,
+	World
+};
+
+class ENGINEDLL_API Transform : public Component
 {
 protected:
 	GLenum drawMode;			// Mode of the Draw
@@ -89,6 +96,8 @@ public:
 	vec3 GetScale() { return vectorScale; }			// Returns the actual scale
 	vec3 GetRotation() { return vectorRotation; }	// Returns the actual rotation
 	vec2 GetColProps() { return col; }				// Returns the collision proportions
+	mat4 GetLocalMatrix() { return localTransMatrix; } // Returns the local Translation Matrix
+	mat4 GetWorldMatrix() { return worldTransMatrix; } // Returns the world Translation Matrix
 	float GetMass() { return mass; }				// Returns the mass
 	bool IsStatic() { return isStatic; }			// Is static? Yes/No
 

@@ -35,7 +35,7 @@ bool GameBase::Start(int width, int height, const char* windowMe)
 		return false;
 	}
 
-	//glfwSetKeyCallback((GLFWwindow*)window->GetContext(), KeyCallback);
+	nRoot = new Node();
 
 	if (!OnStart())
 	{
@@ -54,6 +54,8 @@ bool GameBase::Stop()
 	window->Stop();
 	delete window;
 
+	delete nRoot;
+
 	return true;
 }
 
@@ -69,18 +71,13 @@ void GameBase::Loop()
 		Defs::getInstance()->UpdateDeltaTime();
 
 		state = OnUpdate();
+		nRoot->Update();
 		state = OnDraw();
+		nRoot->Draw();
 
 		renderer->SwapBuffers();
 	}
 }
-
-/*bool GameBase::input(int key)
-{
-	int state = glfwGetKey((GLFWwindow*)window->GetContext(), key);
-	if (state == GLFW_PRESS) return true;
-	return false;
-}*/
 
 Window* GameBase::GetWindow()
 {
@@ -90,4 +87,9 @@ Window* GameBase::GetWindow()
 Renderer* GameBase::GetRenderer()
 {
 	return renderer;
+}
+
+Node* GameBase::GetRootNode()
+{
+	return nRoot;
 }

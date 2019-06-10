@@ -1,15 +1,21 @@
 #pragma once
 
+// Important Includes
 #include "GameBase.h"
+#include "Node.h"
+#include "Input.h"
+#include "CollisionManager.h"
+
+// Included in Node.h
 #include "Camera.h"
+#include "Mesh.h"
+#include "Sprite.h"
+#include "Tilemap.h"
 #include "Triangle.h"
 #include "Rectangle.h"
 #include "Circle.h"
-#include "Sprite.h"
-#include "Mesh.h"
-#include "Tilemap.h"
-#include "Input.h"
-#include "CollisionManager.h"
+
+// Extra includes
 #include "Player.h"
 #include "Asteroid.h"
 
@@ -22,6 +28,7 @@ enum GameState
 
 class Game : public GameBase
 {
+#pragma region Version without Scene Graph
 	Camera* camera;
 	Input* input;
 	Material* material;
@@ -31,6 +38,13 @@ class Game : public GameBase
 	Mesh* M4A1;
 	Mesh* spider;
 	Mesh* thorHammer;
+#pragma endregion
+
+#pragma region Version with Scene Graph
+	Node* nWeapon;
+	Node* nSpider;
+	Node* nThorHammer;
+#pragma endregion
 
 	float speed;
 

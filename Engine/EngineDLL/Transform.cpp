@@ -9,7 +9,8 @@ Transform::Transform(Renderer* renderer, Layers tag)
 	vectorPosition = vectorRotation = vectorScale = vec3(0.0f);
 
 	model = mat4(1.0f);
-	translationMatrix = mat4(1.0f);
+	localTransMatrix = mat4(1.0f);
+	worldTransMatrix = mat4(1.0f);
 	rotateX = mat4(1.0f);
 	rotateY = mat4(1.0f);
 	rotateZ = mat4(1.0f);
@@ -33,14 +34,14 @@ void Transform::Update()
 
 void Transform::UpdateModel()
 {
-	model = translationMatrix * rotateX * rotateY * rotateZ * scallingMatrix;
+	model = worldTransMatrix * rotateX * rotateY * rotateZ * scallingMatrix;
 }
 
 void Transform::Translate(vec3 vector3)
 {
 	vectorPosition += vector3;
 
-	translationMatrix *= glm::translate(mat4(1.0f), vectorPosition);
+	worldTransMatrix *= glm::translate(mat4(1.0f), vectorPosition);
 
 	UpdateModel();
 }
@@ -49,7 +50,7 @@ void Transform::Translate(float newX, float newY, float newZ)
 {
 	vectorPosition += vec3(newX, newY, newZ);
 
-	translationMatrix *= glm::translate(mat4(1.0f), vectorPosition);
+	worldTransMatrix *= glm::translate(mat4(1.0f), vectorPosition);
 
 	UpdateModel();
 }
@@ -58,7 +59,7 @@ void Transform::Teleport(float newX, float newY, float newZ)
 {
 	vectorPosition = vec3(newX, newY, newZ);
 
-	translationMatrix = glm::translate(mat4(1.0f), vectorPosition);
+	worldTransMatrix = glm::translate(mat4(1.0f), vectorPosition);
 
 	UpdateModel();
 }

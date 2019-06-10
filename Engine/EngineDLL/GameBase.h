@@ -4,6 +4,7 @@
 #include "Definitions.h"
 #include "Renderer.h"
 #include "Window.h"
+#include "Node.h"
 #include "Typedef.h"
 
 #include "GLFW\glfw3.h"
@@ -12,6 +13,7 @@ class ENGINEDLL_API GameBase
 {
 	Window * window;	// Window reference
 	Renderer* renderer; // Renderer reference
+	Node* nRoot;		// Root Node reference
 	
 	double currentFrame;// Actual Time
 	double lastFrame;	// Previous frame
@@ -30,9 +32,9 @@ public:
 	);
 	bool Stop();
 	void Loop();
-	//bool input(int key);
 	Window* GetWindow();
 	Renderer* GetRenderer();
+	Node* GetRootNode();
 
 	GameBase();
 	~GameBase();

@@ -2,37 +2,69 @@
 
 #include <iostream>
 #include <vector>
-#include "Transform.h"
-//#include "Entity.h"
 #include "Exports.h"
 #include "Layers.h"
+#include "Component.h"
+#include "Transform.h"
 #include "Mesh.h"
+#include "Camera.h"
 #include "Sprite.h"
+#include "Animation.h"
 #include "Tilemap.h"
+#include "Triangle.h"
+#include "Rectangle.h"
+#include "Circle.h"
 
 using namespace std;
 
+static enum ComponentType
+{
+	cTransform,
+	cMesh,
+	cCamera,
+	cSprite,
+	cAnimation,
+	cTilemap,
+	cTriangule,
+	cRectangle,
+	cCircle,
+	cCount
+};
+
 class ENGINEDLL_API Node
 {
-	Transform* transform;
+	//Transform* transform;
 
-	Node* parent;
+	
 	vector<Node*> nodeChilds;
-	//vector<Component*> components;
+	vector<Component*> components;
+
+	bool isActive;
+
+	void Delete();
 
 protected:
 	void Start();
+
+public:
+	Node* parent;
+
 	void Update();
 	void Draw();
 
-public:
+	void SetParent(Node* parent);
+	void RemoveChild(Node* child);
 	void AddChild(Node* node);
 	void RemoveChild(unsigned int index);
 	Node* GetChild(unsigned int index);
-	//T& AddComponent<T>();
-	//void RemoveComponent();
-	
+	void AddComponent(ComponentType componentType);
+	void RemoveComponent(ComponentType componentType);
+	bool IsActive();
+	void ActivateNode();
+	void DesactivateNode();
+
 	Node();
+	Node(Node* parent);
 	~Node();
 };
 
