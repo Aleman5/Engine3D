@@ -1,11 +1,15 @@
 #include "Transform.h"
 
-Transform::Transform(Renderer* renderer, Layers tag)
+Transform::Transform()
 {
-	this->renderer = renderer;
-	this->tag = tag;
-	isStatic = false;
+	Start();
+}
+Transform::~Transform()
+{
+}
 
+void Transform::Start()
+{
 	vectorPosition = vectorRotation = vectorScale = vec3(0.0f);
 
 	model = mat4(1.0f);
@@ -16,20 +20,17 @@ Transform::Transform(Renderer* renderer, Layers tag)
 	rotateZ = mat4(1.0f);
 	scallingMatrix = mat4(1.0f);
 
-	mass = 1.0f;
-
 	UpdateModel();
-
-	collision = NULL;
-}
-Transform::~Transform()
-{
 }
 
 void Transform::Update()
 {
-	if (collision) collision = NULL;
 	UpdateModel();
+}
+
+void Transform::Draw()
+{
+
 }
 
 void Transform::UpdateModel()

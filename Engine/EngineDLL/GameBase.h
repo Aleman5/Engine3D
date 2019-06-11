@@ -13,7 +13,7 @@ class ENGINEDLL_API GameBase
 {
 	Window * window;	// Window reference
 	Renderer* renderer; // Renderer reference
-	Node* nRoot;		// Root Node reference
+	Node* nScene;		// Root Node reference
 	
 	double currentFrame;// Actual Time
 	double lastFrame;	// Previous frame
@@ -34,7 +34,8 @@ public:
 	void Loop();
 	Window* GetWindow();
 	Renderer* GetRenderer();
-	Node* GetRootNode();
+	Node* GetActualScene();
+	void SetScene(Node* scene);
 
 	GameBase();
 	~GameBase();

@@ -7,6 +7,7 @@ Node::Node()
 Node::Node(Node* parent)
 {
 	Start();
+	SetParent(parent);
 }
 Node::~Node()
 {
@@ -32,14 +33,15 @@ void Node::Delete()
 
 void Node::Start()
 {
-	//transform = new Transform();
+	parent = NULL;
 }
 
 void Node::Update()
 {
 	if (isActive)
 	{
-		// Update components
+		for (int i = 0; i < components.size(); i++)
+			components[i]->Update();
 
 		for (int i = 0; nodeChilds.size(); i++)
 			nodeChilds[i]->Update();
@@ -52,16 +54,18 @@ void Node::Draw()
 	{
 		mat4 currentT;
 
+		for (int i = 0; i < components.size(); i++)
+			components[i]->Draw();
+
 		for (unsigned int i = 0; i < nodeChilds.size(); i++)
-		{
 			nodeChilds[i]->Draw();
-		}
 	}
 }
 
 void Node::SetParent(Node* parent)
 {
-	this->parent->RemoveChild(this);
+	if(this->parent)
+		this->parent->RemoveChild(this);
 	this->parent = parent;
 }
 
@@ -71,8 +75,10 @@ void Node::RemoveChild(Node* child)
 		if (child == nodeChilds[i])
 		{
 			nodeChilds.erase(nodeChilds.begin() + i);
-			break;
+			return;
 		}
+
+	cout << "This child is not in this Node" << endl;
 }
 
 void Node::AddChild(Node* node)
@@ -96,44 +102,29 @@ Node* Node::GetChild(unsigned int index)
 	return nodeChilds[index];
 }
 
-void Node::AddComponent(ComponentType componentType)
+void Node::AddComponent(Component* component)
 {
-	if (!components[componentType])
-	{
-		switch (componentType)
+	for (int i = 0; i < components.size(); i++)
+		if (component->GetId() == components[i]->GetId())
 		{
-		case cTransform:
-			//components[componentType] = new Transform();
-			break;
-		case cMesh:
-			//components[componentType] = new Mesh();
-			break;
-		case cCamera:
-			break;
-		case cSprite:
-			break;
-		case cAnimation:
-			break;
-		case cTilemap:
-			break;
-		case cTriangule:
-			break;
-		case cRectangle:
-			break;
-		case cCircle:
-			break;
-		case cCount:
-			break;
-		default:
-			break;
+			cout << "A " << component->GetId() << " already exists in this Node" << endl;
+			return;
 		}
-	}
+
+	components.push_back(component);
 }
 
-void Node::RemoveComponent(ComponentType componentType)
+void Node::RemoveComponent(Component* component)
 {
-	if (components[componentType])
-		delete components[componentType];
+	for (int i = 0; i < components.size(); i++)
+		if (component->GetId() == components[i]->GetId())
+		{
+			delete components[i];
+			components.erase(components.begin() + i);
+			return;
+		}
+
+	cout << "A " << component->GetId() << " doesn't exist in this Node" << endl;
 }
 
 bool Node::IsActive()

@@ -41,6 +41,8 @@ class Game : public GameBase
 #pragma endregion
 
 #pragma region Version with Scene Graph
+	Node* scene;
+
 	Node* nWeapon;
 	Node* nSpider;
 	Node* nThorHammer;

@@ -51,9 +51,13 @@ bool Game::OnStart()
 #pragma endregion
 
 #pragma region Version with Scene Graph
-	nWeapon = new Node();
-	nSpider = new Node();
-	nThorHammer = new Node();
+	scene = new Node();
+	SetScene(scene);
+	nWeapon = new Node(scene);
+	nWeapon->AddComponent(new Transform());
+
+	nSpider = new Node(scene);
+	nThorHammer = new Node(scene);
 #pragma endregion
 
 

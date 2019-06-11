@@ -35,8 +35,6 @@ bool GameBase::Start(int width, int height, const char* windowMe)
 		return false;
 	}
 
-	nRoot = new Node();
-
 	if (!OnStart())
 	{
 		return false;
@@ -54,7 +52,8 @@ bool GameBase::Stop()
 	window->Stop();
 	delete window;
 
-	delete nRoot;
+	if(nScene)
+		delete nScene;
 
 	return true;
 }
@@ -71,9 +70,11 @@ void GameBase::Loop()
 		Defs::getInstance()->UpdateDeltaTime();
 
 		state = OnUpdate();
-		nRoot->Update();
+		if (nScene)
+			nScene->Update();
 		state = OnDraw();
-		nRoot->Draw();
+		if (nScene)
+			nScene->Draw();
 
 		renderer->SwapBuffers();
 	}
@@ -89,7 +90,12 @@ Renderer* GameBase::GetRenderer()
 	return renderer;
 }
 
-Node* GameBase::GetRootNode()
+Node* GameBase::GetActualScene()
 {
-	return nRoot;
+	return nScene;
+}
+
+void GameBase::SetScene(Node* scene)
+{
+	nScene = scene;
 }

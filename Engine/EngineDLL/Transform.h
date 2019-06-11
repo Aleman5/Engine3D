@@ -1,8 +1,17 @@
 #pragma once
 
-#include "Renderer.h"
+#include "GL\glew.h"
+#include "GLFW\glfw3.h"
+
+#define GLM_ENABLE_EXPERIMENTAL
+
+#include <glm\gtc\matrix_transform.hpp>
+#include <glm\gtx\transform.hpp>
+#include <glm\glm.hpp>
+
+using namespace glm;
+
 #include "Component.h"
-#include "Layers.h"
 
 static enum Space
 {
@@ -13,13 +22,6 @@ static enum Space
 class ENGINEDLL_API Transform : public Component
 {
 protected:
-	GLenum drawMode;			// Mode of the Draw
-	Renderer* renderer;			// Renderer reference
-	unsigned int bufferId;		// Id of the Buffer
-	unsigned int colorBufferId;	// Id of the ColorBuffer
-	unsigned int programId;		// Id of the Program
-	bool shouldDispose;			// Should Dispose? Yes/No
-
 	vec3 vectorPosition;	// Actual Position
 	vec3 vectorRotation;	// Actual Rotation
 	vec3 vectorScale;		// Actual Scale
@@ -33,20 +35,11 @@ protected:
 	mat4 rotateZ;			// RotationX Matrix
 	mat4 scallingMatrix;	// Scale Matrix
 
-	// Box Collider things
-	vec2 col;		// Box Collider proportions
-	float mass;		// "Mass"
-	bool isStatic;	// Is static? Yes/No
-	Layers tag;		// Tag
-
-	Transform* collision;
-
-	void Update();
-
 public:
-	virtual void Draw() = 0;
-	virtual void ShouldDispose() = 0;
-
+	void Start() override;
+	void Update() override;
+	void Draw() override;
+	
 	void UpdateModel();
 	void Translate(
 		vec3 vector3// Vector3 to Translate
@@ -78,31 +71,14 @@ public:
 	void RotateZ(
 		float angle // Value in Z axis
 	);
-	virtual unsigned int SetVertices(
-		float* vertices,	// Vertices data
-		int count			// Total of vertices
-	) = 0;
 
-	void CollisionWith(Transform* collision) { this->collision = collision; };
-	Transform* OnCollisionEnter() { return collision; };
-
-	void SetMass(float newMass) { mass = newMass; } // Set the new value mass
-	void SetIsStatic(bool isStatic) { this->isStatic = isStatic; } // Set the new value mass
-
-	Transform* GetEntity() { return this; }			// Returns a pointer to this Entity
-	Renderer* GetRenderer() { return renderer; }	// Returns a pointer to the Renderer
-	Layers GetTag() { return tag; }					// Returns the tag
+	Transform* GetTransform() { return this; }		// Returns a pointer to this Entity
 	vec3 GetPosition() { return vectorPosition; }	// Returns the actual position
-	vec3 GetScale() { return vectorScale; }			// Returns the actual scale
+	vec3 GetScale()	{ return vectorScale; }			// Returns the actual scale
 	vec3 GetRotation() { return vectorRotation; }	// Returns the actual rotation
-	vec2 GetColProps() { return col; }				// Returns the collision proportions
 	mat4 GetLocalMatrix() { return localTransMatrix; } // Returns the local Translation Matrix
 	mat4 GetWorldMatrix() { return worldTransMatrix; } // Returns the world Translation Matrix
-	float GetMass() { return mass; }				// Returns the mass
-	bool IsStatic() { return isStatic; }			// Is static? Yes/No
 
-	Transform(Renderer* renderer,	// Renderer reference
-		Layers tag					// Tag of the Entity
-	);
+	Transform();
 	~Transform();
 };

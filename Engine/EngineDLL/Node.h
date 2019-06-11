@@ -19,7 +19,7 @@ using namespace std;
 
 static enum ComponentType
 {
-	cTransform,
+	cTransform = 0,
 	cMesh,
 	cCamera,
 	cSprite,
@@ -57,8 +57,8 @@ public:
 	void AddChild(Node* node);
 	void RemoveChild(unsigned int index);
 	Node* GetChild(unsigned int index);
-	void AddComponent(ComponentType componentType);
-	void RemoveComponent(ComponentType componentType);
+	void AddComponent(Component* component);
+	void RemoveComponent(Component* component);
 	bool IsActive();
 	void ActivateNode();
 	void DesactivateNode();
