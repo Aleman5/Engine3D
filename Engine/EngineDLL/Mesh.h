@@ -1,33 +1,36 @@
 #pragma once
 
 #include <time.h> // Used for random purposes
-#include "Entity.h"
+#include "Component.h"
+#include "Transform.h"
 #include "Structs.h"
 #include "ModelImporter.h"
 #include "TextureImporter.h"
 
-class ENGINEDLL_API Mesh : public Entity
+class ENGINEDLL_API Mesh : public Component
 {
+	Renderer* renderer;
+	Material* material;
+	Transform* transform;
+
+	const string modelPath;
+	const string sTexturePath;
+	char* texturePath;
+
 protected:
 	vector<unsigned int> bufferTextures;
-	char* texturePath;
 	vector<MeshEntry> m_Entries;
 	vector<Header> m_Textures;
 
 public:
+	void Start() override;
+	void Update() override;
 	void Draw() override;
-	void ShouldDispose() override;
-
-	unsigned int SetVertices(
-		float* vertices,	// Data of the vertices
-		int count			// Total Vertices
-	) override;
-
-	void Update();
+	void SetTransform(Transform* transform) override;
 
 	bool LoadMesh(const string& fileName, const string& textureName);
 	
 
-	Mesh(Renderer* renderer, Material* material, Layers tag, string modelPath, string texturePath);
+	Mesh(Renderer* renderer, Material* material, const string modelPath, const string texturePath);
 	~Mesh();
 };

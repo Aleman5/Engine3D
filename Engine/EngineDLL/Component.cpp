@@ -1,13 +1,19 @@
 #include "Component.h"
 
 Component::Component()
+	: name(""), reqTransform(false)
 {
 }
 Component::~Component()
 {
 }
 
-int Component::GetId()
+string Component::GetName()
 {
-	return id;
+	return name;
+}
+
+bool Component::ReqTransform()
+{
+	return reqTransform;
 }

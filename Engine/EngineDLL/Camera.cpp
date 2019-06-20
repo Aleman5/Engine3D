@@ -1,9 +1,19 @@
 #include "Camera.h"
 
 Camera::Camera(Renderer* renderer)
+	: renderer(renderer)
 {
-	this->renderer = renderer;
-	
+	Start();
+}
+Camera::~Camera()
+{
+}
+
+void Camera::Start()
+{
+	name = "Camera";
+	reqTransform = false;
+
 	right = vec4(1, 0, 0, 0);
 	up = vec4(0, 1, 0, 0);
 	forward = vec4(0, 0, 1, 0);
@@ -17,8 +27,20 @@ Camera::Camera(Renderer* renderer)
 
 	renderer->SetCameraPosition(vMatrix);
 }
-Camera::~Camera()
+
+void Camera::Update()
 {
+	
+}
+
+void Camera::Draw()
+{
+
+}
+
+void Camera::SetTransform(Transform* transform)
+{
+
 }
 
 void Camera::Walk(float mountX, float mountZ)

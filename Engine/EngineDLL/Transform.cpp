@@ -10,39 +10,41 @@ Transform::~Transform()
 
 void Transform::Start()
 {
+	name = "Transform";
+	reqTransform = false;
+
 	vectorPosition = vectorRotation = vectorScale = vec3(0.0f);
 
-	model = mat4(1.0f);
-	localTransMatrix = mat4(1.0f);
-	worldTransMatrix = mat4(1.0f);
-	rotateX = mat4(1.0f);
-	rotateY = mat4(1.0f);
-	rotateZ = mat4(1.0f);
-	scallingMatrix = mat4(1.0f);
+	model = lTransMat = wTransMat =
+	lRotX = lRotY = lRotZ =
+	wRotX = wRotY = wRotZ =
+	lScaleMat = wScaleMat = mat4(1.0f);
 
 	UpdateModel();
 }
-
 void Transform::Update()
 {
 	UpdateModel();
 }
-
 void Transform::Draw()
+{
+
+}
+void Transform::SetTransform(Transform* transform)
 {
 
 }
 
 void Transform::UpdateModel()
 {
-	model = worldTransMatrix * rotateX * rotateY * rotateZ * scallingMatrix;
+	model = lTransMat * lRotX * lRotY * lRotZ * lScaleMat;
 }
 
 void Transform::Translate(vec3 vector3)
 {
 	vectorPosition += vector3;
 
-	worldTransMatrix *= glm::translate(mat4(1.0f), vectorPosition);
+	lTransMat *= glm::translate(mat4(1.0f), vectorPosition);
 
 	UpdateModel();
 }
@@ -51,7 +53,7 @@ void Transform::Translate(float newX, float newY, float newZ)
 {
 	vectorPosition += vec3(newX, newY, newZ);
 
-	worldTransMatrix *= glm::translate(mat4(1.0f), vectorPosition);
+	lTransMat *= glm::translate(mat4(1.0f), vectorPosition);
 
 	UpdateModel();
 }
@@ -60,14 +62,14 @@ void Transform::Teleport(float newX, float newY, float newZ)
 {
 	vectorPosition = vec3(newX, newY, newZ);
 
-	worldTransMatrix = glm::translate(mat4(1.0f), vectorPosition);
+	lTransMat = glm::translate(mat4(1.0f), vectorPosition);
 
 	UpdateModel();
 }
 
 void Transform::Scale(vec3 vector3)
 {
-	scallingMatrix *= glm::scale(vector3);
+	lScaleMat *= glm::scale(vector3);
 
 	vectorScale += vector3;
 
@@ -78,7 +80,7 @@ void Transform::Scale(float newX, float newY, float newZ)
 {
 	vec3 vector3(newX, newY, newZ);
 
-	scallingMatrix *= glm::scale(vector3);
+	lScaleMat *= glm::scale(vector3);
 
 	vectorScale += vector3;
 
@@ -92,7 +94,7 @@ void Transform::RotateX(float angle)
 	vecAxis[1] = vecAxis[2] = 0.0f;
 	vecAxis[0] = 1.0f;
 
-	rotateX *= glm::rotate(mat4(1.0f), glm::radians(angle), vecAxis);
+	lRotX *= glm::rotate(mat4(1.0f), glm::radians(angle), vecAxis);
 
 	vectorRotation += vecAxis;
 
@@ -106,7 +108,7 @@ void Transform::RotateY(float angle)
 	vecAxis[0] = vecAxis[2] = 0.0f;
 	vecAxis[1] = 1.0f;
 
-	rotateY *= glm::rotate(mat4(1.0f), glm::radians(angle), vecAxis);
+	lRotY *= glm::rotate(mat4(1.0f), glm::radians(angle), vecAxis);
 
 	vectorRotation += vecAxis;
 
@@ -120,7 +122,7 @@ void Transform::RotateZ(float angle)
 	vecAxis[0] = vecAxis[1] = 0.0f;
 	vecAxis[2] = 1.0f;
 
-	rotateZ *= glm::rotate(mat4(1.0f), glm::radians(angle), vecAxis);
+	lRotZ *= glm::rotate(mat4(1.0f), glm::radians(angle), vecAxis);
 
 	vectorRotation += vecAxis;
 

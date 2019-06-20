@@ -17,29 +17,12 @@
 
 using namespace std;
 
-static enum ComponentType
-{
-	cTransform = 0,
-	cMesh,
-	cCamera,
-	cSprite,
-	cAnimation,
-	cTilemap,
-	cTriangule,
-	cRectangle,
-	cCircle,
-	cCount
-};
-
 class ENGINEDLL_API Node
 {
-	//Transform* transform;
-
-	
+	string name;
+	bool isActive;
 	vector<Node*> nodeChilds;
 	vector<Component*> components;
-
-	bool isActive;
 
 	void Delete();
 
@@ -48,23 +31,31 @@ protected:
 
 public:
 	Node* parent;
+	Transform* transform;
 
 	void Update();
 	void Draw();
 
 	void SetParent(Node* parent);
-	void RemoveChild(Node* child);
+
 	void AddChild(Node* node);
+	void RemoveChild(Node* child);
 	void RemoveChild(unsigned int index);
-	Node* GetChild(unsigned int index);
-	void AddComponent(Component* component);
+
+	Component* AddComponent(Component* component);
 	void RemoveComponent(Component* component);
-	bool IsActive();
+	void RemoveComponent(string type);
+
 	void ActivateNode();
 	void DesactivateNode();
+	bool IsActive();
 
-	Node();
-	Node(Node* parent);
+	string GetName();
+	Node*  GetChild(unsigned int index);
+	Component* GetComponent(string type);
+
+	Node(string name);
+	Node(string name, Node* parent);
 	~Node();
 };
 

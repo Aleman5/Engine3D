@@ -1,53 +1,38 @@
 #include "Mesh.h"
 
-Mesh::Mesh(Renderer* renderer, Material* material, Layers tag, const string modelPath, string texturePath) : Entity(renderer, material, tag)
+Mesh::Mesh(Renderer* renderer, Material* material, const string modelPath, const string texturePath)
+	: renderer(renderer), material(material), modelPath(modelPath), sTexturePath(texturePath)
 {
-	srand(time(0));
-
-	LoadMesh(modelPath, texturePath);
-
-	this->texturePath = new char[texturePath.size() + 1];
-	texturePath.copy(this->texturePath, texturePath.size() + 1);
-	this->texturePath[texturePath.size()] = '\0';
+	Start();
 }
 Mesh::~Mesh()
 {
 	if (texturePath) delete texturePath;
 }
 
+void Mesh::Start()
+{
+	name = "Mesh";
+	reqTransform = true;
+
+	srand(time(0));
+
+	LoadMesh(modelPath, sTexturePath);
+
+	this->texturePath = new char[sTexturePath.size() + 1];
+	sTexturePath.copy(this->texturePath, sTexturePath.size() + 1);
+	this->texturePath[sTexturePath.size()] = '\0';
+}
+
 void Mesh::Update()
 {
-	Entity::Update();
-}
-
-bool Mesh::LoadMesh(const string& fileName, const string& textureName)
-{
-	bool state = ModelImporter::getInstance()->Import3DFromFile(fileName, textureName, m_Entries, m_Textures, renderer);
-
-	for (int i = 0; i < m_Textures.size(); i++)
-		bufferTextures.push_back(renderer->GenTexture(m_Textures[i].width, m_Textures[i].height, m_Textures[i].data));
-
-	return state;
-}
-
-void Mesh::ShouldDispose()
-{
-	if (shouldDispose)
-	{
-		renderer->DestroyBuffer(bufferId);
-		shouldDispose = false;
-	}
-}
-
-unsigned int Mesh::SetVertices(float* vertices, int count)
-{
-	return 0;
+	
 }
 
 void Mesh::Draw()
 {
 	renderer->loadIdentityMatrix();
-	renderer->SetModelMatrix(model);
+	renderer->SetModelMatrix(transform->GetModelMatrix());
 
 	if (material != NULL)
 	{
@@ -68,4 +53,19 @@ void Mesh::Draw()
 
 	renderer->DisableAttributes(0);
 	renderer->DisableAttributes(1);
+}
+
+void Mesh::SetTransform(Transform* transform)
+{
+	this->transform = transform;
+}
+
+bool Mesh::LoadMesh(const string& fileName, const string& textureName)
+{
+	bool state = ModelImporter::getInstance()->Import3DFromFile(fileName, textureName, m_Entries, m_Textures, renderer);
+
+	for (int i = 0; i < m_Textures.size(); i++)
+		bufferTextures.push_back(renderer->GenTexture(m_Textures[i].width, m_Textures[i].height, m_Textures[i].data));
+
+	return state;
 }

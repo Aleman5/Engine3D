@@ -1,9 +1,10 @@
 #pragma once
 
 #include "Exports.h"
-#include "Entity.h"
+#include "Renderer.h"
+#include "Component.h"
 
-class ENGINEDLL_API Camera
+class ENGINEDLL_API Camera : public Component
 {
 	Renderer* renderer;
 
@@ -14,6 +15,11 @@ class ENGINEDLL_API Camera
 	vec4 pos;
 
 public:
+	void Start() override;
+	void Update() override;
+	void Draw() override;
+	void SetTransform(Transform* transform) override;
+
 	/// <summary>Affects on the 'z' axis
 	/// <para>Camera goes 'forward'</para>
 	/// <param name="mount">How much the camera advance</param>

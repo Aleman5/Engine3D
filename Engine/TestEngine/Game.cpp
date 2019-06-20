@@ -10,10 +10,7 @@ Game::~Game()
 
 bool Game::OnStart()
 {
-#pragma region Version without Scene Graph
 	GetRenderer()->SetProjPersp(glm::radians(45.0f), 4.0f / 3.0f, 0.1f, 1000.0f);
-
-	camera = new Camera(GetRenderer());
 
 	input = Input::getInstance();
 	input->SetWindowContext(GetWindow());
@@ -39,47 +36,37 @@ bool Game::OnStart()
 	matMesh->LoadShader("Shaders\\MeshVertexShader.vertexshader"
 		, "Shaders\\MeshFragmentShader.fragmentshader");
 
-	M4A1 = new Mesh(GetRenderer(), matTexture, Default, "M4A1\\M4A1.FBX", "M4A1\\M4A1Tex.bmp");
-	M4A1->Teleport(0.0f, -100.0f, 0.0f);
-
-	spider = new Mesh(GetRenderer(), matTexture, Default, "spider.obj", "SpiderTex.bmp");
-	spider->Teleport(-50.0f, -50.0f, 50.0f);
-
-	thorHammer = new Mesh(GetRenderer(), matTexture, Default, "ThorHammer\\thorhammer.obj", "ThorHammer\\thorcolor.bmp");
-	thorHammer->Teleport(-50.0f, 50.0f, 50.0f);
-	thorHammer->RotateX(180.0f);
-#pragma endregion
-
-#pragma region Version with Scene Graph
-	scene = new Node();
+	scene = new Node("Scene");
 	SetScene(scene);
-	nWeapon = new Node(scene);
-	nWeapon->AddComponent(new Transform());
 
-	nSpider = new Node(scene);
-	nThorHammer = new Node(scene);
-#pragma endregion
+	nCamera = new Node("CameraHolder", scene);
+	camera = (Camera*)nCamera->AddComponent(new Camera(GetRenderer()));
 
+	nWeapon = new Node("M4A1", scene);
+	nWeapon->transform->Teleport(0.0f, -100.0f, 0.0f);
+	nWeapon->AddComponent(new Mesh(GetRenderer(), matTexture, "M4A1\\M4A1.FBX", "M4A1\\M4A1Tex.bmp"));
+
+	nSpider = new Node("Spider", scene);
+	nSpider->transform->Teleport(-50.0f, -50.0f, 50.0f);
+	nSpider->AddComponent(new Mesh(GetRenderer(), matTexture, "spider.obj", "SpiderTex.bmp"));
+
+	nThorHammer = new Node("Thor Hammer", scene);
+	nThorHammer->transform->Teleport(-50.0f, 50.0f, 50.0f);
+	nThorHammer->AddComponent(new Mesh(GetRenderer(), matTexture, "ThorHammer\\thorhammer.obj", "ThorHammer\\thorcolor.bmp"));
 
 	return true;
 }
 
 bool Game::OnStop()
 {
-#pragma region Version without Scene Graph
 	delete material;
 	delete matTexture;
 	delete matMesh;
-	delete M4A1;
-	delete spider;
-	delete thorHammer;
-#pragma endregion
 
-#pragma region Version with Scene Graph
 	delete nWeapon;
 	delete nSpider;
 	delete nThorHammer;
-#pragma endregion
+
 	return true;
 }
 
@@ -111,32 +98,61 @@ bool Game::OnUpdate()
 			camera->Yaw(cameraSpeed * Defs::getInstance()->deltaTime);
 		if (input->isInput(GLFW_KEY_G))
 			camera->Yaw(cameraSpeed * -Defs::getInstance()->deltaTime);
+
+		if ((input->isInput(GLFW_KEY_V)))
+		{
+			if (scene->IsActive())
+				scene->DesactivateNode();
+			else
+				scene->ActivateNode();
+		}
+
+		if ((input->isInput(GLFW_KEY_B)))
+		{
+			if (nWeapon->IsActive())
+				nWeapon->DesactivateNode();
+			else
+				nWeapon->ActivateNode();
+		}
+
+		if ((input->isInput(GLFW_KEY_N)))
+		{
+			if (nSpider->IsActive())
+				nSpider->DesactivateNode();
+			else
+				nSpider->ActivateNode();
+		}
+
+		if ((input->isInput(GLFW_KEY_M)))
+		{
+			if (nThorHammer->IsActive())
+				nThorHammer->DesactivateNode();
+			else
+				nThorHammer->ActivateNode();
+		}
+
+		if ((input->isInput(GLFW_KEY_J)))
+		{
+			if (nWeapon->GetComponent("Mesh"))
+				nWeapon->RemoveComponent("Mesh");
+		}
 	}
-		break;
+	break;
 	case WIN:
 	{
 
 	}
-		break;
+	break;
 	case LOSE:
 	{
 
 	}
-		break;
+	break;
 	}
-#pragma region Version without Scene Graph
-	M4A1->RotateY(speed * Defs::getInstance()->deltaTime);
-	spider->RotateY(speed * Defs::getInstance()->deltaTime);
-	thorHammer->RotateY(speed * Defs::getInstance()->deltaTime);
 
-	M4A1->Update();
-	spider->Update();
-	thorHammer->Update();
-#pragma endregion
-
-#pragma region Version with Scene Graph
-
-#pragma endregion
+	nWeapon->transform->RotateY(speed * Defs::getInstance()->deltaTime);
+	nSpider->transform->RotateY(speed * Defs::getInstance()->deltaTime);
+	nThorHammer->transform->RotateY(speed * Defs::getInstance()->deltaTime);
 
 	if (gameState == 0)
 		CollisionManager::getInstance()->DetectCollisions();
@@ -148,16 +164,6 @@ bool Game::OnUpdate()
 
 bool Game::OnDraw()
 {
-#pragma region Version without Scene Graph
-	M4A1->Draw();
-	spider->Draw();
-	thorHammer->Draw();
-#pragma endregion
-
-#pragma region Version with Scene Graph
-	
-#pragma endregion
-
 	return true;
 }
 

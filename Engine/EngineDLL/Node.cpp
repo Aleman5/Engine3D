@@ -1,10 +1,12 @@
 #include "Node.h"
 
-Node::Node()
+Node::Node(string name)
+	: name(name)
 {
 	Start();
 }
-Node::Node(Node* parent)
+Node::Node(string name, Node* parent)
+	: name(name)
 {
 	Start();
 	SetParent(parent);
@@ -34,6 +36,10 @@ void Node::Delete()
 void Node::Start()
 {
 	parent = NULL;
+	isActive = true;
+
+	transform = new Transform();
+	AddComponent(transform);
 }
 
 void Node::Update()
@@ -43,7 +49,7 @@ void Node::Update()
 		for (int i = 0; i < components.size(); i++)
 			components[i]->Update();
 
-		for (int i = 0; nodeChilds.size(); i++)
+		for (int i = 0; i < nodeChilds.size(); i++)
 			nodeChilds[i]->Update();
 	}
 }
@@ -67,6 +73,12 @@ void Node::SetParent(Node* parent)
 	if(this->parent)
 		this->parent->RemoveChild(this);
 	this->parent = parent;
+	this->parent->AddChild(this);
+}
+
+void Node::AddChild(Node* node)
+{
+	nodeChilds.push_back(node);
 }
 
 void Node::RemoveChild(Node* child)
@@ -78,53 +90,62 @@ void Node::RemoveChild(Node* child)
 			return;
 		}
 
-	cout << "This child is not in this Node" << endl;
-}
-
-void Node::AddChild(Node* node)
-{
-	nodeChilds.push_back(node);
+	cout << child->name << " isn't a child of this Node" << endl;
 }
 
 void Node::RemoveChild(unsigned int index)
 {
-	nodeChilds.erase(nodeChilds.begin() + index);
-}
-
-Node* Node::GetChild(unsigned int index)
-{
 	if (index > nodeChilds.size())
 	{
 		printf("Index out of range");
-		return NULL;
+		return;
 	}
 
-	return nodeChilds[index];
+	nodeChilds.erase(nodeChilds.begin() + index);
 }
 
-void Node::AddComponent(Component* component)
+Component* Node::AddComponent(Component* component)
 {
 	for (int i = 0; i < components.size(); i++)
-		if (component->GetId() == components[i]->GetId())
+		if (component->GetName() == components[i]->GetName())
 		{
-			cout << "A " << component->GetId() << " already exists in this Node" << endl;
-			return;
+			cout << "A " << component->GetName() << " already exists in " << name << endl;
+			delete component;
+			return components[i];
 		}
 
 	components.push_back(component);
+
+	if (component->ReqTransform())
+		component->SetTransform(transform);
+
+	return component;
 }
 
 void Node::RemoveComponent(Component* component)
 {
 	for (int i = 0; i < components.size(); i++)
-		if (component->GetId() == components[i]->GetId())
+		if (component->GetName() == components[i]->GetName())
 		{
 			delete components[i];
 			components.erase(components.begin() + i);
 			return;
 		}
 
-	cout << "A " << component->GetId() << " doesn't exist in this Node" << endl;
+	cout << "A " << component->GetName() << " doesn't exist in " << name << endl;
+}
+
+void Node::RemoveComponent(string type)
+{
+	for (int i = 0; i < components.size(); i++)
+		if (components[i]->GetName() == type)
+		{
+			delete components[i];
+			components.erase(components.begin() + i);
+			return;
+		}
+
+	cout << "A " << type << " doesn't exist in " << name << endl;
 }
 
 bool Node::IsActive()
@@ -140,4 +161,29 @@ void Node::ActivateNode()
 void Node::DesactivateNode()
 {
 	isActive = false;
+}
+
+string Node::GetName()
+{
+	return name;
+}
+
+Node* Node::GetChild(unsigned int index)
+{
+	if (index > nodeChilds.size())
+	{
+		printf("Index out of range");
+		return NULL;
+	}
+
+	return nodeChilds[index];
+}
+
+Component* Node::GetComponent(string type)
+{
+	for (int i = 0; i < components.size(); i++)
+		if (components[i]->GetName() == type)
+			return components[i];
+
+	cout << name << "doesn't have a component of type: " << type << endl;
 }

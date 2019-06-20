@@ -28,17 +28,25 @@ protected:
 
 	mat4 model;				// Model Matrix
 
-	mat4 localTransMatrix;	// Translation Matrix
-	mat4 worldTransMatrix;	// Translation Matrix
-	mat4 rotateX;			// RotationX Matrix
-	mat4 rotateY;			// RotationX Matrix
-	mat4 rotateZ;			// RotationX Matrix
-	mat4 scallingMatrix;	// Scale Matrix
+	// Local Matrix
+	mat4 lTransMat;	// Translation Matrix
+	mat4 lRotX;		// RotationX Matrix
+	mat4 lRotY;		// RotationY Matrix
+	mat4 lRotZ;		// RotationZ Matrix
+	mat4 lScaleMat;	// Scale Matrix
+
+	// World Matrix
+	mat4 wTransMat;	// Translation Matrix
+	mat4 wRotX;		// RotationX Matrix
+	mat4 wRotY;		// RotationY Matrix
+	mat4 wRotZ;		// RotationZ Matrix
+	mat4 wScaleMat;	// Scale Matrix
 
 public:
 	void Start() override;
 	void Update() override;
 	void Draw() override;
+	void SetTransform(Transform* transform) override;
 	
 	void UpdateModel();
 	void Translate(
@@ -72,12 +80,13 @@ public:
 		float angle // Value in Z axis
 	);
 
-	Transform* GetTransform() { return this; }		// Returns a pointer to this Entity
+	Transform* GetTransform() { return this; }		// Returns a pointer to this Transform
 	vec3 GetPosition() { return vectorPosition; }	// Returns the actual position
 	vec3 GetScale()	{ return vectorScale; }			// Returns the actual scale
 	vec3 GetRotation() { return vectorRotation; }	// Returns the actual rotation
-	mat4 GetLocalMatrix() { return localTransMatrix; } // Returns the local Translation Matrix
-	mat4 GetWorldMatrix() { return worldTransMatrix; } // Returns the world Translation Matrix
+	mat4 GetModelMatrix() { return model; }			// Returns the Model Matix
+	mat4 GetLocalMatrix() { return lTransMat; } // Returns the local Translation Matrix
+	mat4 GetWorldMatrix() { return wTransMat; } // Returns the world Translation Matrix
 
 	Transform();
 	~Transform();
