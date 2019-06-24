@@ -52,9 +52,6 @@ bool GameBase::Stop()
 	window->Stop();
 	delete window;
 
-	if(nScene)
-		delete nScene;
-
 	return true;
 }
 

@@ -30,7 +30,11 @@ void Node::Delete()
 		nodeChilds.pop_back();
 	}
 
-	parent = NULL;
+	if (parent)
+	{
+		parent->RemoveChild(this);
+		parent = NULL;
+	}
 }
 
 void Node::Start()

@@ -66,10 +66,6 @@ bool Game::OnStop()
 	delete matTexture;
 	delete matMesh;
 
-	delete nCamera;
-	delete nWeapon;
-	delete nSpider;
-	delete nThorHammer;
 	delete scene;
 
 	return true;
