@@ -1,10 +1,15 @@
 #pragma once
 
-// Important Includes
+// Important includes
 #include "GameBase.h"
 #include "Node.h"
 #include "Input.h"
 #include "CollisionManager.h"
+
+// Common includes
+#include "Camera.h"
+#include "Mesh.h"
+#include "Box.h"
 
 // Extra includes
 #include "Player.h"
@@ -19,27 +24,21 @@ enum GameState
 
 class Game : public GameBase
 {
-#pragma region Version without Scene Graph
 	Input* input;
+	GameState gameState;
 	Material* material;
 	Material* matTexture;
 	Material* matMesh;
 
-#pragma endregion
-
-#pragma region Version with Scene Graph
-	Node* scene;
 	Camera* camera;
 
+	Node* scene;
 	Node* nCamera;
 	Node* nWeapon;
 	Node* nSpider;
 	Node* nThorHammer;
-#pragma endregion
 
 	float speed;
-
-	GameState gameState;
 
 	void Restart();
 

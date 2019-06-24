@@ -6,57 +6,57 @@ CollisionManager::CollisionManager()
 {
 	for (int i = 0; i < Count; i++)
 	{
-		list<Entity*> list;
-		listsOfEntities.push_back(list);
+		list<Box*> list;
+		listsOfBoxes.push_back(list);
 	}
 
 	for (int i = 0; i < Count; i++)
 		for (int j = 0; j < Count; j++)
-			tagsRelation[i][j] = false;
+			layersRelation[i][j] = false;
 }
 
-void CollisionManager::AddEntity(Entity* entity)
+void CollisionManager::AddBox(Box* box)
 {
-	listsOfEntities[entity->GetTag()].push_back(entity);
+	listsOfBoxes[box->transform->GetLayer()].push_back(box);
 }
 
 void CollisionManager::SetRelation(int layer1, int layer2)
 {
 	if (layer1 <= layer2)
-		tagsRelation[layer1][layer2] = true;
+		layersRelation[layer1][layer2] = true;
 	else
-		tagsRelation[layer2][layer1] = true;
+		layersRelation[layer2][layer1] = true;
 }
 
 void CollisionManager::DetectCollisions()
 {
 	for (int i = 0; i < Count; i++)
 		for (int j = i; j < Count; j++)
-			if (tagsRelation[i][j] == 1)
+			if (layersRelation[i][j] == 1)
 				MakeTheRealDetection(i, j);
 }
 
 void CollisionManager::MakeTheRealDetection(int index1, int index2)
 {
 	// If any of this lists has no Entity just return.
-	if (listsOfEntities[index1].size() == 0
-	 || listsOfEntities[index2].size() == 0)
+	if (listsOfBoxes[index1].size() == 0
+	 || listsOfBoxes[index2].size() == 0)
 		return;
 	
-	for(list<Entity*>::iterator it1 = listsOfEntities[index1].begin(); it1 != listsOfEntities[index1].end(); it1++)
+	for(list<Box*>::iterator it1 = listsOfBoxes[index1].begin(); it1 != listsOfBoxes[index1].end(); it1++)
 	{
-		glm::vec2 col1 = (*it1)->GetColProps();
+		vec3 col1 = (*it1)->size;
 
-		for (list<Entity*>::iterator it2 = listsOfEntities[index2].begin(); it2 != listsOfEntities[index2].end(); it2++)
+		for (list<Box*>::iterator it2 = listsOfBoxes[index2].begin(); it2 != listsOfBoxes[index2].end(); it2++)
 		{
-			if (!(*it1)->IsStatic() || !(*it2)->IsStatic()) // If both are static don't check collision.
+			if (!(*it1)->transform->isStatic || !(*it2)->transform->isStatic) // If both are static don't check collision.
 			{
-				glm::vec3 diff = (*it2)->GetPosition() - (*it1)->GetPosition();
+				vec3 diff = (*it2)->transform->vectorPosition - (*it1)->transform->vectorPosition;
 
 				float dX = abs(diff.x);
 				float dY = abs(diff.y);
 
-				glm::vec2 col2 = (*it2)->GetColProps();
+				vec3 col2 = (*it2)->size;
 				
 				if (dX < col1.x / 2 + col2.x / 2
 				&&  dY < col1.y / 2 + col2.y / 2)
@@ -67,85 +67,85 @@ void CollisionManager::MakeTheRealDetection(int index1, int index2)
 					if (pX > pY)
 					{
 						// Vertical Collision
-						if (!(*it1)->IsStatic())
+						if (!(*it1)->transform->isStatic)
 						{
-							if (!(*it2)->IsStatic()) // Any of them are static.
+							if (!(*it2)->transform->isStatic) // Any of them are static.
 							{
 								// Calculations with mass.
-								float m1 = (*it1)->GetMass();
-								float m2 = (*it2)->GetMass();
+								float m1 = (*it1)->transform->mass;
+								float m2 = (*it2)->transform->mass;
 
 								float mPercentage = (m1 + m2) / m1;
 								float move = pY / mPercentage;
 
-								(*it2)->Translate(glm::vec3(0.0f, move, 0.0f));
-								(*it1)->Translate(glm::vec3(0.0f, -pY + move, 0.0f));
+								(*it2)->transform->Translate(vec3(0.0f, move, 0.0f));
+								(*it1)->transform->Translate(vec3(0.0f, -pY + move, 0.0f));
 
-								(*it1)->CollisionWith(*it2);
-								(*it2)->CollisionWith(*it1);
+								(*it1)->transform->CollisionWith((*it2)->transform);
+								(*it2)->transform->CollisionWith((*it1)->transform);
 							}
 							else // Entity 1 is pushed back
 							{
-								if ((*it1)->GetPosition().y > (*it2)->GetPosition().y)
-									(*it1)->Translate(glm::vec3(0.0f, pY, 0.0f));
+								if ((*it1)->transform->vectorPosition.y > (*it2)->transform->vectorPosition.y)
+									(*it1)->transform->Translate(vec3(0.0f, pY, 0.0f));
 								else
-									(*it1)->Translate(glm::vec3(0.0f, -pY, 0.0f));
+									(*it1)->transform->Translate(vec3(0.0f, -pY, 0.0f));
 
-								(*it1)->CollisionWith(*it2);
-								(*it2)->CollisionWith(*it1);
+								(*it1)->transform->CollisionWith((*it2)->transform);
+								(*it2)->transform->CollisionWith((*it1)->transform);
 							}
 						}
 						else // Entity 2 is pushed back
 						{
-							if ((*it2)->GetPosition().y > (*it1)->GetPosition().y)
-								(*it2)->Translate(glm::vec3(0.0f, pY, 0.0f));
+							if ((*it2)->transform->vectorPosition.y > (*it1)->transform->vectorPosition.y)
+								(*it2)->transform->Translate(vec3(0.0f, pY, 0.0f));
 							else
-								(*it2)->Translate(glm::vec3(0.0f, -pY, 0.0f));
+								(*it2)->transform->Translate(vec3(0.0f, -pY, 0.0f));
 
-							(*it1)->CollisionWith(*it2);
-							(*it2)->CollisionWith(*it1);
+							(*it1)->transform->CollisionWith((*it2)->transform);
+							(*it2)->transform->CollisionWith((*it1)->transform);
 						}
 					}
 					else
 					{
 						// Horizontal Collision
-						if (!(*it1)->IsStatic())
+						if (!(*it1)->transform->isStatic)
 						{
-							if (!(*it2)->IsStatic()) // Any of them are static.
+							if (!(*it2)->transform->isStatic) // Any of them are static.
 							{
 								// Acá haría los cálculos teniendo en cuenta las masas.
-								float m1 = (*it1)->GetMass();
-								float m2 = (*it2)->GetMass();
+								float m1 = (*it1)->transform->mass;
+								float m2 = (*it2)->transform->mass;
 
 								float mPercentage = (m1 + m2) / m1;
 								float move = pX / mPercentage;
 
-								(*it2)->Translate(glm::vec3(move, 0.0f, 0.0f));
-								(*it1)->Translate(glm::vec3(-pX + move, 0.0f, 0.0f));
+								(*it2)->transform->Translate(vec3(move, 0.0f, 0.0f));
+								(*it1)->transform->Translate(vec3(-pX + move, 0.0f, 0.0f));
 
-								(*it1)->CollisionWith(*it2);
-								(*it2)->CollisionWith(*it1);
+								(*it1)->transform->CollisionWith((*it2)->transform);
+								(*it2)->transform->CollisionWith((*it1)->transform);
 							}
 							else // Entity 1 is pushed back
 							{
-								if ((*it1)->GetPosition().x > (*it2)->GetPosition().x)
-									(*it1)->Translate(glm::vec3(pX, 0.0f, 0.0f));
+								if ((*it1)->transform->vectorPosition.x > (*it2)->transform->vectorPosition.x)
+									(*it1)->transform->Translate(vec3(pX, 0.0f, 0.0f));
 								else
-									(*it1)->Translate(glm::vec3(-pX, 0.0f, 0.0f));
+									(*it1)->transform->Translate(vec3(-pX, 0.0f, 0.0f));
 
-								(*it1)->CollisionWith(*it2);
-								(*it2)->CollisionWith(*it1);
+								(*it1)->transform->CollisionWith((*it2)->transform);
+								(*it2)->transform->CollisionWith((*it1)->transform);
 							}
 						}
 						else // Entity 2 is pushed back
 						{
-							if ((*it2)->GetPosition().x > (*it1)->GetPosition().x)
-								(*it2)->Translate(glm::vec3(pX, 0.0f, 0.0f));
+							if ((*it2)->transform->vectorPosition.x > (*it1)->transform->vectorPosition.x)
+								(*it2)->transform->Translate(vec3(pX, 0.0f, 0.0f));
 							else
-								(*it2)->Translate(glm::vec3(-pX, 0.0f, 0.0f));
+								(*it2)->transform->Translate(vec3(-pX, 0.0f, 0.0f));
 
-							(*it1)->CollisionWith(*it2);
-							(*it2)->CollisionWith(*it1);
+							(*it1)->transform->CollisionWith((*it2)->transform);
+							(*it2)->transform->CollisionWith((*it1)->transform);
 						}
 					}
 				}

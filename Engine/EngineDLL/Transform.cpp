@@ -13,6 +13,10 @@ void Transform::Start()
 	name = "Transform";
 	reqTransform = false;
 
+	SetLayer(Default);
+	isStatic = false;
+	mass = 1.0f;
+
 	vectorPosition = vectorRotation = vectorScale = vec3(0.0f);
 
 	model = lTransMat = wTransMat =
@@ -24,6 +28,8 @@ void Transform::Start()
 }
 void Transform::Update()
 {
+	if (collision) collision = NULL;
+
 	UpdateModel();
 }
 void Transform::Draw()
@@ -127,4 +133,9 @@ void Transform::RotateZ(float angle)
 	vectorRotation += vecAxis;
 
 	UpdateModel();
+}
+
+void Transform::SetLayer(Layers layer)
+{
+	this->layer = layer;
 }

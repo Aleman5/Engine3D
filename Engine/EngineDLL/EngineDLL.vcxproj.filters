@@ -93,6 +93,9 @@
     <ClInclude Include="Component.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
+    <ClInclude Include="Box.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameBase.cpp">
@@ -162,6 +165,9 @@
       <Filter>Archivos de origen</Filter>
     </ClCompile>
     <ClCompile Include="Component.cpp">
+      <Filter>Archivos de origen</Filter>
+    </ClCompile>
+    <ClCompile Include="Box.cpp">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
   </ItemGroup>

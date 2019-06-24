@@ -3,7 +3,7 @@
 #include <list>
 #include <vector>
 #include "Exports.h"
-#include "Entity.h"
+#include "Box.h"
 #include "Layers.h"
 
 using namespace std;
@@ -12,13 +12,13 @@ class ENGINEDLL_API CollisionManager
 {
 	static CollisionManager *instance;
 
-	vector<list<Entity*>> listsOfEntities;
+	vector<list<Box*>> listsOfBoxes;
 
-	bool tagsRelation[Count][Count];
+	bool layersRelation[Count][Count];
 
 	void MakeTheRealDetection(int index1, int index2);
 public:
-	void AddEntity(Entity* entity);
+	void AddBox(Box* box);
 	void SetRelation(int layer1, int layer2);
 	void DetectCollisions();
 

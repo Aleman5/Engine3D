@@ -12,6 +12,7 @@
 using namespace glm;
 
 #include "Component.h"
+#include "Layers.h"
 
 static enum Space
 {
@@ -21,12 +22,10 @@ static enum Space
 
 class ENGINEDLL_API Transform : public Component
 {
-protected:
-	vec3 vectorPosition;	// Actual Position
-	vec3 vectorRotation;	// Actual Rotation
-	vec3 vectorScale;		// Actual Scale
+	Layers layer;
+	Transform* collision;
 
-	mat4 model;				// Model Matrix
+	mat4 model;		// Model Matrix
 
 	// Local Matrix
 	mat4 lTransMat;	// Translation Matrix
@@ -43,6 +42,13 @@ protected:
 	mat4 wScaleMat;	// Scale Matrix
 
 public:
+	bool isStatic;	// IsStatic Yes/No
+	float mass;		// Actual mass
+
+	vec3 vectorPosition; // Actual Position
+	vec3 vectorRotation; // Actual Rotation
+	vec3 vectorScale;	 // Actual Scale
+
 	void Start() override;
 	void Update() override;
 	void Draw() override;
@@ -80,13 +86,19 @@ public:
 		float angle // Value in Z axis
 	);
 
+	void SetLayer(Layers layer);
+
+	void CollisionWith(Transform* collision) { this->collision = collision; };
+	Transform* OnCollisionEnter() { return collision; };
+
 	Transform* GetTransform() { return this; }		// Returns a pointer to this Transform
+	Layers GetLayer() { return layer; }				// Returns the actual layer
 	vec3 GetPosition() { return vectorPosition; }	// Returns the actual position
 	vec3 GetScale()	{ return vectorScale; }			// Returns the actual scale
 	vec3 GetRotation() { return vectorRotation; }	// Returns the actual rotation
 	mat4 GetModelMatrix() { return model; }			// Returns the Model Matix
-	mat4 GetLocalMatrix() { return lTransMat; } // Returns the local Translation Matrix
-	mat4 GetWorldMatrix() { return wTransMat; } // Returns the world Translation Matrix
+	mat4 GetLocalMatrix() { return lTransMat; }		// Returns the local Translation Matrix
+	mat4 GetWorldMatrix() { return wTransMat; }		// Returns the world Translation Matrix
 
 	Transform();
 	~Transform();

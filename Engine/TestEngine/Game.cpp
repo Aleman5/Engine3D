@@ -43,14 +43,17 @@ bool Game::OnStart()
 	camera = (Camera*)nCamera->AddComponent(new Camera(GetRenderer()));
 
 	nWeapon = new Node("M4A1", scene);
+	nWeapon->transform->SetLayer(Character);
 	nWeapon->transform->Teleport(0.0f, -100.0f, 0.0f);
 	nWeapon->AddComponent(new Mesh(GetRenderer(), matTexture, "M4A1\\M4A1.FBX", "M4A1\\M4A1Tex.bmp"));
 
 	nSpider = new Node("Spider", scene);
+	nSpider->transform->SetLayer(Enemy);
 	nSpider->transform->Teleport(-50.0f, -50.0f, 50.0f);
 	nSpider->AddComponent(new Mesh(GetRenderer(), matTexture, "spider.obj", "SpiderTex.bmp"));
 
 	nThorHammer = new Node("Thor Hammer", scene);
+	nThorHammer->transform->SetLayer(Wall);
 	nThorHammer->transform->Teleport(-50.0f, 50.0f, 50.0f);
 	nThorHammer->AddComponent(new Mesh(GetRenderer(), matTexture, "ThorHammer\\thorhammer.obj", "ThorHammer\\thorcolor.bmp"));
 
@@ -63,9 +66,11 @@ bool Game::OnStop()
 	delete matTexture;
 	delete matMesh;
 
+	delete nCamera;
 	delete nWeapon;
 	delete nSpider;
 	delete nThorHammer;
+	delete scene;
 
 	return true;
 }
