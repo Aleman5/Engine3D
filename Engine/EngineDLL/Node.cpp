@@ -20,9 +20,9 @@ void Node::Delete()
 {
 	while (components.size() > 0)
 	{
-		Component* cChild = components.back();
+		Component* component = components.back();
 		components.pop_back();
-		delete cChild;
+		delete component;
 	}
 
 	while (nodeChilds.size() > 0)
