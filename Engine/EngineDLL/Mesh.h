@@ -31,6 +31,6 @@ public:
 	bool LoadMesh(const string& fileName, const string& textureName);
 	
 
-	Mesh(Renderer* renderer, Material* material, const string modelPath, const string texturePath);
+	Mesh(Material* material, const string modelPath, const string texturePath);
 	~Mesh();
 };

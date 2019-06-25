@@ -21,6 +21,8 @@ enum CameraType
 
 class ENGINEDLL_API Renderer
 {
+	static Renderer *instance;
+
 	CameraType cameraType;
 
 	Window* window;			// Reference to the actual window
@@ -158,12 +160,19 @@ public:
 	unsigned int GetWindowWidht()  { return window->GetWidth();  };
 	unsigned int GetWindowHeight() { return window->GetHeight(); };
 	vec3 GetCameraPosition()	   { return eyePosition;		 };
-	mat4& GetProjMatrix()		   { return projectionMatrix;	 };
-	mat4& GetViewMatrix()		   { return viewMatrix;			 };
-	mat4& GetModelMatrix()		   { return modelMatrix;		 };
+	mat4 GetProjMatrix()		   { return projectionMatrix;	 };
+	mat4 GetViewMatrix()		   { return viewMatrix;			 };
+	mat4 GetModelMatrix()		   { return modelMatrix;		 };
 	mat4& GetMVP();
 
+	static Renderer* getInstance()
+	{
+		if (instance == NULL) instance = new Renderer();
+		return instance;
+	}
+	Renderer(Renderer const&) = delete;
+	void operator = (Renderer const&) = delete;
+private:
 	Renderer();
-	~Renderer();
 };
 

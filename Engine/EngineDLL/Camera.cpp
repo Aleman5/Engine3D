@@ -1,7 +1,6 @@
 #include "Camera.h"
 
-Camera::Camera(Renderer* renderer)
-	: renderer(renderer)
+Camera::Camera()
 {
 	Start();
 }
@@ -25,6 +24,7 @@ void Camera::Start()
 		(vec3)up
 	);
 
+	renderer = Renderer::getInstance();
 	renderer->SetCameraPosition(vMatrix);
 }
 

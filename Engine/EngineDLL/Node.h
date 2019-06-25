@@ -3,6 +3,7 @@
 #include <iostream>
 #include <vector>
 #include "Exports.h"
+#include "Renderer.h"
 #include "Component.h"
 #include "Transform.h"
 
@@ -10,6 +11,8 @@ using namespace std;
 
 class ENGINEDLL_API Node
 {
+	Renderer* renderer;
+
 	string name;
 	bool isActive;
 	vector<Node*> nodeChilds;

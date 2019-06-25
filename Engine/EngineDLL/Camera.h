@@ -47,6 +47,6 @@ public:
 	/// <summary>Returns the position</summary>
 	vec3 GetPosition() { return vec3(pos.x, pos.y, pos.z); };
 
-	Camera(Renderer* renderer);
+	Camera();
 	~Camera();
 };

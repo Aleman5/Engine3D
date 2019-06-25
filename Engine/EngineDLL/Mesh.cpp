@@ -1,7 +1,7 @@
 #include "Mesh.h"
 
-Mesh::Mesh(Renderer* renderer, Material* material, const string modelPath, const string texturePath)
-	: renderer(renderer), material(material), modelPath(modelPath), sTexturePath(texturePath)
+Mesh::Mesh(Material* material, const string modelPath, const string texturePath)
+	: material(material), modelPath(modelPath), sTexturePath(texturePath)
 {
 	Start();
 }
@@ -14,6 +14,8 @@ void Mesh::Start()
 {
 	name = "Mesh";
 	reqTransform = true;
+
+	renderer = Renderer::getInstance();
 
 	srand(time(0));
 
@@ -31,9 +33,6 @@ void Mesh::Update()
 
 void Mesh::Draw()
 {
-	renderer->loadIdentityMatrix();
-	renderer->SetModelMatrix(transform->GetModelMatrix());
-
 	if (material != NULL)
 	{
 		material->Bind("myTextureSampler", bufferTextures[0]);

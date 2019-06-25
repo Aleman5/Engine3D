@@ -1,10 +1,8 @@
 #include "Renderer.h"
 
-Renderer::Renderer()
-{
-}
+Renderer * Renderer::instance = NULL;
 
-Renderer::~Renderer()
+Renderer::Renderer()
 {
 }
 
@@ -52,6 +50,8 @@ bool Renderer::Start(Window* win)
 		eyePosition,
 		headUpPosition
 	);
+
+	modelMatrix = mat4(1.0f);
 
 	return true;
 }
@@ -360,7 +360,7 @@ void Renderer::SetProjPersp(float fovy, float aspect, float zNear, float zFar)
 	SetMVP();
 }
 
-glm::mat4& Renderer::GetMVP()
+mat4& Renderer::GetMVP()
 {
 	return MVP;
 }

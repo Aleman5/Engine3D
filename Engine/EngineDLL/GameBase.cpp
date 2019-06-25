@@ -8,10 +8,6 @@ GameBase::~GameBase()
 {
 }
 
-/*void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods)
-{
-}*/
-
 bool GameBase::Start(int width, int height, const char* windowMe)
 {
 	Defs* defs = Defs::getInstance();
@@ -28,10 +24,9 @@ bool GameBase::Start(int width, int height, const char* windowMe)
 		return false;
 	}
 
-	renderer = new Renderer();
+	renderer = Renderer::getInstance();
 	if (!renderer->Start(window))
 	{
-		delete renderer;
 		return false;
 	}
 
@@ -47,7 +42,6 @@ bool GameBase::Stop()
 	OnStop();
 
 	renderer->Stop();
-	delete renderer;
 
 	window->Stop();
 	delete window;

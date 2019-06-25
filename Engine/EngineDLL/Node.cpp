@@ -20,14 +20,16 @@ void Node::Delete()
 {
 	while (components.size() > 0)
 	{
-		delete components[components.size() - 1];
+		Component* cChild = components.back();
 		components.pop_back();
+		delete cChild;
 	}
 
 	while (nodeChilds.size() > 0)
 	{
-		delete nodeChilds[nodeChilds.size() - 1];
+		Node* nChild = nodeChilds.back();
 		nodeChilds.pop_back();
+		delete nChild;
 	}
 
 	if (parent)
@@ -41,6 +43,8 @@ void Node::Start()
 {
 	parent = NULL;
 	isActive = true;
+
+	renderer = Renderer::getInstance();
 
 	transform = new Transform();
 	AddComponent(transform);
@@ -62,13 +66,16 @@ void Node::Draw()
 {
 	if (isActive)
 	{
-		mat4 currentT;
+		mat4 currentModelMatrix = renderer->GetModelMatrix();
+		renderer->MultiplyModelMatrix(transform->GetModelMatrix());
 
 		for (int i = 0; i < components.size(); i++)
 			components[i]->Draw();
 
 		for (unsigned int i = 0; i < nodeChilds.size(); i++)
 			nodeChilds[i]->Draw();
+
+		renderer->SetModelMatrix(currentModelMatrix);
 	}
 }
 
