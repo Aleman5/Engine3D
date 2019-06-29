@@ -13,17 +13,9 @@
 #include <glm\gtx\transform.hpp>
 #include <glm\glm.hpp>
 
-enum CameraType
-{
-	Orthogonal = 0,
-	Perspective
-};
-
 class ENGINEDLL_API Renderer
 {
 	static Renderer *instance;
-
-	CameraType cameraType;
 
 	Window* window;			// Reference to the actual window
 
@@ -154,6 +146,7 @@ public:
 	void SetProjOrtho(float left, float right, float bottom, float top);
 	/// <summary>Updates the values of the orthographic projection</summary>
 	void SetProjOrtho(float left, float right, float bottom, float top, float zNear, float zFar);
+
 	/// <summary>Updates the values of the perspective projection</summary>
 	void SetProjPersp(float fovy, float aspect, float zNear, float zFar);
 
@@ -163,7 +156,7 @@ public:
 	mat4 GetProjMatrix()		   { return projectionMatrix;	 };
 	mat4 GetViewMatrix()		   { return viewMatrix;			 };
 	mat4 GetModelMatrix()		   { return modelMatrix;		 };
-	mat4& GetMVP();
+	mat4& GetMVP()				   { return MVP;				 };
 
 	static Renderer* getInstance()
 	{

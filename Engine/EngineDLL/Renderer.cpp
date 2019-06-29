@@ -11,7 +11,6 @@ bool Renderer::Start(Window* win)
 	window = win;
 
 	glfwMakeContextCurrent((GLFWwindow*)window->GetContext());
-
 	
 	glewExperimental = true;
 	if (glewInit() != GLEW_OK)
@@ -35,11 +34,6 @@ bool Renderer::Start(Window* win)
 	glGenVertexArrays(1, &VertexArrayID);
 	glBindVertexArray(VertexArrayID);
 
-	SetProjOrtho(0.0f, (float)window->GetWidth(), 0.0f, (float)window->GetHeight(), 0.0f, 4000.0f);
-	//projectionMatrix = glm::perspective(glm::radians(45.0f), 16.0f / 9.0f, 0.1f, 100.0f);
-
-	cameraType = Perspective;
-
 	//					   Default values
 	cameraPosition	= vec3(0, 0, -5);
 	eyePosition		= vec3(0, 0, 0);
@@ -51,7 +45,7 @@ bool Renderer::Start(Window* win)
 		headUpPosition
 	);
 
-	modelMatrix = mat4(1.0f);
+	modelMatrix = projectionMatrix = mat4(1.0f);
 
 	return true;
 }
@@ -349,7 +343,7 @@ void Renderer::SetProjOrtho(float left, float right, float bottom, float top)
 void Renderer::SetProjOrtho(float left, float right, float bottom, float top, float zNear, float zFar)
 {
 	projectionMatrix = glm::ortho(left, right, bottom, top, zNear, zFar);
-
+	
 	SetMVP();
 }
 
@@ -358,9 +352,4 @@ void Renderer::SetProjPersp(float fovy, float aspect, float zNear, float zFar)
 	projectionMatrix = glm::perspective(fovy, aspect, zNear, zFar);
 
 	SetMVP();
-}
-
-mat4& Renderer::GetMVP()
-{
-	return MVP;
 }

@@ -10,8 +10,6 @@ Game::~Game()
 
 bool Game::OnStart()
 {
-	GetRenderer()->SetProjPersp(glm::radians(45.0f), 4.0f / 3.0f, 0.1f, 1000.0f);
-
 	input = Input::getInstance();
 	input->SetWindowContext(GetWindow());
 
@@ -41,6 +39,8 @@ bool Game::OnStart()
 
 	nCamera = new Node("CameraHolder", scene);
 	camera = (Camera*)nCamera->AddComponent(new Camera());
+	camera->Walk(0.0f, -20.0f);
+	camera->SetAsMainCamera();
 
 	nWeapon = new Node("M4A1", scene);
 	nWeapon->transform->SetLayer(Character);
@@ -99,6 +99,16 @@ bool Game::OnUpdate()
 			camera->Yaw(cameraSpeed * Defs::getInstance()->deltaTime);
 		if (input->isInput(GLFW_KEY_G))
 			camera->Yaw(cameraSpeed * -Defs::getInstance()->deltaTime);
+
+		if ((input->isInput(GLFW_KEY_X)))
+		{
+			camera->SetAsMainCamera();
+		}
+
+		if ((input->isInput(GLFW_KEY_C)))
+		{
+			camera->RemoveAsMainCamera();
+		}
 
 		if ((input->isInput(GLFW_KEY_V)))
 		{
