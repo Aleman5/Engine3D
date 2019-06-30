@@ -12,6 +12,7 @@ struct Header {
 	unsigned int dataPos;		// Position of the Data
 	unsigned int width, height;	// Width and Height of the image
 	unsigned int imageSize;		// Size of the image
+	unsigned int imageFormat;	// Format of the image
 	unsigned char * data;		// Data of the image
 };
 static class TextureImporter
@@ -24,6 +25,9 @@ static class TextureImporter
 public:
 	static Header loadBMP_custom(
 		const char* imagePath	// Path of the image
+	);
+	static Header LoadImage(
+		const char* imagePath
 	);
 
 	TextureImporter();

@@ -45,17 +45,24 @@ bool Game::OnStart()
 	nWeapon = new Node("M4A1", scene);
 	nWeapon->transform->SetLayer(Character);
 	nWeapon->transform->Teleport(0.0f, -100.0f, 0.0f);
-	nWeapon->AddComponent(new Mesh(matTexture, "M4A1\\M4A1.FBX", "M4A1\\M4A1Tex.bmp"));
+	nWeapon->AddComponent(new Mesh(matTexture, "M4A1\\M4A1.FBX", "M4A1\\m4_diff.tga"));
 
 	nSpider = new Node("Spider", nWeapon);
 	nSpider->transform->SetLayer(Enemy);
 	nSpider->transform->Teleport(-50.0f, -50.0f, 50.0f);
 	nSpider->AddComponent(new Mesh(matTexture, "spider.obj", "SpiderTex.bmp"));
 
-	nThorHammer = new Node("Thor Hammer", scene);
+	/*nThorHammer = new Node("Thor Hammer", scene);
 	nThorHammer->transform->SetLayer(Wall);
 	nThorHammer->transform->Teleport(-50.0f, 50.0f, 50.0f);
 	nThorHammer->AddComponent(new Mesh(matTexture, "ThorHammer\\thorhammer.obj", "ThorHammer\\thorcolor.bmp"));
+	nThorHammer->DesactivateNode();*/
+
+	nHelicopter = new Node("Helicopter", scene);
+	nHelicopter->transform->SetLayer(Character);
+	nHelicopter->transform->Teleport(20.0f, 20.0f, 20.0f);
+	nHelicopter->transform->Scale(0.01f, 0.01f, 0.01f);
+	nHelicopter->AddComponent(new Mesh(matTexture, "Helicopter\\Lowpoly_Helicopter1.fbx", "Helicopter\\Palette.png"));
 
 	return true;
 }
@@ -134,13 +141,13 @@ bool Game::OnUpdate()
 				nSpider->ActivateNode();
 		}
 
-		if ((input->isInput(GLFW_KEY_M)))
+		/*if ((input->isInput(GLFW_KEY_M)))
 		{
 			if (nThorHammer->IsActive())
 				nThorHammer->DesactivateNode();
 			else
 				nThorHammer->ActivateNode();
-		}
+		}*/
 
 		if ((input->isInput(GLFW_KEY_J)))
 		{

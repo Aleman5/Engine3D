@@ -63,6 +63,7 @@ public:
 	unsigned int GenTexture(
 		unsigned int width,			// Width of the image
 		unsigned int height,		// Height of the image
+		unsigned int imageFormat,	// Format of the image
 		unsigned char* data			// Data of the file
 		);
 

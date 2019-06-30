@@ -11,7 +11,7 @@ bool ModelImporter::Import3DFromFile(const string& modelPath, const string& text
 	bool Ret = false;
 	Assimp::Importer Importer;
 
-	const aiScene* pScene = Importer.ReadFile(modelPath.c_str(), ASSIMP_LOAD_FLAGS);
+	const aiScene* pScene = Importer.ReadFile(modelPath.c_str(), ASSIMP_LOAD_FLAGS_TRIANG_FLIP);
 
 	if (pScene)
 		Ret = InitFromScene(pScene, texturePath, m_Entries, m_Textures, renderer);
@@ -30,12 +30,13 @@ bool ModelImporter::InitFromScene(const aiScene* pScene, const string& texturePa
 	for (unsigned int i = 0; i < m_Entries.size(); i++)
 	{
 		const aiMesh* paiMesh = pScene->mMeshes[i];
+		
 		InitMesh(i, paiMesh, m_Entries, renderer);
 	}
 
 	// Init of the Textures
 	for (unsigned int i = 0; i < pScene->mNumMaterials; i++)
-		m_Textures[i] = TextureImporter::loadBMP_custom(texturePath.c_str());
+		m_Textures[i] = TextureImporter::LoadImage(texturePath.c_str());
 
 	return true;
 }

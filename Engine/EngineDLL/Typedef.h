@@ -5,3 +5,4 @@
 #pragma comment (lib, "opengl32.lib")
 #pragma comment (lib, "glu32.lib")
 #pragma comment (lib, "..\\External\\Assimp\\lib\\Win32\\assimp-vc140-mt.lib")
+#pragma comment (lib, "..\\External\\SOIL\\lib\\Debug\\SOIL.lib")

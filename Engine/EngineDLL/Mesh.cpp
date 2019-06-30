@@ -64,7 +64,7 @@ bool Mesh::LoadMesh(const string& fileName, const string& textureName)
 	bool state = ModelImporter::getInstance()->Import3DFromFile(fileName, textureName, m_Entries, m_Textures, renderer);
 
 	for (int i = 0; i < m_Textures.size(); i++)
-		bufferTextures.push_back(renderer->GenTexture(m_Textures[i].width, m_Textures[i].height, m_Textures[i].data));
+		bufferTextures.push_back(renderer->GenTexture(m_Textures[i].width, m_Textures[i].height, m_Textures[i].imageFormat, m_Textures[i].data));
 
 	return state;
 }

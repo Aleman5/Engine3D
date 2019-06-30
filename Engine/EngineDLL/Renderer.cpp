@@ -99,7 +99,7 @@ unsigned int Renderer::GenElementBuffer(vector<unsigned int> indices)
 	return elementbuffer;
 }
 
-unsigned int Renderer::GenTexture(unsigned int width, unsigned int height, unsigned char* data)
+unsigned int Renderer::GenTexture(unsigned int width, unsigned int height, unsigned int imageFormat, unsigned char* data)
 {
 	// Identificar el vertex buffer
 	unsigned int vertexbuffer;
@@ -109,12 +109,26 @@ unsigned int Renderer::GenTexture(unsigned int width, unsigned int height, unsig
 	glBindTexture(GL_TEXTURE_2D, vertexbuffer);
 
 	// Se le pasa la imagen a OpenGL
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_BGR, GL_UNSIGNED_BYTE, data);
+	glTexImage2D(GL_TEXTURE_2D, 0, imageFormat, width, height, 0, imageFormat, GL_UNSIGNED_BYTE, data);
+	//glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_BGR, GL_UNSIGNED_BYTE, data);
 
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-
+	
 	return vertexbuffer;
+
+	/*unsigned int textureID;
+
+	glGenTextures(1, &textureID);
+	glBindTexture(GL_TEXTURE_2D, textureID);
+	glTexImage2D(GL_TEXTURE_2D, 0, imageFormat, width, height, 0, imageFormat, GL_UNSIGNED_BYTE, data);
+	glGenerateMipmap(GL_TEXTURE_2D);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+
+	return textureID;*/
 }
 
 unsigned int Renderer::GenTilemapTexture(unsigned int width, unsigned int height, unsigned char* data)

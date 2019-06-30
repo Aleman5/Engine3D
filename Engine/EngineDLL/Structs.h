@@ -15,6 +15,7 @@
 
 #define SAFE_DELETE(p) if (p) { delete p; p = NULL; }
 #define ASSIMP_LOAD_FLAGS (aiProcess_Triangulate | aiProcess_GenSmoothNormals | aiProcess_JoinIdenticalVertices)
+#define ASSIMP_LOAD_FLAGS_TRIANG_FLIP (aiProcess_Triangulate | aiProcess_FlipUVs)
 
 using namespace std;
 

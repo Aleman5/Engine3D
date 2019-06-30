@@ -37,6 +37,7 @@ class Game : public GameBase
 	Node* nWeapon;
 	Node* nSpider;
 	Node* nThorHammer;
+	Node* nHelicopter;
 
 	float speed;
 

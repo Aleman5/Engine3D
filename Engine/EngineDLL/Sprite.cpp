@@ -39,7 +39,7 @@ Sprite::Sprite(
 	drawMode = GL_TRIANGLE_STRIP;
 
 	bufferId = SetVertices(verticesData, count);
-	textureId = renderer->GenTexture(header.width, header.height, header.data);
+	textureId = renderer->GenTexture(header.width, header.height, header.imageFormat, header.data);
 
 	unsigned int frames[1] = { 0 };
 	if (isAnimated) anim = new Animation(this, frames, true, 10.0f);
