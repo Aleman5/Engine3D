@@ -96,7 +96,7 @@ public:
 	vec3 GetPosition() { return vectorPosition; }	// Returns the actual position
 	vec3 GetScale()	{ return vectorScale; }			// Returns the actual scale
 	vec3 GetRotation() { return vectorRotation; }	// Returns the actual rotation
-	mat4 GetModelMatrix() { return model; }			// Returns the Model Matix
+	mat4 GetModelMatrix() { return model; }			// Returns the Model Matrix
 	mat4 GetLocalMatrix() { return lTransMat; }		// Returns the local Translation Matrix
 	mat4 GetWorldMatrix() { return wTransMat; }		// Returns the world Translation Matrix
 

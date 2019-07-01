@@ -21,13 +21,13 @@ using namespace std;
 
 struct Vertex
 {
-	glm::vec3 m_pos;
-	glm::vec2 m_tex;
-	glm::vec3 m_normal;
+	vec3 m_pos;
+	vec2 m_tex;
+	vec3 m_normal;
 
 	Vertex() {}
 
-	Vertex(const glm::vec3& pos, const glm::vec2& tex, const glm::vec3& normal)
+	Vertex(const vec3& pos, const vec2& tex, const vec3& normal)
 	{
 		m_pos = pos;
 		m_tex = tex;
@@ -38,8 +38,8 @@ struct Vertex
 struct MeshEntry
 {
 	void Init(
-		const std::vector<Vertex>& Vertices,
-		const std::vector<unsigned int>& Indices,
+		const vector<Vertex>& Vertices,
+		const vector<unsigned int>& Indices,
 		Renderer* renderer
 	);
 
@@ -53,4 +53,43 @@ struct MeshEntry
 
 	MeshEntry();
 	~MeshEntry();
+};
+
+struct FCCubeData
+{
+	/*vec3 Top_Right_Far;
+	vec3 Top_Right_Near;
+	vec3 Top_Left_Far;
+	vec3 Top_Left_Near;
+	vec3 Bottom_Right_Far;
+	vec3 Bottom_Right_Near;
+	vec3 Bottom_Left_Far;
+	vec3 Bottom_Left_Near;*/
+
+	vec4* vertex;
+
+	FCCubeData() {}
+
+	FCCubeData(const float minX, const float minY, const float minZ, const float maxX, const float maxY, const float maxZ)
+	{
+	  /*Top_Right_Far.x = maxX;		Top_Right_Near.x = maxX;	 Top_Left_Far.x = minX;		Top_Left_Near.x = minX;
+		Top_Right_Far.y = maxY;		Top_Right_Near.y = maxY;	 Top_Left_Far.y = maxY;		Top_Left_Near.y = maxY;
+		Top_Right_Far.z = maxZ;		Top_Right_Near.z = minZ;	 Top_Left_Far.z = maxZ;		Top_Left_Near.z = minZ;
+
+		Bottom_Right_Far.x = maxX;  Bottom_Right_Near.x = maxX;  Bottom_Left_Far.x = minX;  Bottom_Left_Near.x = minX;
+		Bottom_Right_Far.y = minY;	Bottom_Right_Near.y = minY;	 Bottom_Left_Far.y = minY;	Bottom_Left_Near.y = minY;
+		Bottom_Right_Far.z = maxZ;	Bottom_Right_Near.z = minZ;	 Bottom_Left_Far.z = maxZ;	Bottom_Left_Near.z = minZ;*/
+
+		vertex = new vec4[8];
+
+		vertex[0].x = maxX;	 vertex[1].x = maxX;  vertex[2].x = minX;  vertex[3].x = minX;
+		vertex[0].y = maxY;	 vertex[1].y = maxY;  vertex[2].y = maxY;  vertex[3].y = maxY;
+		vertex[0].z = maxZ;	 vertex[1].z = minZ;  vertex[2].z = maxZ;  vertex[3].z = minZ;
+		vertex[0].w = 1.0f;	 vertex[1].w = 1.0f;  vertex[2].w = 1.0f;  vertex[3].w = 1.0f;
+							 					 					  
+		vertex[4].x = maxX;  vertex[5].x = maxX;  vertex[6].x = minX;  vertex[7].x = minX;
+		vertex[4].y = minY;	 vertex[5].y = minY;  vertex[6].y = minY;  vertex[7].y = minY;
+		vertex[4].z = maxZ;	 vertex[5].z = minZ;  vertex[6].z = maxZ;  vertex[7].z = minZ;
+		vertex[4].w = 1.0f;	 vertex[5].w = 1.0f;  vertex[6].w = 1.0f;  vertex[7].w = 1.0f;
+	}
 };

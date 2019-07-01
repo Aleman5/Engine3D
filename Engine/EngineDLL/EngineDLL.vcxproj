@@ -76,7 +76,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <PreprocessorDefinitions>_WINDLL;%(PreprocessorDefinitions);ENGINEDLL_EXPORTS</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_WINDLL;GLM_ENABLE_EXPERIMENTAL;ENGINEDLL_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(SolutionDir)External\glew-2.1.0\include;$(SolutionDir)External\glfw-3.2.1\include;$(SolutionDir)External\glm-0.9.9.0;$(SolutionDir)External\Assimp\include;$(SolutionDir)External\SOIL\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
@@ -118,6 +118,7 @@ copy "$(SolutionDir)External\Assimp\bin\x64\*.dll" "$(OutDir)"</Command>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
+      <PreprocessorDefinitions>_WINDLL;GLM_ENABLE_EXPERIMENTAL;ENGINEDLL_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>

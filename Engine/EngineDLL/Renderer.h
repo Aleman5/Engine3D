@@ -13,6 +13,17 @@
 #include <glm\gtx\transform.hpp>
 #include <glm\glm.hpp>
 
+struct Plane
+{
+	float a, b, c, d;
+};
+
+enum Halfspace
+{
+	NEGATIVE = -1,
+	POSITIVE =  1
+};
+
 class ENGINEDLL_API Renderer
 {
 	static Renderer *instance;
@@ -25,13 +36,18 @@ class ENGINEDLL_API Renderer
 	vec3 eyePosition;		// Actual position of the Camera
 	vec3 headUpPosition;	// Head Up of the Camera
 
-	mat4 modelMatrix;		// Position of the entity based on the origin
-	mat4 viewMatrix;		// Position of the entity based on the camera
-	mat4 projectionMatrix;	// Position of the entity based on the frustum of the camera
+	mat4 modelMatrix;		// Position of the transform based on the origin
+	mat4 viewMatrix;		// Position of the transform based on the camera
+	mat4 projectionMatrix;	// Position of the transform based on the frustum of the camera
 	mat4 MVP;				// The final position of the entity in world space
+
+	Plane* planes;
 
 	mat4 orthoMatrix;
 	mat4 perspMatrix;
+
+	void ExtractPlanes();
+	void NormalizePlanes();
 
 public:
 	bool Start(
@@ -151,8 +167,11 @@ public:
 	/// <summary>Updates the values of the perspective projection</summary>
 	void SetProjPersp(float fovy, float aspect, float zNear, float zFar);
 
+	Halfspace ClassifyPoint(const Plane& plane, const vec4& vertex);
+
 	unsigned int GetWindowWidht()  { return window->GetWidth();  };
 	unsigned int GetWindowHeight() { return window->GetHeight(); };
+	Plane* GetPlanes()			   { return planes;				 };
 	vec3 GetCameraPosition()	   { return eyePosition;		 };
 	mat4 GetProjMatrix()		   { return projectionMatrix;	 };
 	mat4 GetViewMatrix()		   { return viewMatrix;			 };

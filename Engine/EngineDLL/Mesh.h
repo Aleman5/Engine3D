@@ -21,6 +21,7 @@ protected:
 	vector<unsigned int> bufferTextures;
 	vector<MeshEntry> m_Entries;
 	vector<Header> m_Textures;
+	FCCubeData fcData;
 
 public:
 	void Start() override;
