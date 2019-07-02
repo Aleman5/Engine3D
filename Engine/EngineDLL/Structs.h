@@ -39,8 +39,7 @@ struct MeshEntry
 {
 	void Init(
 		const vector<Vertex>& Vertices,
-		const vector<unsigned int>& Indices,
-		Renderer* renderer
+		const vector<unsigned int>& Indices
 	);
 
 	unsigned int verticesBuffer;

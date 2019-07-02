@@ -1,4 +1,4 @@
-#pragma once
+/*#pragma once
 
 #include <iostream>
 #include <fstream>
@@ -29,11 +29,11 @@ class ENGINEDLL_API ModelImporter
 	const aiScene* scene = NULL;
 	Assimp::Importer importer;
 	
-	bool InitFromScene(const aiScene* pScene, const string& texturePath, vector<MeshEntry>& m_Entries, vector<Header>& m_Textures, FCCubeData& fcData, Renderer* renderer);
-	void InitMesh(unsigned int Index, const aiMesh* paiMesh, vector<MeshEntry>& m_Entries, FCCubeData& fcData, Renderer* renderer);
+	bool InitFromScene(const aiScene* pScene, Mesh* mesh);
+	void InitMesh(unsigned int Index, const aiMesh* paiMesh, Mesh* mesh);
 
 public:
-	bool Import3DFromFile(const string& modelPath, const string& texturePath, vector<MeshEntry>& m_Entries, vector<Header>& m_Textures, FCCubeData& fcData, Renderer* renderer);
+	bool Import3DFromFile(Mesh* mesh);
 
 	static ModelImporter* getInstance()
 	{
@@ -45,5 +45,4 @@ public:
 
 private:
 	ModelImporter();
-};
-
+};*/

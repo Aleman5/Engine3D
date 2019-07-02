@@ -17,14 +17,13 @@ void Mesh::Start()
 
 	renderer = Renderer::getInstance();
 
-	srand(time(0));
-
 	fcData = FCCubeData();
-	LoadMesh(modelPath, sTexturePath);
 
 	this->texturePath = new char[sTexturePath.size() + 1];
 	sTexturePath.copy(this->texturePath, sTexturePath.size() + 1);
 	this->texturePath[sTexturePath.size()] = '\0';
+	
+	Import3DFromFile();
 
 	debugMode = false;
 }
@@ -150,16 +149,6 @@ void Mesh::SetTransform(Transform* transform)
 	this->transform = transform;
 }
 
-bool Mesh::LoadMesh(const string& fileName, const string& textureName)
-{
-	bool state = ModelImporter::getInstance()->Import3DFromFile(fileName, textureName, m_Entries, m_Textures, fcData, renderer);
-
-	for (int i = 0; i < m_Textures.size(); i++)
-		bufferTextures.push_back(renderer->GenTexture(m_Textures[i].width, m_Textures[i].height, m_Textures[i].imageFormat, m_Textures[i].data));
-
-	return state;
-}
-
 void Mesh::ActivateDebugMode()
 {
 	debugMode = true;
@@ -168,4 +157,88 @@ void Mesh::ActivateDebugMode()
 void Mesh::DesactivateDebugMode()
 {
 	debugMode = false;
+}
+
+bool Mesh::Import3DFromFile()
+{
+	bool Ret = false;
+	Assimp::Importer Importer;
+
+	const aiScene* pScene = Importer.ReadFile(modelPath.c_str(), ASSIMP_LOAD_FLAGS_TRIANG_FLIP);
+
+	if (pScene)
+		Ret = InitFromScene(pScene);
+	else
+		printf("Error parsing '%s': '%s'\n", modelPath.c_str(), Importer.GetErrorString());
+
+	return Ret;
+}
+
+bool Mesh::InitFromScene(const aiScene* pScene)
+{
+	m_Entries.resize(pScene->mNumMeshes);
+	m_Textures.resize(pScene->mNumMaterials);
+
+	// Initialize the meshes in the scene one by one
+	for (unsigned int i = 0; i < m_Entries.size(); i++)
+	{
+		const aiMesh* paiMesh = pScene->mMeshes[i];
+
+		InitMesh(i, paiMesh);
+	}
+
+	fcData.UpdateData();
+
+	// Init of the Textures
+	for (unsigned int i = 0; i < pScene->mNumMaterials; i++)
+		m_Textures[i] = TextureImporter::LoadImage(texturePath);
+	
+	InitTexture(); // For the textures I should do something like the meshes.
+
+	return true;
+}
+
+void Mesh::InitMesh(unsigned int Index, const aiMesh* paiMesh)
+{
+	m_Entries[Index].MaterialIndex = paiMesh->mMaterialIndex;
+
+	vector<Vertex> Vertices;
+	vector<unsigned int> Indices;
+
+	const aiVector3D Zero3D(0.0f, 0.0f, 0.0f);
+
+	float minX = 999999.0f, minY = 999999.0f, minZ = 999999.0f;
+	float maxX = -999999.0f, maxY = -999999.0f, maxZ = -999999.0f;
+
+	for (unsigned int i = 0; i < paiMesh->mNumVertices; i++)
+	{
+		const aiVector3D* pPos = &(paiMesh->mVertices[i]);
+		const aiVector3D* pNormal = &(paiMesh->mNormals[i]);
+		const aiVector3D* pTexCoord = paiMesh->HasTextureCoords(0) ? &(paiMesh->mTextureCoords[0][i]) : &Zero3D;
+
+		Vertex v(vec3((float)pPos->x, (float)pPos->y, (float)pPos->z),
+			vec2((float)pTexCoord->x, (float)pTexCoord->y),
+			vec3((float)pNormal->x, (float)pNormal->y, (float)pNormal->z));
+
+		fcData.NewValue(v.m_pos);
+
+		Vertices.push_back(v);
+	}
+
+	for (unsigned int i = 0; i < paiMesh->mNumFaces; i++)
+	{
+		const aiFace& Face = paiMesh->mFaces[i];
+		assert(Face.mNumIndices == 3);
+		Indices.push_back(Face.mIndices[0]);
+		Indices.push_back(Face.mIndices[1]);
+		Indices.push_back(Face.mIndices[2]);
+	}
+
+	m_Entries[Index].Init(Vertices, Indices);
+}
+
+void Mesh::InitTexture()
+{
+	for (int i = 0; i < m_Textures.size(); i++)
+		bufferTextures.push_back(renderer->GenTexture(m_Textures[i].width, m_Textures[i].height, m_Textures[i].imageFormat, m_Textures[i].data));
 }

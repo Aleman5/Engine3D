@@ -14,7 +14,7 @@ MeshEntry::~MeshEntry()
 	if (indicesBuffer != NULL) glDeleteBuffers(1, &indicesBuffer);
 }
 
-void MeshEntry::Init(const vector<Vertex>& Vertices, const vector<unsigned int>& Indices, Renderer* renderer)
+void MeshEntry::Init(const vector<Vertex>& Vertices, const vector<unsigned int>& Indices)
 {
 	NumIndices = Indices.size();
 
@@ -33,6 +33,8 @@ void MeshEntry::Init(const vector<Vertex>& Vertices, const vector<unsigned int>&
 		normals[i * 3 + 1] = Vertices[i].m_normal.y;
 		normals[i * 3 + 2] = Vertices[i].m_normal.z;
 	}
+
+	Renderer* renderer = Renderer::getInstance();
 
 	//verticesBuffer = renderer->GenVertexBuffer(Vertices);
 	verticesBuffer = renderer->GenBuffer(positions, sizeof(float) * Vertices.size() * 3);
