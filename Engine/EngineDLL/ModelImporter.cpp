@@ -34,6 +34,8 @@ bool ModelImporter::InitFromScene(const aiScene* pScene, const string& texturePa
 		InitMesh(i, paiMesh, m_Entries, fcData, renderer);
 	}
 
+	fcData.UpdateData();
+
 	// Init of the Textures
 	for (unsigned int i = 0; i < pScene->mNumMaterials; i++)
 		m_Textures[i] = TextureImporter::LoadImage(texturePath.c_str());
@@ -63,14 +65,7 @@ void ModelImporter::InitMesh(unsigned int Index, const aiMesh* paiMesh, vector<M
 			vec2((float)pTexCoord->x, (float)pTexCoord->y),
 			vec3((float)pNormal->x, (float)pNormal->y, (float)pNormal->z));
 
-		if (pPos->x > maxX) maxX = pPos->x;
-		if (pPos->x < minX) minX = pPos->x;
-		if (pPos->y > maxY) maxY = pPos->y;
-		if (pPos->y < minY) minY = pPos->y;
-		if (pPos->z > maxZ) maxZ = pPos->z;
-		if (pPos->z < minZ) minZ = pPos->z;
-
-		fcData = FCCubeData(minX, minY, minZ, maxX, maxY, maxZ);
+		fcData.NewValue(v.m_pos);
 
 		Vertices.push_back(v);
 	}

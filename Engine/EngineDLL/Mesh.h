@@ -23,6 +23,8 @@ protected:
 	vector<Header> m_Textures;
 	FCCubeData fcData;
 
+	void DrawFCData();
+
 public:
 	void Start() override;
 	void Update() override;

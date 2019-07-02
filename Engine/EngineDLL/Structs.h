@@ -57,20 +57,23 @@ struct MeshEntry
 
 struct FCCubeData
 {
-	/*vec3 Top_Right_Far;
-	vec3 Top_Right_Near;
-	vec3 Top_Left_Far;
-	vec3 Top_Left_Near;
-	vec3 Bottom_Right_Far;
-	vec3 Bottom_Right_Near;
-	vec3 Bottom_Left_Far;
-	vec3 Bottom_Left_Near;*/
+	/*vec3 Top_Right_Far;	0
+	vec3 Top_Right_Near;	1
+	vec3 Top_Left_Far;		2
+	vec3 Top_Left_Near;		3
+	vec3 Bottom_Right_Far;	4
+	vec3 Bottom_Right_Near;	5
+	vec3 Bottom_Left_Far;	6
+	vec3 Bottom_Left_Near;  7 */
 
 	vec4* vertex;
 
-	FCCubeData() {}
+	float minX = 999999.0f, minY = 999999.0f, minZ = 999999.0f;
+	float maxX = -999999.0f, maxY = -999999.0f, maxZ = -999999.0f;
 
-	FCCubeData(const float minX, const float minY, const float minZ, const float maxX, const float maxY, const float maxZ)
+	FCCubeData() { vertex = new vec4[8]; }
+
+	void UpdateData()
 	{
 	  /*Top_Right_Far.x = maxX;		Top_Right_Near.x = maxX;	 Top_Left_Far.x = minX;		Top_Left_Near.x = minX;
 		Top_Right_Far.y = maxY;		Top_Right_Near.y = maxY;	 Top_Left_Far.y = maxY;		Top_Left_Near.y = maxY;
@@ -91,5 +94,15 @@ struct FCCubeData
 		vertex[4].y = minY;	 vertex[5].y = minY;  vertex[6].y = minY;  vertex[7].y = minY;
 		vertex[4].z = maxZ;	 vertex[5].z = minZ;  vertex[6].z = maxZ;  vertex[7].z = minZ;
 		vertex[4].w = 1.0f;	 vertex[5].w = 1.0f;  vertex[6].w = 1.0f;  vertex[7].w = 1.0f;
+	}
+
+	void NewValue(const vec3 newValue)
+	{
+		if (newValue.x > maxX) maxX = newValue.x;
+		if (newValue.x < minX) minX = newValue.x;
+		if (newValue.y > maxY) maxY = newValue.y;
+		if (newValue.y < minY) minY = newValue.y;
+		if (newValue.z > maxZ) maxZ = newValue.z;
+		if (newValue.z < minZ) minZ = newValue.z;
 	}
 };
