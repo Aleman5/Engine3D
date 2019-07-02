@@ -17,6 +17,8 @@ class ENGINEDLL_API Mesh : public Component
 	const string sTexturePath;
 	char* texturePath;
 
+	bool debugMode;
+
 protected:
 	vector<unsigned int> bufferTextures;
 	vector<MeshEntry> m_Entries;
@@ -33,6 +35,8 @@ public:
 
 	bool LoadMesh(const string& fileName, const string& textureName);
 	
+	void ActivateDebugMode();
+	void DesactivateDebugMode();
 
 	Mesh(Material* material, const string modelPath, const string texturePath);
 	~Mesh();

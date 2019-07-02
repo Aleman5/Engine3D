@@ -25,6 +25,8 @@ void Mesh::Start()
 	this->texturePath = new char[sTexturePath.size() + 1];
 	sTexturePath.copy(this->texturePath, sTexturePath.size() + 1);
 	this->texturePath[sTexturePath.size()] = '\0';
+
+	debugMode = false;
 }
 
 void Mesh::Update()
@@ -48,8 +50,14 @@ void Mesh::Draw()
 				break;
 			}
 		}
-		if (allBehind) return;
+		if (allBehind)
+		{
+			if (debugMode) cout << "Not drawing" << endl;
+			return;
+		}
 	}
+
+	if (debugMode) cout << "Drawing" << endl;
 
 	if (material != NULL)
 	{
@@ -68,7 +76,7 @@ void Mesh::Draw()
 		renderer->DrawElementBuffer(m_Entries[i].NumIndices);
 	}
 
-	//DrawFCData();
+	if (debugMode) DrawFCData();
 
 	renderer->DisableAttributes(0);
 	renderer->DisableAttributes(1);
@@ -150,4 +158,14 @@ bool Mesh::LoadMesh(const string& fileName, const string& textureName)
 		bufferTextures.push_back(renderer->GenTexture(m_Textures[i].width, m_Textures[i].height, m_Textures[i].imageFormat, m_Textures[i].data));
 
 	return state;
+}
+
+void Mesh::ActivateDebugMode()
+{
+	debugMode = true;
+}
+
+void Mesh::DesactivateDebugMode()
+{
+	debugMode = false;
 }

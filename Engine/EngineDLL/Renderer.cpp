@@ -394,7 +394,7 @@ void Renderer::SetProjPersp(float fovy, float aspect, float zNear, float zFar)
 
 void Renderer::ExtractPlanes()
 {
-	mat4 comboMatrix = projectionMatrix * viewMatrix;
+	mat4 comboMatrix = viewMatrix * projectionMatrix;
 
 	/*cout << "ComboMatrix" << endl;
 	cout << comboMatrix[0][0] << " " << comboMatrix[0][1] << " " << comboMatrix[0][2] << " " << comboMatrix[0][3] << endl;
