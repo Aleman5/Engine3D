@@ -48,7 +48,7 @@ bool Renderer::Start(Window* win)
 	modelMatrix = projectionMatrix = mat4(1.0f);
 
 	planes = new Plane[6];
-	ExtractPlanes();
+	ExtractPlanes(viewMatrix);
 
 	return true;
 }
@@ -242,7 +242,6 @@ void Renderer::MoveCamera(vec3 newPos)
 		headUpPosition
 	);
 
-	ExtractPlanes();
 	SetMVP();
 }
 
@@ -253,7 +252,6 @@ void Renderer::RotateCamera(vec3 rot)
 	viewMatrix = rotate(viewMatrix, rot.z, vec3(0.0f, 0.0f, 1.0f));
 	modelMatrix= scale (mat4(1.0f), vec3(0.5f));
 
-	ExtractPlanes();
 	SetMVP();
 }
 
@@ -271,7 +269,6 @@ void Renderer::ResetCamera(float x, float y)
 		headUpPosition
 	);
 
-	ExtractPlanes();
 	SetMVP();
 }
 
@@ -306,7 +303,6 @@ void Renderer::SetCameraPosition(mat4 newPosition)
 {
 	viewMatrix = newPosition;
 
-	ExtractPlanes();
 	SetMVP();
 }
 
@@ -320,51 +316,6 @@ void Renderer::SetCameraPosition(float x, float y, float z)
 		headUpPosition
 	);
 
-	ExtractPlanes();
-	SetMVP();
-}
-
-void Renderer::SetCameraEyePosition(mat4 newPosition)
-{
-	viewMatrix = newPosition;
-
-	ExtractPlanes();
-	SetMVP();
-}
-
-void Renderer::SetCameraEyePosition(float x, float y, float z)
-{
-	eyePosition += vec3(x, y, z);
-
-	viewMatrix = glm::lookAt(
-		cameraPosition,
-		eyePosition,
-		headUpPosition
-	);
-
-	ExtractPlanes();
-	SetMVP();
-}
-
-void Renderer::SetHeadUpPosition(mat4 newPosition)
-{
-	viewMatrix = newPosition;
-
-	ExtractPlanes();
-	SetMVP();
-}
-
-void Renderer::SetHeadUpPosition(float x, float y, float z)
-{
-	headUpPosition += vec3(x, y, z);
-
-	viewMatrix = glm::lookAt(
-		cameraPosition,
-		eyePosition,
-		headUpPosition
-	);
-
-	ExtractPlanes();
 	SetMVP();
 }
 
@@ -372,7 +323,6 @@ void Renderer::SetProjOrtho(float left, float right, float bottom, float top)
 {
 	projectionMatrix = glm::ortho(left, right, bottom, top);
 
-	ExtractPlanes();
 	SetMVP();
 }
 
@@ -380,7 +330,6 @@ void Renderer::SetProjOrtho(float left, float right, float bottom, float top, fl
 {
 	projectionMatrix = glm::ortho(left, right, bottom, top, zNear, zFar);
 	
-	ExtractPlanes();
 	SetMVP();
 }
 
@@ -388,11 +337,10 @@ void Renderer::SetProjPersp(float fovy, float aspect, float zNear, float zFar)
 {
 	projectionMatrix = glm::perspective(fovy, aspect, zNear, zFar);
 
-	ExtractPlanes();
 	SetMVP();
 }
 
-void Renderer::ExtractPlanes()
+void Renderer::ExtractPlanes(mat4 viewMatrix)
 {
 	mat4 comboMatrix = viewMatrix * projectionMatrix;
 

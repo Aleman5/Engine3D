@@ -26,7 +26,7 @@ enum Halfspace
 
 class ENGINEDLL_API Renderer
 {
-	static Renderer *instance;
+	static Renderer* instance;
 
 	Window* window;			// Reference to the actual window
 
@@ -38,6 +38,7 @@ class ENGINEDLL_API Renderer
 
 	mat4 modelMatrix;		// Position of the transform based on the origin
 	mat4 viewMatrix;		// Position of the transform based on the camera
+	mat4 debugViewMatrix;	// Position of the transform based on the camera
 	mat4 projectionMatrix;	// Position of the transform based on the frustum of the camera
 	mat4 MVP;				// The final position of the entity in world space
 
@@ -46,7 +47,7 @@ class ENGINEDLL_API Renderer
 	mat4 orthoMatrix;
 	mat4 perspMatrix;
 
-	void ExtractPlanes();
+	
 	void NormalizePlanes();
 
 public:
@@ -137,27 +138,18 @@ public:
 
 	void loadIdentityMatrix();
 	void SetModelMatrix(
-		glm::mat4 model				// Model matrix of the entity
+		mat4 model			// Model matrix of the entity
 	);
 	void MultiplyModelMatrix(
-		glm::mat4 model				// Model matrix of the entity
+		mat4 model			// Model matrix of the entity
 	); 
 	void SetMVP();
+	void ExtractPlanes(mat4 viewMatrix);
 
 	/// <summary>Updates the position of the camera</summary>
 	void SetCameraPosition(mat4 position);
 	/// <summary>Updates the position of the camera</summary>
 	void SetCameraPosition(float x, float y, float z);
-
-	/// <summary>Updates the position of the camera</summary>
-	void SetCameraEyePosition(mat4 newEyePosition);
-	/// <summary>Updates the position of the camera</summary>
-	void SetCameraEyePosition(float x, float y, float z);
-	
-	/// <summary>Updates the position of the camera</summary>
-	void SetHeadUpPosition(mat4 newEyePosition);
-	/// <summary>Updates the position of the camera</summary>
-	void SetHeadUpPosition(float x, float y, float z);
 
 	/// <summary>Updates the values of the orthographic projection</summary>
 	void SetProjOrtho(float left, float right, float bottom, float top);

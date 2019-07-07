@@ -10,6 +10,12 @@ enum CameraType
 	Perspective
 };
 
+enum Direction
+{
+	BACK = -1,
+	ADVANCE = 1
+};
+
 struct sOrthogonal
 {
 	float left;
@@ -55,6 +61,10 @@ class ENGINEDLL_API Camera : public Component
 	vec4 fwd;
 	vec4 pos;
 
+	float speed;
+
+	bool debugMode;
+	bool isMainDebugCamera;
 	bool isMainCamera;
 
 public:
@@ -63,11 +73,41 @@ public:
 	void Draw() override;
 	void SetTransform(Transform* transform) override;
 
-	/// <summary>Affects on the 'z' axis
+	void UpdateRendererPos();
+
+	/// <summary>Affects on position
 	/// <para>Camera goes 'forward'</para>
+	/// <para>Camera goes 'right'</para>
+	/// <para>Camera goes 'up'</para>
+	/// <param name="mount">How much the camera moves</param>
+	/// </summary>
+	void Teleport(float mountX, float mountY, float mountZ);
+
+	/// <summary>Affects on position
+	/// <para>Camera goes 'forward'</para>
+	/// <para>Camera goes 'right'</para>
+	/// <para>Camera goes 'up'</para>
+	/// <param name="mount">How much the camera moves</param>
+	/// </summary>
+	void Move(float mountX, float mountY, float mountZ);
+
+	/// <summary>Affects on the 'z' axis
+	/// <para>Camera goes 'right'</para>
 	/// <param name="mount">How much the camera advance</param>
 	/// </summary>
-	void Walk(float mountX, float mountZ);
+	void WalkFront(Direction dir);
+
+	/// <summary>Affects on the 'x' axis
+	/// <para>Camera goes 'up'</para>
+	/// <param name="mount">How much the camera advance</param>
+	/// </summary>
+	void WalkSideWays(Direction dir);
+
+	/// <summary>Affects on the 'y' axis
+	/// <para>Camera goes 'up'</para>
+	/// <param name="mount">How much the camera rise</param>
+	/// </summary>
+	void Rise(Direction dir);
 
 	/// <summary>Affects on the 'x' axis
 	/// <para>Camera rotates</para>
@@ -87,9 +127,12 @@ public:
 	/// </summary>
 	void Roll(float degrees);
 
+	void DebugModeOn();
+	void SetAsMainDebugCamera();
 	void SetAsMainCamera();
 	void RemoveAsMainCamera();
 	void SetCameraType(CameraType type);
+	void SetSpeed(float speed);
 
 	/// <summary>Returns the position</summary>
 	vec3 GetPosition() { return vec3(pos.x, pos.y, pos.z); };

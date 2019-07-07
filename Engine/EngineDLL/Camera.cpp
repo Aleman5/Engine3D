@@ -22,6 +22,8 @@ void Camera::Start()
 	fwd	  = vec4(0, 0, 1, 0);
 	pos   = vec4(0, 0, 0, 1);
 
+	debugMode = false;
+	isMainDebugCamera = false;
 	isMainCamera = false;
 
 	vMatrix = lookAt(
@@ -34,6 +36,8 @@ void Camera::Start()
 
 	ortho.right = (float)renderer->GetWindowWidht();
 	ortho.top = (float)renderer->GetWindowHeight();
+
+	speed = 10.0f;
 }
 
 void Camera::Update()
@@ -51,9 +55,34 @@ void Camera::SetTransform(Transform* transform)
 
 }
 
-void Camera::Walk(float mountX, float mountZ)
+void Camera::UpdateRendererPos()
 {
-	pos = glm::translate(mat4(1.0f), (vec3)((right * mountX) + (fwd * mountZ))) * pos;
+	if (!debugMode)
+	{
+		if (isMainCamera)
+		{
+			renderer->SetCameraPosition(vMatrix);
+			renderer->ExtractPlanes(vMatrix);
+		}
+	}
+	else
+	{
+		if (isMainCamera)
+		{
+			renderer->ExtractPlanes(vMatrix);
+		}
+		if (isMainDebugCamera)
+		{
+			renderer->SetCameraPosition(vMatrix);
+		}
+	}
+}
+
+void Camera::Teleport(float mountX, float mountY, float mountZ)
+{
+	pos.x = mountX;
+	pos.y = mountY;
+	pos.z = mountZ;
 
 	vMatrix = glm::lookAt(
 		(vec3)pos,
@@ -61,8 +90,65 @@ void Camera::Walk(float mountX, float mountZ)
 		(vec3)up
 	);
 
-	if (isMainCamera)
-		renderer->SetCameraPosition(vMatrix);
+	UpdateRendererPos();
+}
+
+void Camera::Move(float mountX, float mountY, float mountZ)
+{
+	pos = translate(mat4(1.0f), (vec3)((right * mountX) + (up * mountY) + (fwd * mountZ))) * pos;
+
+	vMatrix = glm::lookAt(
+		(vec3)pos,
+		(vec3)(pos + fwd),
+		(vec3)up
+	);
+
+	UpdateRendererPos();
+}
+
+void Camera::WalkFront(Direction dir)
+{
+	float mountZ = dir * speed * Defs::getInstance()->deltaTime;
+
+	pos = translate(mat4(1.0f), (vec3)(fwd * mountZ)) * pos;
+
+	vMatrix = glm::lookAt(
+		(vec3)pos,
+		(vec3)(pos + fwd),
+		(vec3)up
+	);
+
+	UpdateRendererPos();
+}
+
+void Camera::WalkSideWays(Direction dir)
+{
+	float mountX = dir * speed * Defs::getInstance()->deltaTime;
+
+	pos = translate(mat4(1.0f), (vec3)(right * mountX)) * pos;
+
+	vMatrix = glm::lookAt(
+		(vec3)pos,
+		(vec3)(pos + fwd),
+		(vec3)up
+	);
+
+	UpdateRendererPos();
+}
+
+void Camera::Rise(Direction dir)
+{
+	float mountY = dir * speed * Defs::getInstance()->deltaTime;
+
+	pos = translate(mat4(1.0f), (vec3)(up * mountY)) * pos;
+
+	vMatrix = glm::lookAt(
+		(vec3)pos,
+		(vec3)(pos + fwd),
+		(vec3)up
+	);
+
+	UpdateRendererPos();
 }
 
 void Camera::Pitch(float degrees)
@@ -76,8 +162,7 @@ void Camera::Pitch(float degrees)
 		(vec3)up
 	);
 
-	if (isMainCamera)
-		renderer->SetCameraPosition(vMatrix);
+	UpdateRendererPos();
 }
 
 void Camera::Yaw(float degrees)
@@ -91,8 +176,7 @@ void Camera::Yaw(float degrees)
 		(vec3)up
 	);
 
-	if (isMainCamera)
-		renderer->SetCameraPosition(vMatrix);
+	UpdateRendererPos();
 }
 
 void Camera::Roll(float degrees)
@@ -106,8 +190,17 @@ void Camera::Roll(float degrees)
 		(vec3)up
 	);
 
-	if (isMainCamera)
-		renderer->SetCameraPosition(vMatrix);
+	UpdateRendererPos();
+}
+
+void Camera::DebugModeOn()
+{
+	debugMode = true;
+}
+
+void Camera::SetAsMainDebugCamera()
+{
+	isMainDebugCamera = true;
 }
 
 void Camera::SetAsMainCamera()
@@ -117,7 +210,7 @@ void Camera::SetAsMainCamera()
 		isMainCamera = true;
 
 		renderer->SetProjPersp(persp.fovy, persp.aspect, persp.zNear, persp.zFar);
-		renderer->SetCameraPosition(vMatrix);
+		UpdateRendererPos();
 	}
 }
 
@@ -143,4 +236,9 @@ void Camera::SetCameraType(const CameraType type)
 				renderer->SetProjPersp(persp.fovy, persp.aspect, persp.zNear, persp.zFar);
 		}
 	}
+}
+
+void Camera::SetSpeed(float speed)
+{
+	this->speed = speed;
 }

@@ -31,9 +31,11 @@ class Game : public GameBase
 	Material* matMesh;
 
 	Camera* camera;
+	Camera* debugCamera;
 
 	Node* scene;
 	Node* nCamera;
+	Node* nDebugCamera;
 	Node* nWeapon;
 	Node* nSpider;
 	Node* nThorHammer;

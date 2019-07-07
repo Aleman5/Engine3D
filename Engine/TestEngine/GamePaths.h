@@ -8,8 +8,8 @@ constexpr const char* THOR_HAMMER_PATH = "Assets\\ThorHammer\\thorhammer.obj";
 constexpr const char* SPIDER_PATH = "Assets\\Spider\\spider.obj";
 
 // Textures
-constexpr const char* M4A1_TEXTURE_PATH = "Assets\\M4A1";
-constexpr const char* HELICOPTER_TEXTURE_PATH = "Assets\\Helicopter";
-constexpr const char* NANOSUIT_TEXTURE_PATH = "Assets\\Nanosuit";
-constexpr const char* THOR_HAMMER_TEXTURE_PATH = "Assets\\ThorHammer";
-constexpr const char* SPIDER_TEXTURE_PATH = "Assets\\Spider";
+constexpr const char* M4A1_TEXTURE_PATH = "Assets\\M4A1\\m4_diff.tga";
+constexpr const char* HELICOPTER_TEXTURE_PATH = "Assets\\Helicopter\\tex\\Palette.png";
+constexpr const char* NANOSUIT_TEXTURE_PATH = "Assets\\Nanosuit\\body_showroom_ddn.png"; // This will paint just a part as it should be
+constexpr const char* THOR_HAMMER_TEXTURE_PATH = "Assets\\ThorHammer\\thorcolor.bmp";
+constexpr const char* SPIDER_TEXTURE_PATH = "Assets\\Spider\\SpiderTex.jpg";

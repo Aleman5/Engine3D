@@ -174,6 +174,18 @@ void Node::DesactivateNode()
 	isActive = false;
 }
 
+void Node::ActivateCameraDebugMode()
+{
+	vector<Component*> comps = GetComponents("Camera");
+
+	for (int i = 0; i < comps.size(); i++)
+	{
+		Camera* camera = (Camera*)comps[i];
+		camera->DebugModeOn();
+		camera->UpdateRendererPos();
+	}
+}
+
 string Node::GetName()
 {
 	return name;
@@ -197,4 +209,29 @@ Component* Node::GetComponent(string type)
 			return components[i];
 
 	cout << name << "doesn't have a component of type: " << type << endl;
+}
+
+vector<Component*> Node::GetComponents(string type)
+{
+	vector<Component*> comps;
+
+	for (int i = 0; i < components.size(); i++)
+	{
+		if (components[i]->GetName() == type)
+			comps.push_back(components[i]);
+	}
+
+	for (int j = 0; j < nodeChilds.size(); j++)
+	{
+		vector<Component*> compsChild = nodeChilds[j]->GetComponents(type);
+		if (compsChild.size() > 0)
+			comps.insert(comps.end(), compsChild.begin(), compsChild.end());
+	}
+
+	if (comps.size() == 0)
+	{
+		cout << name << "doesn't have a component of type: " << type << endl;
+	}
+
+	return comps;
 }

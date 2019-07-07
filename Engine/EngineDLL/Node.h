@@ -6,6 +6,7 @@
 #include "Renderer.h"
 #include "Component.h"
 #include "Transform.h"
+#include "Camera.h"
 
 using namespace std;
 
@@ -44,9 +45,12 @@ public:
 	void DesactivateNode();
 	bool IsActive();
 
+	void ActivateCameraDebugMode();
+
 	string GetName();
-	Node*  GetChild(unsigned int index);
+	Node* GetChild(unsigned int index);
 	Component* GetComponent(string type);
+	vector<Component*> GetComponents(string type);
 
 	Node(string name);
 	Node(string name, Node* parent);
