@@ -1,17 +1,17 @@
 #pragma once
 
-// Important includes
+// Engine includes
 #include "GameBase.h"
+#include "GlobalDefs.h"
 #include "Node.h"
 #include "Input.h"
 #include "CollisionManager.h"
-
-// Common includes
 #include "Camera.h"
 #include "Mesh.h"
 #include "Box.h"
 
 // Extra includes
+#include "GamePaths.h"
 #include "Player.h"
 #include "Asteroid.h"
 
@@ -38,6 +38,7 @@ class Game : public GameBase
 	Node* nSpider;
 	Node* nThorHammer;
 	Node* nHelicopter;
+	Node* nNanosuit;
 
 	float speed;
 

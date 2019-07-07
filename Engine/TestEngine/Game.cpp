@@ -23,16 +23,10 @@ bool Game::OnStart()
 	gameState = CONTINUE;
 
 	material = new Material();
-	material->LoadShader("Shaders\\SimpleVertexShader.vertexshader"
-		, "Shaders\\SimpleFragmentShader.fragmentshader");
+	material->LoadShader(SIMPLE_VERTEX_SHADER, SIMPLE_FRAGMENT_SHADER);
 
 	matTexture = new Material();
-	matTexture->LoadShader("Shaders\\TextureVertexShader.vertexshader"
-		, "Shaders\\TextureFragmentShader.fragmentshader");
-
-	matMesh = new Material();
-	matMesh->LoadShader("Shaders\\MeshVertexShader.vertexshader"
-		, "Shaders\\MeshFragmentShader.fragmentshader");
+	matTexture->LoadShader(TEXTURE_VERTEX_SHADER, TEXTURE_FRAGMENT_SHADER);
 
 	scene = new Node("Scene");
 	SetScene(scene);
@@ -42,28 +36,33 @@ bool Game::OnStart()
 	camera->Walk(0.0f, -20.0f);
 	camera->SetAsMainCamera();
 
-	nWeapon = new Node("M4A1", scene);
+	/*nWeapon = new Node("M4A1", scene);
 	nWeapon->transform->SetLayer(Character);
 	nWeapon->transform->Teleport(0.0f, -100.0f, 0.0f);
-	Mesh* weaponMesh = (Mesh*)nWeapon->AddComponent(new Mesh(matTexture, "M4A1\\M4A1.FBX", "M4A1\\m4_diff.tga"));
-	weaponMesh->ActivateDebugMode();
+	Mesh* weaponMesh = (Mesh*)nWeapon->AddComponent(new Mesh(M4A1_PATH, M4A1_TEXTURE_PATH));
+	weaponMesh->ActivateDebugMode();*/
 
-	nSpider = new Node("Spider", nWeapon);
+	/*nSpider = new Node("Spider", nWeapon);
 	nSpider->transform->SetLayer(Enemy);
 	nSpider->transform->Teleport(-50.0f, -50.0f, 50.0f);
-	nSpider->AddComponent(new Mesh(matTexture, "spider.obj", "SpiderTex.bmp"));
+	nSpider->AddComponent(new Mesh(SPIDER_PATH, SPIDER_TEXTURE_PATH));*/
 
 	/*nThorHammer = new Node("Thor Hammer", scene);
 	nThorHammer->transform->SetLayer(Wall);
 	nThorHammer->transform->Teleport(-50.0f, 50.0f, 50.0f);
-	nThorHammer->AddComponent(new Mesh(matTexture, "ThorHammer\\thorhammer.obj", "ThorHammer\\thorcolor.bmp"));
+	nThorHammer->AddComponent(new Mesh(THOR_HAMMER_PATH, THOR_HAMMER_TEXTURE_PATH));
 	nThorHammer->DesactivateNode();*/
 
 	nHelicopter = new Node("Helicopter", scene);
 	nHelicopter->transform->SetLayer(Character);
 	nHelicopter->transform->Teleport(20.0f, 20.0f, 20.0f);
 	nHelicopter->transform->Scale(0.01f, 0.01f, 0.01f);
-	nHelicopter->AddComponent(new Mesh(matTexture, "Helicopter\\Lowpoly_Helicopter1.fbx", "Helicopter\\Palette.png"));
+	nHelicopter->AddComponent(new Mesh(matTexture, HELICOPTER_PATH, HELICOPTER_TEXTURE_PATH));
+
+	nNanosuit = new Node("Nanosuit", scene);
+	nNanosuit->transform->SetLayer(Character);
+	nNanosuit->transform->Teleport(60.0f, 20.0f, 20.0f);
+	nNanosuit->AddComponent(new Mesh(matTexture, NANOSUIT_PATH, NANOSUIT_TEXTURE_PATH));
 
 	return true;
 }
@@ -169,7 +168,7 @@ bool Game::OnUpdate()
 	break;
 	}
 
-	nWeapon->transform->RotateY(speed * 30.0f * Defs::getInstance()->deltaTime);
+	//nWeapon->transform->RotateY(speed * 30.0f * Defs::getInstance()->deltaTime);
 	//nSpider->transform->RotateY(speed * Defs::getInstance()->deltaTime);
 	//nThorHammer->transform->RotateY(speed * Defs::getInstance()->deltaTime);
 
