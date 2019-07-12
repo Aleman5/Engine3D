@@ -2,6 +2,7 @@
 
 #include "Exports.h"
 #include "Renderer.h"
+#include "Material.h"
 #include "Component.h"
 
 enum CameraType
@@ -28,7 +29,7 @@ struct sOrthogonal
 	sOrthogonal()
 		: left(0.0f), right(1024.0f),
 		bottom(0.0f), top(768.0f),
-		zNear(0.0f), zFar(4000.0f)
+		zNear(0.0f), zFar(400.0f)
 	{
 	};
 };
@@ -42,7 +43,7 @@ struct sPerspective
 
 	sPerspective()
 		: fovy(glm::radians(45.0f)), aspect(4.0 / 3.0f),
-		  zNear(0.1f), zFar(1000.0f)
+		  zNear(0.1f), zFar(400.0f)
 	{
 	};
 };
@@ -50,6 +51,7 @@ struct sPerspective
 class ENGINEDLL_API Camera : public Component
 {
 	Renderer* renderer;
+	Material* material;
 
 	sOrthogonal ortho;
 	sPerspective persp;
@@ -66,6 +68,8 @@ class ENGINEDLL_API Camera : public Component
 	bool debugMode;
 	bool isMainDebugCamera;
 	bool isMainCamera;
+
+	mat4 CalculateModel();
 
 public:
 	void Start() override;
@@ -137,6 +141,6 @@ public:
 	/// <summary>Returns the position</summary>
 	vec3 GetPosition() { return vec3(pos.x, pos.y, pos.z); };
 
-	Camera();
+	Camera(Material* material);
 	~Camera();
 };

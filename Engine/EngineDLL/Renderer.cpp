@@ -400,6 +400,14 @@ void Renderer::ExtractPlanes(mat4 viewMatrix)
 	planes[5].b = comboMatrix[3][1] - comboMatrix[2][1];
 	planes[5].c = comboMatrix[3][2] - comboMatrix[2][2];
 	planes[5].d = comboMatrix[3][3] - comboMatrix[2][3];
+
+	/*cout << planes[0].a << "     " << planes[0].b << "     " << planes[0].c << "     " << planes[0].d << endl;
+	cout << planes[1].a << "     " << planes[1].b << "     " << planes[1].c << "     " << planes[1].d << endl;
+	cout << planes[2].a << "     " << planes[2].b << "     " << planes[2].c << "     " << planes[2].d << endl;
+	cout << planes[3].a << "     " << planes[3].b << "     " << planes[3].c << "     " << planes[3].d << endl;
+	cout << planes[4].a << "     " << planes[4].b << "     " << planes[4].c << "     " << planes[4].d << endl;
+	cout << planes[5].a << "     " << planes[5].b << "     " << planes[5].c << "     " << planes[5].d << endl;
+	cout << endl;*/
 }
 
 void Renderer::NormalizePlanes()

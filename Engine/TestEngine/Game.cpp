@@ -32,12 +32,12 @@ bool Game::OnStart()
 	SetScene(scene);
 
 	nCamera = new Node("CameraHolder", scene);
-	camera = (Camera*)nCamera->AddComponent(new Camera());
+	camera = (Camera*)nCamera->AddComponent(new Camera(matTexture));
 	camera->Teleport(0.0f, 0.0f, -20.0f);
 	camera->SetAsMainCamera();
 
 	nDebugCamera = new Node("DebugCameraHolder", scene);
-	debugCamera = (Camera*)nDebugCamera->AddComponent(new Camera());
+	debugCamera = (Camera*)nDebugCamera->AddComponent(new Camera(matTexture));
 	debugCamera->Teleport(0.0f, 140.0f, -70.0f);
 	debugCamera->Pitch(45.0f);
 	debugCamera->SetSpeed(200.0f);
@@ -49,7 +49,7 @@ bool Game::OnStart()
 	nWeapon->transform->SetLayer(Character);
 	nWeapon->transform->Teleport(0.0f, -100.0f, 0.0f);
 	Mesh* weaponMesh = (Mesh*)nWeapon->AddComponent(new Mesh(matTexture, M4A1_PATH, M4A1_TEXTURE_PATH));
-	weaponMesh->ActivateDebugMode();
+	//weaponMesh->ActivateDebugMode();
 
 	nSpider = new Node("Spider", nWeapon);
 	nSpider->transform->SetLayer(Enemy);
@@ -93,7 +93,7 @@ bool Game::OnUpdate()
 	{
 	case CONTINUE:
 	{
-		float cameraSpeed = 2.0f;
+		float cameraSpeed = 50.0f;
 
 		if (input->isInput(GLFW_KEY_W))
 			camera->WalkFront(ADVANCE);
@@ -154,14 +154,6 @@ bool Game::OnUpdate()
 			else
 				nSpider->ActivateNode();
 		}
-
-		/*if ((input->isInput(GLFW_KEY_M)))
-		{
-			if (nThorHammer->IsActive())
-				nThorHammer->DesactivateNode();
-			else
-				nThorHammer->ActivateNode();
-		}*/
 
 		if ((input->isInput(GLFW_KEY_J)))
 		{

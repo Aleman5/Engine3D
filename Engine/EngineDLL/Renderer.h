@@ -38,7 +38,6 @@ class ENGINEDLL_API Renderer
 
 	mat4 modelMatrix;		// Position of the transform based on the origin
 	mat4 viewMatrix;		// Position of the transform based on the camera
-	mat4 debugViewMatrix;	// Position of the transform based on the camera
 	mat4 projectionMatrix;	// Position of the transform based on the frustum of the camera
 	mat4 MVP;				// The final position of the entity in world space
 

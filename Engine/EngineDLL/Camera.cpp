@@ -1,6 +1,7 @@
 #include "Camera.h"
 
-Camera::Camera()
+Camera::Camera(Material* material)
+	: material(material)
 {
 	Start();
 }
@@ -47,7 +48,123 @@ void Camera::Update()
 
 void Camera::Draw()
 {
+	if (debugMode && isMainCamera)
+	{
+		float* vertex = new float[12 * 3]
+		{
+			/*fcNew.vertex[0].x, fcNew.vertex[0].y, fcNew.vertex[0].z,
+			fcNew.vertex[1].x, fcNew.vertex[1].y, fcNew.vertex[1].z,
+			fcNew.vertex[4].x, fcNew.vertex[4].y, fcNew.vertex[4].z,
 
+			fcNew.vertex[1].x, fcNew.vertex[1].y, fcNew.vertex[1].z,
+			fcNew.vertex[4].x, fcNew.vertex[4].y, fcNew.vertex[4].z,
+			fcNew.vertex[5].x, fcNew.vertex[5].y, fcNew.vertex[5].z,
+
+			fcNew.vertex[2].x, fcNew.vertex[2].y, fcNew.vertex[2].z,
+			fcNew.vertex[3].x, fcNew.vertex[3].y, fcNew.vertex[3].z,
+			fcNew.vertex[6].x, fcNew.vertex[6].y, fcNew.vertex[6].z,
+
+			fcNew.vertex[3].x, fcNew.vertex[3].y, fcNew.vertex[3].z,
+			fcNew.vertex[6].x, fcNew.vertex[6].y, fcNew.vertex[6].z,
+			fcNew.vertex[7].x, fcNew.vertex[7].y, fcNew.vertex[7].z,*/
+
+			 persp.zNear, persp.zNear, persp.zNear,
+			 persp.zNear,-persp.zNear, persp.zNear,
+			 persp.zFar, -persp.zFar,  persp.zFar,
+
+			 persp.zNear, persp.zNear, persp.zNear,
+			 persp.zFar,  persp.zFar,  persp.zFar,
+			 persp.zFar, -persp.zFar,  persp.zFar,
+
+			-persp.zNear, persp.zNear, persp.zNear,
+			-persp.zNear,-persp.zNear, persp.zNear,
+			-persp.zFar, -persp.zFar,  persp.zFar,
+
+			-persp.zNear, persp.zNear, persp.zNear,
+			-persp.zFar,  persp.zFar,  persp.zFar,
+			-persp.zFar, -persp.zFar,  persp.zFar,
+		};
+
+		float* verticesColorData = new float[3 * 12]{
+			0.0f, 0.0f, 0.0f,
+			0.0f, 0.0f, 0.0f,
+			0.0f, 0.0f, 0.0f,
+
+			0.0f, 0.0f, 0.0f,
+			0.0f, 0.0f, 0.0f,
+			0.0f, 0.0f, 0.0f,
+
+			0.0f, 0.0f, 0.0f,
+			0.0f, 0.0f, 0.0f,
+			0.0f, 0.0f, 0.0f,
+
+			0.0f, 0.0f, 0.0f,
+			0.0f, 0.0f, 0.0f,
+			0.0f, 0.0f, 0.0f,
+			
+			/*1.0f, 1.0f, 1.0f,
+			1.0f, 1.0f, 1.0f,
+			1.0f, 1.0f, 1.0f,
+			
+			1.0f, 1.0f, 1.0f,
+			1.0f, 1.0f, 1.0f,
+			1.0f, 1.0f, 1.0f,
+			
+			1.0f, 1.0f, 1.0f,
+			1.0f, 1.0f, 1.0f,
+			1.0f, 1.0f, 1.0f,
+			
+			1.0f, 1.0f, 1.0f,
+			1.0f, 1.0f, 1.0f,
+			1.0f, 1.0f, 1.0f,*/
+		};
+
+		vector<unsigned int> indices{
+			0, 1, 2,
+			3, 4, 5,
+			6, 7, 8,
+			9,10,11
+		};
+
+		if (material != NULL)
+		{
+			material->Bind("myTextureSampler", 2);
+			//mat4 model = CalculateModel();
+			mat4 newMVP = renderer->GetProjMatrix() * vMatrix * renderer->GetModelMatrix();
+			material->SetMatrixProperty("MVP", newMVP/*renderer->GetMVP()*/);
+		}
+
+		unsigned int id = renderer->GenBuffer(vertex, sizeof(float) * 12 * 3);
+		unsigned int colorId = renderer->GenBuffer(verticesColorData, sizeof(float) * 12 * 3);
+		unsigned int elementsId = renderer->GenElementBuffer(indices);
+
+		renderer->EnableAttributes(0);
+		renderer->EnableAttributes(1);
+
+		renderer->BindBuffer(id, 0);
+		renderer->BindTextureBuffer(colorId, 1);
+		renderer->BindElementBuffer(elementsId);
+		renderer->DrawElementBuffer(elementsId);
+
+		renderer->DisableAttributes(0);
+		renderer->DisableAttributes(1);
+	}
+}
+
+mat4 Camera::CalculateModel()
+{
+	mat4 model = mat4(1.0f);
+
+	model *= glm::translate(mat4(1.0f), (vec3)pos);
+
+	vec3 vecAxisX;
+
+	vecAxisX[1] = vecAxisX[2] = 0.0f;
+	vecAxisX[0] = 1.0f;
+
+	//model *= rotate(mat4(1.0f), right, vecAxisX);
+
+	return model;
 }
 
 void Camera::SetTransform(Transform* transform)
@@ -153,8 +270,8 @@ void Camera::Rise(Direction dir)
 
 void Camera::Pitch(float degrees)
 {
-	fwd = rotate(mat4(1.0f), degrees, vec3(right.x, right.y, right.z)) * fwd;
-	up = rotate(mat4(1.0f), degrees, vec3(right.x, right.y, right.z)) * up;
+	fwd = rotate(mat4(1.0f), glm::radians(degrees), vec3(right.x, right.y, right.z)) * fwd;
+	up = rotate(mat4(1.0f), glm::radians(degrees), vec3(right.x, right.y, right.z)) * up;
 
 	vMatrix = glm::lookAt(
 		(vec3)pos,
@@ -167,8 +284,8 @@ void Camera::Pitch(float degrees)
 
 void Camera::Yaw(float degrees)
 {
-	fwd = rotate(mat4(1.0f), degrees, vec3(up.x, up.y, up.z)) * fwd;
-	right = rotate(mat4(1.0f), degrees, vec3(up.x, up.y, up.z)) * right;
+	fwd = rotate(mat4(1.0f), glm::radians(degrees), vec3(up.x, up.y, up.z)) * fwd;
+	right = rotate(mat4(1.0f), glm::radians(degrees), vec3(up.x, up.y, up.z)) * right;
 
 	vMatrix = glm::lookAt(
 		(vec3)pos,
@@ -181,8 +298,8 @@ void Camera::Yaw(float degrees)
 
 void Camera::Roll(float degrees)
 {
-	right = rotate(mat4(1.0f), degrees, vec3(fwd.x, fwd.y, fwd.z)) * right;
-	up = rotate(mat4(1.0f), degrees, vec3(fwd.x, fwd.y, fwd.z)) * up;
+	right = rotate(mat4(1.0f), glm::radians(degrees), vec3(fwd.x, fwd.y, fwd.z)) * right;
+	up = rotate(mat4(1.0f), glm::radians(degrees), vec3(fwd.x, fwd.y, fwd.z)) * up;
 
 	vMatrix = glm::lookAt(
 		(vec3)pos,
