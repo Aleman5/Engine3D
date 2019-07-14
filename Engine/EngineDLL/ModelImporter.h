@@ -1,4 +1,4 @@
-/*#pragma once
+#pragma once
 
 #include <iostream>
 #include <fstream>
@@ -22,6 +22,10 @@
 
 using namespace std;
 
+class Mesh;
+class Node;
+class Material;
+
 class ENGINEDLL_API ModelImporter
 {
 	static ModelImporter *instance;
@@ -29,11 +33,14 @@ class ENGINEDLL_API ModelImporter
 	const aiScene* scene = NULL;
 	Assimp::Importer importer;
 	
-	bool InitFromScene(const aiScene* pScene, Mesh* mesh);
-	void InitMesh(unsigned int Index, const aiMesh* paiMesh, Mesh* mesh);
+	bool AttendNode(const aiScene* aiScene, aiNode* aiNode, Node* parent,
+					FCCubeData& fcData, const string modelPath, const string texturePath, Material* material);
+	Mesh* InitMesh(const aiScene* aiScene, const aiMesh* aiMesh, Node* parent,
+				   FCCubeData& fcData, const string modelPath, const string texturePath, unsigned int Index, Material* material);
+	void InitTexture();
 
 public:
-	bool Import3DFromFile(Mesh* mesh);
+	void Load(Node* thisNode, const string modelPath, const string texturePath, Material* material);
 
 	static ModelImporter* getInstance()
 	{
@@ -45,4 +52,4 @@ public:
 
 private:
 	ModelImporter();
-};*/
+};

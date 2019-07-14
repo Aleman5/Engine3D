@@ -3,6 +3,7 @@
 // Engine includes
 #include "GameBase.h"
 #include "GlobalDefs.h"
+#include "ModelImporter.h"
 #include "Node.h"
 #include "Input.h"
 #include "CollisionManager.h"
@@ -36,6 +37,7 @@ class Game : public GameBase
 	Node* scene;
 	Node* nCamera;
 	Node* nDebugCamera;
+	Node* nMeshes;
 	Node* nWeapon;
 	Node* nSpider;
 	Node* nThorHammer;

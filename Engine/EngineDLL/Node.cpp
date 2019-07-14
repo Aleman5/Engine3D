@@ -45,6 +45,7 @@ void Node::Start()
 	isActive = true;
 
 	renderer = Renderer::getInstance();
+	fcData = FCCubeData();
 
 	transform = new Transform();
 	AddComponent(transform);
@@ -69,11 +70,39 @@ void Node::Draw()
 		mat4 currentModelMatrix = renderer->GetModelMatrix();
 		renderer->MultiplyModelMatrix(transform->GetModelMatrix());
 
-		for (int i = 0; i < components.size(); i++)
-			components[i]->Draw();
+		bool shouldDraw = true;
 
-		for (unsigned int i = 0; i < nodeChilds.size(); i++)
-			nodeChilds[i]->Draw();
+		if (fcData.initialized)
+		{
+			Plane* planes = renderer->GetPlanes();
+
+			for (int i = 0; i < 6; i++)
+			{
+				bool allBehind = true;
+
+				for (int j = 0; j < 8; j++)
+				{
+					if (renderer->ClassifyPoint(planes[i], fcData.vertex[j] * renderer->GetModelMatrix()) == POSITIVE)
+					{
+						allBehind = false;
+						break;
+					}
+				}
+				if (allBehind)
+				{
+					shouldDraw = false;
+				}
+			}
+		}
+
+		if (shouldDraw)
+		{
+			for (int i = 0; i < components.size(); i++)
+				components[i]->Draw();
+
+			for (unsigned int i = 0; i < nodeChilds.size(); i++)
+				nodeChilds[i]->Draw();
+		}
 
 		renderer->SetModelMatrix(currentModelMatrix);
 	}

@@ -7,6 +7,7 @@
 #include "Component.h"
 #include "Transform.h"
 #include "Camera.h"
+#include "Structs.h"
 
 using namespace std;
 
@@ -27,6 +28,8 @@ protected:
 public:
 	Node* parent;
 	Transform* transform;
+
+	FCCubeData fcData;
 
 	void Update();
 	void Draw();

@@ -1,4 +1,6 @@
-/*#include "ModelImporter.h"
+#include "ModelImporter.h"
+#include "Node.h"
+#include "Mesh.h"
 
 ModelImporter * ModelImporter::instance = NULL;
 
@@ -6,46 +8,49 @@ ModelImporter::ModelImporter()
 {
 }
 
-bool ModelImporter::Import3DFromFile(Mesh* mesh)
+void ModelImporter::Load(Node* thisNode, const string modelPath, const string texturePath, Material* material)
 {
-	bool Ret = false;
 	Assimp::Importer Importer;
 
-	const aiScene* pScene = Importer.ReadFile(mesh->modelPath.c_str(), ASSIMP_LOAD_FLAGS_TRIANG_FLIP);
+	const aiScene* pScene = Importer.ReadFile(modelPath.c_str(), ASSIMP_LOAD_FLAGS_TRIANG_FLIP);
 
-	if (pScene)
-		Ret = InitFromScene(pScene, mesh);
-	else
-		printf("Error parsing '%s': '%s'\n", mesh->modelPath.c_str(), Importer.GetErrorString());
+	if (!pScene)
+		printf("Error parsing '%s': '%s'\n", modelPath.c_str(), Importer.GetErrorString());
 
-	return Ret;
+	AttendNode(pScene, pScene->mRootNode, thisNode, thisNode->fcData, modelPath, texturePath, material);
+
+	thisNode->fcData.UpdateData();
 }
 
-bool ModelImporter::InitFromScene(const aiScene* pScene, Mesh* mesh)
+bool ModelImporter::AttendNode(const aiScene* aiScene, aiNode* aiNode, Node* parent,
+							   FCCubeData& fcData, const string modelPath, const string texturePath, Material* material)
 {
-	mesh->m_Entries.resize(pScene->mNumMeshes);
-	mesh->m_Textures.resize(pScene->mNumMaterials);
-
-	// Initialize the meshes in the scene one by one
-	for (unsigned int i = 0; i < mesh->m_Entries.size(); i++)
+	for (int i = 0; i < (int)aiNode->mNumMeshes; i++)
 	{
-		const aiMesh* paiMesh = pScene->mMeshes[i];
+		const aiMesh* aiMesh = aiScene->mMeshes[aiNode->mMeshes[i]];
 
-		InitMesh(i, paiMesh, mesh);
+		Node* child = new Node(aiNode->mName.C_Str(), parent);
+		child->AddComponent(InitMesh(aiScene, aiMesh, parent, fcData, modelPath, texturePath, i, material));
+		cout << "Added child " << child->GetName() << endl;
 	}
 
-	mesh->fcData.UpdateData();
-
-	// Init of the Textures
-	for (unsigned int i = 0; i < pScene->mNumMaterials; i++)
-		mesh->m_Textures[i] = TextureImporter::LoadImage(mesh->texturePath);
+	for (int i = 0; i < (int)aiNode->mNumChildren; i++)
+	{
+		AttendNode(aiScene, aiNode->mChildren[i], parent, fcData, modelPath, texturePath, material);
+	}
 
 	return true;
 }
 
-void ModelImporter::InitMesh(unsigned int Index, const aiMesh* paiMesh, Mesh* mesh)
+Mesh* ModelImporter::InitMesh(const aiScene* aiScene, const aiMesh* aiMesh, Node* parent,
+							 FCCubeData& fcData, const string modelPath, const string texturePath, unsigned int Index, Material* material)
 {
-	mesh->m_Entries[Index].MaterialIndex = paiMesh->mMaterialIndex;
+	Mesh* mesh = new Mesh(material);
+
+	mesh->m_Entries.resize(aiScene->mNumMeshes);
+	mesh->m_Textures.resize(aiScene->mNumMaterials);
+
+	mesh->m_Entries[Index].MaterialIndex = aiMesh->mMaterialIndex;
 
 	vector<Vertex> Vertices;
 	vector<unsigned int> Indices;
@@ -55,24 +60,24 @@ void ModelImporter::InitMesh(unsigned int Index, const aiMesh* paiMesh, Mesh* me
 	float minX = 999999.0f, minY = 999999.0f, minZ = 999999.0f;
 	float maxX = -999999.0f, maxY = -999999.0f, maxZ = -999999.0f;
 
-	for (unsigned int i = 0; i < paiMesh->mNumVertices; i++)
+	for (unsigned int i = 0; i < aiMesh->mNumVertices; i++)
 	{
-		const aiVector3D* pPos = &(paiMesh->mVertices[i]);
-		const aiVector3D* pNormal = &(paiMesh->mNormals[i]);
-		const aiVector3D* pTexCoord = paiMesh->HasTextureCoords(0) ? &(paiMesh->mTextureCoords[0][i]) : &Zero3D;
+		const aiVector3D* pPos = &(aiMesh->mVertices[i]);
+		const aiVector3D* pNormal = &(aiMesh->mNormals[i]);
+		const aiVector3D* pTexCoord = aiMesh->HasTextureCoords(0) ? &(aiMesh->mTextureCoords[0][i]) : &Zero3D;
 
 		Vertex v(vec3((float)pPos->x, (float)pPos->y, (float)pPos->z),
 			vec2((float)pTexCoord->x, (float)pTexCoord->y),
 			vec3((float)pNormal->x, (float)pNormal->y, (float)pNormal->z));
 
-		mesh->fcData.NewValue(v.m_pos);
+		fcData.NewValue(v.m_pos);
 
 		Vertices.push_back(v);
 	}
 
-	for (unsigned int i = 0; i < paiMesh->mNumFaces; i++)
+	for (unsigned int i = 0; i < aiMesh->mNumFaces; i++)
 	{
-		const aiFace& Face = paiMesh->mFaces[i];
+		const aiFace& Face = aiMesh->mFaces[i];
 		assert(Face.mNumIndices == 3);
 		Indices.push_back(Face.mIndices[0]);
 		Indices.push_back(Face.mIndices[1]);
@@ -80,4 +85,18 @@ void ModelImporter::InitMesh(unsigned int Index, const aiMesh* paiMesh, Mesh* me
 	}
 
 	mesh->m_Entries[Index].Init(Vertices, Indices);
-}*/
+
+	for (unsigned int i = 0; i < aiScene->mNumMaterials; i++)
+	{
+		mesh->m_Textures[i] = TextureImporter::LoadImage(texturePath.c_str());
+		mesh->bufferTextures.push_back(Renderer::getInstance()->GenTexture(mesh->m_Textures[i].width, mesh->m_Textures[i].height, mesh->m_Textures[i].imageFormat, mesh->m_Textures[i].data));
+	}
+
+	return mesh;
+}
+
+void ModelImporter::InitTexture()
+{
+	//for (int i = 0; i < m_Textures.size(); i++)
+	//	bufferTextures.push_back(renderer->GenTexture(m_Textures[i].width, m_Textures[i].height, m_Textures[i].imageFormat, m_Textures[i].data));
+}

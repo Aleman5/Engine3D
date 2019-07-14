@@ -43,32 +43,35 @@ bool Game::OnStart()
 	debugCamera->SetSpeed(200.0f);
 	debugCamera->SetAsMainDebugCamera();
 
-	scene->ActivateCameraDebugMode();
+	//scene->ActivateCameraDebugMode();
 
-	nWeapon = new Node("M4A1", scene);
+	nMeshes = new Node("Meshes", scene);
+
+	nWeapon = new Node("M4A1", nMeshes);
 	nWeapon->transform->SetLayer(Character);
 	nWeapon->transform->Teleport(0.0f, -100.0f, 0.0f);
-	Mesh* weaponMesh = (Mesh*)nWeapon->AddComponent(new Mesh(matTexture, M4A1_PATH, M4A1_TEXTURE_PATH));
-	//weaponMesh->ActivateDebugMode();
+	ModelImporter::getInstance()->Load(nWeapon, M4A1_PATH, M4A1_TEXTURE_PATH, matTexture);
+	Mesh* weaponMesh = (Mesh*)nWeapon->GetComponent("Mesh");
+	weaponMesh->ActivateDebugMode();
 
-	nSpider = new Node("Spider", nWeapon);
+	nSpider = new Node("Spider", nMeshes);
 	nSpider->transform->SetLayer(Enemy);
 	nSpider->transform->Teleport(-50.0f, -50.0f, 50.0f);
-	nSpider->AddComponent(new Mesh(matTexture, SPIDER_PATH, SPIDER_TEXTURE_PATH));
+	ModelImporter::getInstance()->Load(nSpider, SPIDER_PATH, SPIDER_TEXTURE_PATH, matTexture);
 
-	/*nThorHammer = new Node("Thor Hammer", scene);
+	/*nThorHammer = new Node("Thor Hammer", nMeshes);
 	nThorHammer->transform->SetLayer(Wall);
 	nThorHammer->transform->Teleport(-50.0f, 50.0f, 50.0f);
 	nThorHammer->AddComponent(new Mesh(THOR_HAMMER_PATH, THOR_HAMMER_TEXTURE_PATH));
 	nThorHammer->DesactivateNode();*/
 
-	nHelicopter = new Node("Helicopter", scene);
+	nHelicopter = new Node("Helicopter", nMeshes);
 	nHelicopter->transform->SetLayer(Character);
 	nHelicopter->transform->Teleport(20.0f, 20.0f, 20.0f);
 	nHelicopter->transform->Scale(0.01f, 0.01f, 0.01f);
-	nHelicopter->AddComponent(new Mesh(matTexture, HELICOPTER_PATH, HELICOPTER_TEXTURE_PATH));
+	ModelImporter::getInstance()->Load(nHelicopter, HELICOPTER_PATH, HELICOPTER_TEXTURE_PATH, matTexture);
 
-	/*nNanosuit = new Node("Nanosuit", scene);
+	/*nNanosuit = new Node("Nanosuit", nMeshes);
 	nNanosuit->transform->SetLayer(Character);
 	nNanosuit->transform->Teleport(60.0f, 20.0f, 20.0f);
 	nNanosuit->AddComponent(new Mesh(matTexture, NANOSUIT_PATH, NANOSUIT_TEXTURE_PATH));*/
