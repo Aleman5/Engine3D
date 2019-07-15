@@ -132,6 +132,7 @@ public:
 	void Roll(float degrees);
 
 	void DebugModeOn();
+	void DebugModeOff();
 	void SetAsMainDebugCamera();
 	void SetAsMainCamera();
 	void RemoveAsMainCamera();

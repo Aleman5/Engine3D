@@ -336,7 +336,7 @@ void Renderer::SetProjPersp(float fovy, float aspect, float zNear, float zFar)
 	SetMVP();
 }
 
-vec4 Renderer::CreatePlane(vec3 normal, vec3 point)
+vec4 Renderer::CreatePlane(const vec3& normal, const vec3& point)
 {
 	vec4 plane;
 
@@ -350,87 +350,18 @@ vec4 Renderer::CreatePlane(vec3 normal, vec3 point)
 
 void Renderer::ExtractPlanes(vec3 globalPos, vec3 fwd, vec3 right, vec3 up, float zNear, float zFar, float aspRatio, float fovy)
 {
-	/*mat4 comboMatrix = viewMatrix * projectionMatrix;
-
-	cout << "ComboMatrix" << endl;
-	cout << comboMatrix[0][0] << " " << comboMatrix[0][1] << " " << comboMatrix[0][2] << " " << comboMatrix[0][3] << endl;
-	cout << comboMatrix[1][0] << " " << comboMatrix[1][1] << " " << comboMatrix[1][2] << " " << comboMatrix[1][3] << endl;
-	cout << comboMatrix[2][0] << " " << comboMatrix[2][1] << " " << comboMatrix[2][2] << " " << comboMatrix[2][3] << endl;
-	cout << comboMatrix[3][0] << " " << comboMatrix[3][1] << " " << comboMatrix[3][2] << " " << comboMatrix[3][3] << endl;
-	cout << endl;
-
-	cout << "ViewMatrix" << endl;
-	cout << viewMatrix[0][0] << " " << viewMatrix[0][1] << " " << viewMatrix[0][2] << " " << viewMatrix[0][3] << endl;
-	cout << viewMatrix[1][0] << " " << viewMatrix[1][1] << " " << viewMatrix[1][2] << " " << viewMatrix[1][3] << endl;
-	cout << viewMatrix[2][0] << " " << viewMatrix[2][1] << " " << viewMatrix[2][2] << " " << viewMatrix[2][3] << endl;
-	cout << viewMatrix[3][0] << " " << viewMatrix[3][1] << " " << viewMatrix[3][2] << " " << viewMatrix[3][3] << endl;
-	cout << endl;
-
-	cout << "ProjectionMatrix" << endl;
-	cout << projectionMatrix[0][0] << " " << projectionMatrix[0][1] << " " << projectionMatrix[0][2] << " " << projectionMatrix[0][3] << endl;
-	cout << projectionMatrix[1][0] << " " << projectionMatrix[1][1] << " " << projectionMatrix[1][2] << " " << projectionMatrix[1][3] << endl;
-	cout << projectionMatrix[2][0] << " " << projectionMatrix[2][1] << " " << projectionMatrix[2][2] << " " << projectionMatrix[2][3] << endl;
-	cout << projectionMatrix[3][0] << " " << projectionMatrix[3][1] << " " << projectionMatrix[3][2] << " " << projectionMatrix[3][3] << endl;
-	cout << endl;
-
-	// Left clipping plane
-	planes[0].a = comboMatrix[3][0] + comboMatrix[0][0];
-	planes[0].b = comboMatrix[3][1] + comboMatrix[0][1];
-	planes[0].c = comboMatrix[3][2] + comboMatrix[0][2];
-	planes[0].d = comboMatrix[3][3] + comboMatrix[0][3];
-
-	// Right clipping plane
-	planes[1].a = comboMatrix[3][0] - comboMatrix[0][0];
-	planes[1].b = comboMatrix[3][1] - comboMatrix[0][1];
-	planes[1].c = comboMatrix[3][2] - comboMatrix[0][2];
-	planes[1].d = comboMatrix[3][3] - comboMatrix[0][3];
-
-	// Top clipping plane
-	planes[2].a = comboMatrix[3][0] - comboMatrix[1][0];
-	planes[2].b = comboMatrix[3][1] - comboMatrix[1][1];
-	planes[2].c = comboMatrix[3][2] - comboMatrix[1][2];
-	planes[2].d = comboMatrix[3][3] - comboMatrix[1][3];
-
-	// Bottom clipping plane
-	planes[3].a = comboMatrix[3][0] + comboMatrix[1][0];
-	planes[3].b = comboMatrix[3][1] + comboMatrix[1][1];
-	planes[3].c = comboMatrix[3][2] + comboMatrix[1][2];
-	planes[3].d = comboMatrix[3][3] + comboMatrix[1][3];
-
-	// Near clipping plane
-	planes[4].a = comboMatrix[3][0] + comboMatrix[2][0];
-	planes[4].b = comboMatrix[3][1] + comboMatrix[2][1];
-	planes[4].c = comboMatrix[3][2] + comboMatrix[2][2];
-	planes[4].d = comboMatrix[3][3] + comboMatrix[2][3];
-
-	// Far clipping plane
-	planes[5].a = comboMatrix[3][0] - comboMatrix[2][0];
-	planes[5].b = comboMatrix[3][1] - comboMatrix[2][1];
-	planes[5].c = comboMatrix[3][2] - comboMatrix[2][2];
-	planes[5].d = comboMatrix[3][3] - comboMatrix[2][3];
-
-	cout << planes[0].a << "     " << planes[0].b << "     " << planes[0].c << "     " << planes[0].d << endl;
-	cout << planes[1].a << "     " << planes[1].b << "     " << planes[1].c << "     " << planes[1].d << endl;
-	cout << planes[2].a << "     " << planes[2].b << "     " << planes[2].c << "     " << planes[2].d << endl;
-	cout << planes[3].a << "     " << planes[3].b << "     " << planes[3].c << "     " << planes[3].d << endl;
-	cout << planes[4].a << "     " << planes[4].b << "     " << planes[4].c << "     " << planes[4].d << endl;
-	cout << planes[5].a << "     " << planes[5].b << "     " << planes[5].c << "     " << planes[5].d << endl;
-	cout << endl;*/
-
-	//vec3 up = glm::normalize(cross(fwd, right));
-
 	vec3 nearCenter = globalPos + fwd * zNear;
-	vec3 farCenter = globalPos + fwd * zFar;
+	vec3 farCenter  = globalPos + fwd * zFar;
 
 	float fovTan = tan(fovy);
 
 	float nHeight = zNear * fovTan;
-	float nWidth = nHeight * aspRatio;
+	float nWidth  = nHeight * aspRatio;
 
-	vec3 leftPlaneVec	= (nearCenter - right * nWidth * 0.5f) - globalPos;
-	vec3 rightPlaneVec  = (nearCenter + right * nWidth * 0.5f) - globalPos;
-	vec3 topPlaneVec	= (nearCenter + up * nHeight * 0.5f) - globalPos;
-	vec3 bottomPlaneVec = (nearCenter - up * nHeight * 0.5f) - globalPos;
+	vec3 leftPlaneVec	= (nearCenter - right * nWidth  * 0.5f) - globalPos;
+	vec3 rightPlaneVec  = (nearCenter + right * nWidth  * 0.5f) - globalPos;
+	vec3 topPlaneVec	= (nearCenter + up	  * nHeight * 0.5f) - globalPos;
+	vec3 bottomPlaneVec = (nearCenter - up	  * nHeight * 0.5f) - globalPos;
 
 	vec3 normalLeft   = -normalize(cross(leftPlaneVec, up));
 	vec3 normalRight  =  normalize(cross(rightPlaneVec, up));

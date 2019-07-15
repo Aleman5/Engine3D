@@ -317,6 +317,11 @@ void Camera::DebugModeOn()
 	debugMode = true;
 }
 
+void Camera::DebugModeOff()
+{
+	debugMode = false;
+}
+
 void Camera::SetAsMainDebugCamera()
 {
 	isMainDebugCamera = true;

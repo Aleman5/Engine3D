@@ -7,6 +7,7 @@
 #include "Component.h"
 #include "Transform.h"
 #include "Camera.h"
+#include "Mesh.h"
 #include "Structs.h"
 
 using namespace std;
@@ -19,6 +20,8 @@ class ENGINEDLL_API Node
 	bool isActive;
 	vector<Node*> nodeChilds;
 	vector<Component*> components;
+
+	Mesh* myMesh;
 
 	void Delete();
 
@@ -49,6 +52,9 @@ public:
 	bool IsActive();
 
 	void ActivateCameraDebugMode();
+	void DesactivateCameraDebugMode();
+	void ActivateMeshDebugMode();
+	void DesactivateMeshDebugMode();
 
 	string GetName();
 	Node* GetChild(unsigned int index);

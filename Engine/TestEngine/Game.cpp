@@ -51,8 +51,7 @@ bool Game::OnStart()
 	nWeapon->transform->SetLayer(Character);
 	nWeapon->transform->Teleport(0.0f, -100.0f, 0.0f);
 	ModelImporter::getInstance()->Load(nWeapon, M4A1_PATH, M4A1_TEXTURE_PATH, matTexture);
-	Mesh* weaponMesh = (Mesh*)nWeapon->GetComponent("Mesh");
-	weaponMesh->ActivateDebugMode();
+	nWeapon->ActivateMeshDebugMode();
 
 	nSpider = new Node("Spider", nMeshes);
 	nSpider->transform->SetLayer(Enemy);

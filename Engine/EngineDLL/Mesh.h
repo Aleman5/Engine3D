@@ -1,12 +1,9 @@
 #pragma once
 
 #include <iostream>
-#include <fstream>
-#include <sstream>
 #include <string>
 #include <vector>
 #include "Exports.h"
-#include "Node.h"
 #include "Component.h"
 #include "Transform.h"
 #include "Structs.h"
@@ -21,21 +18,22 @@ class ENGINEDLL_API Mesh : public Component
 	Transform* transform;
 
 	bool debugMode;
-	void DrawFCData();
-
 public:
 	vector<unsigned int> bufferTextures;
 	vector<MeshEntry> m_Entries;
 	vector<Header> m_Textures;
-	FCCubeData fcData;
 
 	void Start() override;
 	void Update() override;
 	void Draw() override;
 	void SetTransform(Transform* transform) override;
 	
+	void DrawFCData(const FCCubeData& fcData);
+
 	void ActivateDebugMode();
 	void DesactivateDebugMode();
+
+	bool GetDebugMode();
 
 	Mesh(Material* material);
 	~Mesh();

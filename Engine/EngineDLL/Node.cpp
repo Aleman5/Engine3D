@@ -1,12 +1,12 @@
 #include "Node.h"
 
 Node::Node(string name)
-	: name(name)
+	: name(name), myMesh(NULL)
 {
 	Start();
 }
 Node::Node(string name, Node* parent)
-	: name(name)
+	: name(name), myMesh(NULL)
 {
 	Start();
 	SetParent(parent);
@@ -95,14 +95,6 @@ void Node::Draw()
 			}
 		}
 
-		if (fcData.initialized)
-		{
-			if (shouldDraw)
-				cout << "Drawing" << endl;
-			else
-				cout << "Not drawing" << endl;
-		}
-
 		if (shouldDraw)
 		{
 			for (int i = 0; i < components.size(); i++)
@@ -110,6 +102,20 @@ void Node::Draw()
 
 			for (unsigned int i = 0; i < nodeChilds.size(); i++)
 				nodeChilds[i]->Draw();
+		}
+
+		if (fcData.initialized)
+		{
+			if (shouldDraw)
+			{
+				cout << "Drawing " << name << endl;
+
+				if (myMesh)
+					if (myMesh->GetDebugMode())
+						myMesh->DrawFCData(fcData);
+			}
+			else
+				cout << "Not drawing " << name << endl;
 		}
 
 		renderer->SetModelMatrix(currentModelMatrix);
@@ -223,6 +229,55 @@ void Node::ActivateCameraDebugMode()
 	}
 }
 
+void Node::DesactivateCameraDebugMode()
+{
+	vector<Component*> comps = GetComponents("Camera");
+
+	for (int i = 0; i < comps.size(); i++)
+	{
+		Camera* camera = (Camera*)comps[i];
+		camera->DebugModeOff();
+		camera->UpdateRendererPos();
+	}
+}
+
+void Node::ActivateMeshDebugMode()
+{
+	myMesh = (Mesh*)GetChild(0)->GetComponent("Mesh");
+	
+	if (!myMesh)
+	{
+		cout << "A Mesh doesn't exist in node " << name << endl;
+		return;
+	}
+	
+	if (!fcData.initialized)
+	{
+		cout << "This mesh isn't the root" << endl;
+		return;
+	}
+
+	myMesh->ActivateDebugMode();
+}
+
+void Node::DesactivateMeshDebugMode()
+{
+	if (!myMesh)
+	{
+		cout << "Mesh Debug Mode wasn't activated" << endl;
+		return;
+	}
+
+	if (!fcData.initialized)
+	{
+		cout << "This mesh isn't the root" << endl;
+		return;
+	}
+
+	myMesh->DesactivateDebugMode();
+	myMesh = NULL;
+}
+
 string Node::GetName()
 {
 	return name;
@@ -246,6 +301,8 @@ Component* Node::GetComponent(string type)
 			return components[i];
 
 	cout << name << "doesn't have a component of type: " << type << endl;
+
+	return NULL;
 }
 
 vector<Component*> Node::GetComponents(string type)

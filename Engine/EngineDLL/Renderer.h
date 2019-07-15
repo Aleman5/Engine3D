@@ -52,7 +52,7 @@ class ENGINEDLL_API Renderer
 	mat4 orthoMatrix;
 	mat4 perspMatrix;
 
-	vec4 CreatePlane(vec3 normal, vec3 point);
+	vec4 CreatePlane(const vec3& normal, const vec3& point);
 	void NormalizePlanes();
 
 public:
