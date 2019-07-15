@@ -13,9 +13,15 @@
 #include <glm\gtx\transform.hpp>
 #include <glm\glm.hpp>
 
-struct Plane
+enum class Planes
 {
-	float a, b, c, d;
+	TOP,
+	BOTTOM,
+	LEFT,
+	RIGHT,
+	NEAR,
+	FAR,
+	COUNT
 };
 
 enum Halfspace
@@ -41,12 +47,12 @@ class ENGINEDLL_API Renderer
 	mat4 projectionMatrix;	// Position of the transform based on the frustum of the camera
 	mat4 MVP;				// The final position of the entity in world space
 
-	Plane* planes;
+	vec4 planes[(int)Planes::COUNT];
 
 	mat4 orthoMatrix;
 	mat4 perspMatrix;
 
-	
+	vec4 CreatePlane(vec3 normal, vec3 point);
 	void NormalizePlanes();
 
 public:
@@ -143,7 +149,7 @@ public:
 		mat4 model			// Model matrix of the entity
 	); 
 	void SetMVP();
-	void ExtractPlanes(mat4 viewMatrix);
+	void ExtractPlanes(vec3 globalPos, vec3 fwd, vec3 right, vec3 up, float zNear, float zFar, float aspRatio, float fovy);
 
 	/// <summary>Updates the position of the camera</summary>
 	void SetCameraPosition(mat4 position);
@@ -158,11 +164,11 @@ public:
 	/// <summary>Updates the values of the perspective projection</summary>
 	void SetProjPersp(float fovy, float aspect, float zNear, float zFar);
 
-	Halfspace ClassifyPoint(const Plane& plane, const vec4& vertex);
+	Halfspace ClassifyPoint(const vec4& plane, const vec4& vertex);
 
 	unsigned int GetWindowWidht()  { return window->GetWidth();  };
 	unsigned int GetWindowHeight() { return window->GetHeight(); };
-	Plane* GetPlanes()			   { return planes;				 };
+	vec4* GetPlanes()			   { return planes; };
 	vec3 GetCameraPosition()	   { return eyePosition;		 };
 	mat4 GetProjMatrix()		   { return projectionMatrix;	 };
 	mat4 GetViewMatrix()		   { return viewMatrix;			 };

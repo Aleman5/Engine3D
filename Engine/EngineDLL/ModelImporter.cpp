@@ -31,7 +31,7 @@ bool ModelImporter::AttendNode(const aiScene* aiScene, aiNode* aiNode, Node* par
 
 		Node* child = new Node(aiNode->mName.C_Str(), parent);
 		child->AddComponent(InitMesh(aiScene, aiMesh, parent, fcData, modelPath, texturePath, i, material));
-		cout << "Added child " << child->GetName() << endl;
+		//cout << "Added child " << child->GetName() << ", the parent is " << parent->GetName() << endl;
 	}
 
 	for (int i = 0; i < (int)aiNode->mNumChildren; i++)

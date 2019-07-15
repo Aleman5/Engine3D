@@ -38,6 +38,8 @@ void Camera::Start()
 	ortho.right = (float)renderer->GetWindowWidht();
 	ortho.top = (float)renderer->GetWindowHeight();
 
+	renderer->ExtractPlanes(pos, fwd, right, up, persp.zNear, persp.zFar, persp.aspect, persp.fovy);
+
 	speed = 10.0f;
 }
 
@@ -179,14 +181,14 @@ void Camera::UpdateRendererPos()
 		if (isMainCamera)
 		{
 			renderer->SetCameraPosition(vMatrix);
-			renderer->ExtractPlanes(vMatrix);
+			renderer->ExtractPlanes(pos, fwd, right, up, persp.zNear, persp.zFar, persp.aspect, persp.fovy);
 		}
 	}
 	else
 	{
 		if (isMainCamera)
 		{
-			renderer->ExtractPlanes(vMatrix);
+			renderer->ExtractPlanes(pos, fwd, right, up, persp.zNear, persp.zFar, persp.aspect, persp.fovy);
 		}
 		if (isMainDebugCamera)
 		{

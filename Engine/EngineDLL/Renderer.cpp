@@ -47,15 +47,11 @@ bool Renderer::Start(Window* win)
 
 	modelMatrix = projectionMatrix = mat4(1.0f);
 
-	planes = new Plane[6];
-	ExtractPlanes(viewMatrix);
-
 	return true;
 }
 
 bool Renderer::Stop()
 {
-	delete[] planes;
 	return true;
 }
 
@@ -340,11 +336,23 @@ void Renderer::SetProjPersp(float fovy, float aspect, float zNear, float zFar)
 	SetMVP();
 }
 
-void Renderer::ExtractPlanes(mat4 viewMatrix)
+vec4 Renderer::CreatePlane(vec3 normal, vec3 point)
 {
-	mat4 comboMatrix = viewMatrix * projectionMatrix;
+	vec4 plane;
 
-	/*cout << "ComboMatrix" << endl;
+	plane.x = normal.x;
+	plane.y = normal.y;
+	plane.z = normal.z;
+	plane.w = -dot(normal, point);
+
+	return plane;
+}
+
+void Renderer::ExtractPlanes(vec3 globalPos, vec3 fwd, vec3 right, vec3 up, float zNear, float zFar, float aspRatio, float fovy)
+{
+	/*mat4 comboMatrix = viewMatrix * projectionMatrix;
+
+	cout << "ComboMatrix" << endl;
 	cout << comboMatrix[0][0] << " " << comboMatrix[0][1] << " " << comboMatrix[0][2] << " " << comboMatrix[0][3] << endl;
 	cout << comboMatrix[1][0] << " " << comboMatrix[1][1] << " " << comboMatrix[1][2] << " " << comboMatrix[1][3] << endl;
 	cout << comboMatrix[2][0] << " " << comboMatrix[2][1] << " " << comboMatrix[2][2] << " " << comboMatrix[2][3] << endl;
@@ -363,7 +371,7 @@ void Renderer::ExtractPlanes(mat4 viewMatrix)
 	cout << projectionMatrix[1][0] << " " << projectionMatrix[1][1] << " " << projectionMatrix[1][2] << " " << projectionMatrix[1][3] << endl;
 	cout << projectionMatrix[2][0] << " " << projectionMatrix[2][1] << " " << projectionMatrix[2][2] << " " << projectionMatrix[2][3] << endl;
 	cout << projectionMatrix[3][0] << " " << projectionMatrix[3][1] << " " << projectionMatrix[3][2] << " " << projectionMatrix[3][3] << endl;
-	cout << endl;*/
+	cout << endl;
 
 	// Left clipping plane
 	planes[0].a = comboMatrix[3][0] + comboMatrix[0][0];
@@ -401,13 +409,40 @@ void Renderer::ExtractPlanes(mat4 viewMatrix)
 	planes[5].c = comboMatrix[3][2] - comboMatrix[2][2];
 	planes[5].d = comboMatrix[3][3] - comboMatrix[2][3];
 
-	/*cout << planes[0].a << "     " << planes[0].b << "     " << planes[0].c << "     " << planes[0].d << endl;
+	cout << planes[0].a << "     " << planes[0].b << "     " << planes[0].c << "     " << planes[0].d << endl;
 	cout << planes[1].a << "     " << planes[1].b << "     " << planes[1].c << "     " << planes[1].d << endl;
 	cout << planes[2].a << "     " << planes[2].b << "     " << planes[2].c << "     " << planes[2].d << endl;
 	cout << planes[3].a << "     " << planes[3].b << "     " << planes[3].c << "     " << planes[3].d << endl;
 	cout << planes[4].a << "     " << planes[4].b << "     " << planes[4].c << "     " << planes[4].d << endl;
 	cout << planes[5].a << "     " << planes[5].b << "     " << planes[5].c << "     " << planes[5].d << endl;
 	cout << endl;*/
+
+	//vec3 up = glm::normalize(cross(fwd, right));
+
+	vec3 nearCenter = globalPos + fwd * zNear;
+	vec3 farCenter = globalPos + fwd * zFar;
+
+	float fovTan = tan(fovy);
+
+	float nHeight = zNear * fovTan;
+	float nWidth = nHeight * aspRatio;
+
+	vec3 leftPlaneVec	= (nearCenter - right * nWidth * 0.5f) - globalPos;
+	vec3 rightPlaneVec  = (nearCenter + right * nWidth * 0.5f) - globalPos;
+	vec3 topPlaneVec	= (nearCenter + up * nHeight * 0.5f) - globalPos;
+	vec3 bottomPlaneVec = (nearCenter - up * nHeight * 0.5f) - globalPos;
+
+	vec3 normalLeft   = -normalize(cross(leftPlaneVec, up));
+	vec3 normalRight  =  normalize(cross(rightPlaneVec, up));
+	vec3 normalTop	  = -normalize(cross(topPlaneVec, right));
+	vec3 normalBottom =  normalize(cross(bottomPlaneVec, right));
+
+	planes[(int)Planes::NEAR]	= CreatePlane(fwd, nearCenter);
+	planes[(int)Planes::FAR]	= CreatePlane(-fwd, farCenter);
+	planes[(int)Planes::LEFT]	= CreatePlane(normalLeft, globalPos);
+	planes[(int)Planes::RIGHT]	= CreatePlane(normalRight, globalPos);
+	planes[(int)Planes::TOP]	= CreatePlane(normalTop, globalPos);
+	planes[(int)Planes::BOTTOM] = CreatePlane(normalBottom, globalPos);
 }
 
 void Renderer::NormalizePlanes()
@@ -415,18 +450,18 @@ void Renderer::NormalizePlanes()
 	for (int i = 0; i < 6; i++)
 	{
 		float mag;
-		mag = sqrt(planes[i].a * planes[i].a + planes[i].b * planes[i].b + planes[i].c * planes[i].c);
-		planes[i].a = planes[i].a / mag;
-		planes[i].b = planes[i].b / mag;
-		planes[i].c = planes[i].c / mag;
-		planes[i].d = planes[i].d / mag;
+		mag = sqrt(planes[i].x * planes[i].x + planes[i].y * planes[i].y + planes[i].z * planes[i].z);
+		planes[i].x = planes[i].x / mag;
+		planes[i].y = planes[i].y / mag;
+		planes[i].z = planes[i].z / mag;
+		planes[i].w = planes[i].w / mag;
 	}
 	
 }
 
-Halfspace Renderer::ClassifyPoint(const Plane& plane, const vec4& vertex)
+Halfspace Renderer::ClassifyPoint(const vec4& plane, const vec4& vertex)
 {
-	float distToPlane = plane.a * vertex.x + plane.b * vertex.y + plane.c * vertex.z + plane.d;
+	float distToPlane = plane.x * vertex.x + plane.y * vertex.y + plane.z * vertex.z + plane.w;
 
 	return distToPlane >= 0.0f ? POSITIVE : NEGATIVE;
 }

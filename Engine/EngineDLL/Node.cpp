@@ -74,7 +74,7 @@ void Node::Draw()
 
 		if (fcData.initialized)
 		{
-			Plane* planes = renderer->GetPlanes();
+			vec4* planes = renderer->GetPlanes();
 
 			for (int i = 0; i < 6; i++)
 			{
@@ -93,6 +93,14 @@ void Node::Draw()
 					shouldDraw = false;
 				}
 			}
+		}
+
+		if (fcData.initialized)
+		{
+			if (shouldDraw)
+				cout << "Drawing" << endl;
+			else
+				cout << "Not drawing" << endl;
 		}
 
 		if (shouldDraw)
