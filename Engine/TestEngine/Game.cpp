@@ -12,6 +12,7 @@ bool Game::OnStart()
 {
 	input = Input::getInstance();
 	input->SetWindowContext(GetWindow());
+	input->HideCursor();
 
 	CollisionManager* cmgr = CollisionManager::getInstance();
 
@@ -32,12 +33,12 @@ bool Game::OnStart()
 	SetScene(scene);
 
 	nCamera = new Node("CameraHolder", scene);
-	camera = (Camera*)nCamera->AddComponent(new Camera(matTexture));
-	camera->Teleport(0.0f, 0.0f, -20.0f);
+	camera = (Camera*)nCamera->AddComponent(new Camera(matTexture, true));
+	camera->Teleport(0.0f, 0.0f, -50.0f);
 	camera->SetAsMainCamera();
 
 	nDebugCamera = new Node("DebugCameraHolder", scene);
-	debugCamera = (Camera*)nDebugCamera->AddComponent(new Camera(matTexture));
+	debugCamera = (Camera*)nDebugCamera->AddComponent(new Camera(matTexture, true));
 	debugCamera->Teleport(0.0f, 140.0f, -70.0f);
 	debugCamera->Pitch(45.0f);
 	debugCamera->SetSpeed(200.0f);
@@ -45,38 +46,34 @@ bool Game::OnStart()
 
 	//scene->ActivateCameraDebugMode();
 
-	nMeshes = new Node("Meshes", scene);
+	nObjects = new Node("Objects", scene);
 
-	nWeapon = new Node("M4A1", nMeshes);
+	nWeapon = new Node("M4A1", nObjects);
 	nWeapon->transform->SetLayer(Character);
-	nWeapon->transform->Teleport(0.0f, -100.0f, 0.0f);
-	ModelImporter::getInstance()->Load(nWeapon, M4A1_PATH, M4A1_TEXTURE_PATH, matTexture);
-	nWeapon->ActivateMeshDebugMode();
+	nWeapon->transform->Teleport(0.0f, -30.0f, 0.0f);
 
-	nSpider = new Node("Spider", nMeshes);
+	nWeaponMesh = new Node("M4A1Mesh", nWeapon);
+	nWeaponMesh->transform->Scale(0.4f, 0.4f, 0.4f);
+	ModelImporter::getInstance()->Load(nWeaponMesh, M4A1_PATH, M4A1_TEXTURE_PATH, matTexture);
+	//nWeaponMesh->ActivateMeshDebugMode();
+
+	nSpider = new Node("Spider", nWeapon);
 	nSpider->transform->SetLayer(Enemy);
-	nSpider->transform->Teleport(-50.0f, -50.0f, 50.0f);
-	nSpider->transform->Scale(0.4f, 0.4f, 0.4f);
-	ModelImporter::getInstance()->Load(nSpider, SPIDER_PATH, SPIDER_TEXTURE_PATH, matTexture);
-	nSpider->ActivateMeshDebugMode();
+	nSpider->transform->Teleport(-50.0f, -30.0f, 50.0f);
 
-	/*nThorHammer = new Node("Thor Hammer", nMeshes);
-	nThorHammer->transform->SetLayer(Wall);
-	nThorHammer->transform->Teleport(-50.0f, 50.0f, 50.0f);
-	nThorHammer->AddComponent(new Mesh(THOR_HAMMER_PATH, THOR_HAMMER_TEXTURE_PATH));
-	nThorHammer->DesactivateNode();*/
+	nSpiderMesh = new Node("SpiderMesh", nSpider);
+	nSpiderMesh->transform->Scale(0.4f, 0.4f, 0.4f);
+	ModelImporter::getInstance()->Load(nSpiderMesh, SPIDER_PATH, SPIDER_TEXTURE_PATH, matTexture);
+	//nSpiderMesh->ActivateMeshDebugMode();
 
-	nHelicopter = new Node("Helicopter", nMeshes);
+	nHelicopter = new Node("Helicopter", nObjects);
 	nHelicopter->transform->SetLayer(Character);
-	nHelicopter->transform->Teleport(20.0f, 20.0f, 20.0f);
-	nHelicopter->transform->Scale(0.01f, 0.01f, 0.01f);
-	ModelImporter::getInstance()->Load(nHelicopter, HELICOPTER_PATH, HELICOPTER_TEXTURE_PATH, matTexture);
-	nHelicopter->ActivateMeshDebugMode();
-
-	/*nNanosuit = new Node("Nanosuit", nMeshes);
-	nNanosuit->transform->SetLayer(Character);
-	nNanosuit->transform->Teleport(60.0f, 20.0f, 20.0f);
-	nNanosuit->AddComponent(new Mesh(matTexture, NANOSUIT_PATH, NANOSUIT_TEXTURE_PATH));*/
+	nHelicopter->transform->Teleport(20.0f, 10.0f, 20.0f);
+	
+	nHelicopterMesh = new Node("HelicopterMesh", nHelicopter);
+	nHelicopterMesh->transform->Scale(0.01f, 0.01f, 0.01f);
+	ModelImporter::getInstance()->Load(nHelicopterMesh, HELICOPTER_PATH, HELICOPTER_TEXTURE_PATH, matTexture);
+	//nHelicopterMesh->ActivateMeshDebugMode();
 
 	return true;
 }
@@ -113,7 +110,7 @@ bool Game::OnUpdate()
 		if (input->isInput(GLFW_KEY_E))
 			camera->Rise(BACK);
 
-		if (input->isInput(GLFW_KEY_R))
+		/*if (input->isInput(GLFW_KEY_R))
 			camera->Roll(cameraSpeed * Defs::getInstance()->deltaTime);
 		if (input->isInput(GLFW_KEY_F))
 			camera->Roll(cameraSpeed * -Defs::getInstance()->deltaTime);
@@ -124,7 +121,7 @@ bool Game::OnUpdate()
 		if (input->isInput(GLFW_KEY_Y))
 			camera->Yaw(cameraSpeed * Defs::getInstance()->deltaTime);
 		if (input->isInput(GLFW_KEY_H))
-			camera->Yaw(cameraSpeed * -Defs::getInstance()->deltaTime);
+			camera->Yaw(cameraSpeed * -Defs::getInstance()->deltaTime);*/
 
 		if ((input->isInput(GLFW_KEY_X)))
 		{
@@ -165,6 +162,11 @@ bool Game::OnUpdate()
 			if (nWeapon->GetComponent("Mesh"))
 				nWeapon->RemoveComponent("Mesh");
 		}
+
+		if (input->isInput(GLFW_KEY_ESCAPE))
+		{
+			return false;
+		}
 	}
 	break;
 	case WIN:
@@ -174,19 +176,23 @@ bool Game::OnUpdate()
 	break;
 	case LOSE:
 	{
-
+		
 	}
 	break;
 	}
+
+	//nObjects->transform->RotateX(speed * 30.0f * Defs::getInstance()->deltaTime);
+	//nWeapon->transform->RotateZ(speed * 10.0f * Defs::getInstance()->deltaTime);
 
 	//nWeapon->transform->RotateY(speed * 30.0f * Defs::getInstance()->deltaTime);
 	//nSpider->transform->RotateY(speed * Defs::getInstance()->deltaTime);
 	//nThorHammer->transform->RotateY(speed * Defs::getInstance()->deltaTime);
 
 	if (gameState == 0)
+	{
 		CollisionManager::getInstance()->DetectCollisions();
-
-	input->PollEvents();
+		input->PollEvents();
+	}
 
 	return true;
 }

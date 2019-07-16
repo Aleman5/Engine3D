@@ -37,12 +37,13 @@ class Game : public GameBase
 	Node* scene;
 	Node* nCamera;
 	Node* nDebugCamera;
-	Node* nMeshes;
+	Node* nObjects;
 	Node* nWeapon;
+	Node* nWeaponMesh;
 	Node* nSpider;
-	Node* nThorHammer;
+	Node* nSpiderMesh;
 	Node* nHelicopter;
-	Node* nNanosuit;
+	Node* nHelicopterMesh;
 
 	float speed;
 

@@ -81,7 +81,7 @@
     </ClCompile>
     <Link>
       <ImportLibrary>$(OutDir) $(TargetName).lib</ImportLibrary>
-      <AdditionalLibraryDirectories>$(SolutionDir)External\Assimp\lib\Win32\;$(SolutionDir)External\SOIL\lib\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)External\Assimp\lib\Win32\;$(SolutionDir)External\SOIL\lib\Debug;$(SolutionDir)External\glew-2.1.0\lib\Release\Win32\;$(SolutionDir)External\glfw-3.2.1\lib\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <CustomBuildStep>
       <Outputs>

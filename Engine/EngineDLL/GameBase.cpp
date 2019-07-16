@@ -40,6 +40,7 @@ bool GameBase::Start(int width, int height, const char* windowMe)
 bool GameBase::Stop()
 {
 	OnStop();
+	nScene = NULL;
 
 	renderer->Stop();
 
@@ -61,8 +62,10 @@ void GameBase::Loop()
 		Defs::getInstance()->UpdateDeltaTime();
 
 		state = OnUpdate();
+		if (!state) break;
 		if (nScene)
 			nScene->Update();
+		if (!state) break;
 		state = OnDraw();
 		if (nScene)
 			nScene->Draw();

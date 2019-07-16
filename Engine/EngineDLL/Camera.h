@@ -1,6 +1,8 @@
 #pragma once
 
 #include "Exports.h"
+#include "Input.h"
+#include "Definitions.h"
 #include "Renderer.h"
 #include "Material.h"
 #include "Component.h"
@@ -52,6 +54,7 @@ class ENGINEDLL_API Camera : public Component
 {
 	Renderer* renderer;
 	Material* material;
+	Input* input;
 
 	sOrthogonal ortho;
 	sPerspective persp;
@@ -63,8 +66,15 @@ class ENGINEDLL_API Camera : public Component
 	vec4 fwd;
 	vec4 pos;
 
-	float speed;
+	const float VERTICAL_RANGE = 70.0f;
 
+	float speed;
+	float rotationSpeed;
+
+	float horAngle;
+	float verAngle;
+
+	bool controlledByMouse;
 	bool debugMode;
 	bool isMainDebugCamera;
 	bool isMainCamera;
@@ -131,6 +141,8 @@ public:
 	/// </summary>
 	void Roll(float degrees);
 
+	void Rotate(float horRotation, float verRotation);
+
 	void DebugModeOn();
 	void DebugModeOff();
 	void SetAsMainDebugCamera();
@@ -143,5 +155,6 @@ public:
 	vec3 GetPosition() { return vec3(pos.x, pos.y, pos.z); };
 
 	Camera(Material* material);
+	Camera(Material* material, bool controlledByMouse);
 	~Camera();
 };
