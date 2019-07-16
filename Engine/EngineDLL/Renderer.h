@@ -150,6 +150,7 @@ public:
 	); 
 	void SetMVP();
 	void ExtractPlanes(vec3 globalPos, vec3 fwd, vec3 right, vec3 up, float zNear, float zFar, float aspRatio, float fovy);
+	void ExtractPlanes();
 
 	/// <summary>Updates the position of the camera</summary>
 	void SetCameraPosition(mat4 position);

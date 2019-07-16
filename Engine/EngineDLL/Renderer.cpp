@@ -348,6 +348,47 @@ vec4 Renderer::CreatePlane(const vec3& normal, const vec3& point)
 	return plane;
 }
 
+void Renderer::ExtractPlanes()
+{
+	glm::mat4 comboMatrix = projectionMatrix * glm::transpose(viewMatrix);
+
+	// Left clipping plane
+	planes[0].x = comboMatrix[0][3] + comboMatrix[0][3];
+	planes[0].y = comboMatrix[1][3] + comboMatrix[1][3];
+	planes[0].z = comboMatrix[2][3] + comboMatrix[2][3];
+	planes[0].w = comboMatrix[3][3] + comboMatrix[3][3];
+	
+	// Right clipping plane
+	planes[1].x = comboMatrix[0][3] - comboMatrix[0][3];
+	planes[1].y = comboMatrix[1][3] - comboMatrix[1][3];
+	planes[1].z = comboMatrix[2][3] - comboMatrix[2][3];
+	planes[1].w = comboMatrix[3][3] - comboMatrix[3][3];
+	
+	// Top clipping plane
+	planes[2].x = comboMatrix[0][3] - comboMatrix[0][3];
+	planes[2].y = comboMatrix[1][3] - comboMatrix[1][3];
+	planes[2].z = comboMatrix[2][3] - comboMatrix[2][3];
+	planes[2].w = comboMatrix[3][3] - comboMatrix[3][3];
+	
+	// Bottom clipping plane
+	planes[3].x = comboMatrix[0][3] + comboMatrix[0][3];
+	planes[3].y = comboMatrix[1][3] + comboMatrix[1][3];
+	planes[3].z = comboMatrix[2][3] + comboMatrix[2][3];
+	planes[3].w = comboMatrix[3][3] + comboMatrix[3][3];
+	
+	// Near clipping plane
+	planes[4].x = comboMatrix[0][3] + comboMatrix[0][3];
+	planes[4].y = comboMatrix[1][3] + comboMatrix[1][3];
+	planes[4].z = comboMatrix[2][3] + comboMatrix[2][3];
+	planes[4].w = comboMatrix[3][3] + comboMatrix[3][3];
+	
+	// Far clipping plane
+	planes[5].x = comboMatrix[0][3] - comboMatrix[0][3];
+	planes[5].y = comboMatrix[1][3] - comboMatrix[1][3];
+	planes[5].z = comboMatrix[2][3] - comboMatrix[2][3];
+	planes[5].w = comboMatrix[3][3] - comboMatrix[3][3];
+}
+
 void Renderer::ExtractPlanes(vec3 globalPos, vec3 fwd, vec3 right, vec3 up, float zNear, float zFar, float aspRatio, float fovy)
 {
 	vec3 nearCenter = globalPos + fwd * zNear;

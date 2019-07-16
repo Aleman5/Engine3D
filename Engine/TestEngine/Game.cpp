@@ -56,7 +56,9 @@ bool Game::OnStart()
 	nSpider = new Node("Spider", nMeshes);
 	nSpider->transform->SetLayer(Enemy);
 	nSpider->transform->Teleport(-50.0f, -50.0f, 50.0f);
+	nSpider->transform->Scale(0.4f, 0.4f, 0.4f);
 	ModelImporter::getInstance()->Load(nSpider, SPIDER_PATH, SPIDER_TEXTURE_PATH, matTexture);
+	nSpider->ActivateMeshDebugMode();
 
 	/*nThorHammer = new Node("Thor Hammer", nMeshes);
 	nThorHammer->transform->SetLayer(Wall);
@@ -69,6 +71,7 @@ bool Game::OnStart()
 	nHelicopter->transform->Teleport(20.0f, 20.0f, 20.0f);
 	nHelicopter->transform->Scale(0.01f, 0.01f, 0.01f);
 	ModelImporter::getInstance()->Load(nHelicopter, HELICOPTER_PATH, HELICOPTER_TEXTURE_PATH, matTexture);
+	nHelicopter->ActivateMeshDebugMode();
 
 	/*nNanosuit = new Node("Nanosuit", nMeshes);
 	nNanosuit->transform->SetLayer(Character);
