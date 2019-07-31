@@ -8,3 +8,11 @@ Engine/EngineDLL/Debug/
 Engine/TestEngine/Debug/
 
 Engine/\.vs/TestEngine/v15/
+
+Engine/x64/Debug/
+
+Engine/TestEngine/x64/Debug/
+
+Engine/TestEngine/x64/
+
+Engine/EngineDLL/x64/
