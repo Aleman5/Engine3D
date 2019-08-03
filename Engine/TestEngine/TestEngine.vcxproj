@@ -77,7 +77,12 @@
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)EngineDLL\;$(SolutionDir)External\glew-2.1.0\include;$(SolutionDir)External\glfw-3.2.1\include;$(SolutionDir)External\glm-0.9.9.0;$(SolutionDir)External\Assimp\include</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>GLM_ENABLE_EXPERIMETNAL;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
+    <PostBuildEvent>
+      <Command>copy "$(SolutionDir)External\glew-2.1.0\bin\Release\Win32\glew32.dll" "$(OutDir)"
+copy "$(SolutionDir)External\Assimp\dlls\x86\assimp-vc140-mt.dll" "$(OutDir)"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -85,8 +90,21 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)EngineDLL\;$(SolutionDir)External\glew-2.1.0\include;$(SolutionDir)External\glfw-3.2.1\include;$(SolutionDir)External\glm-0.9.9.0</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)EngineDLL\;$(SolutionDir)External\glew-2.1.0\include;$(SolutionDir)External\glfw-3.2.1\include;$(SolutionDir)External\glm-0.9.9.0;$(SolutionDir)External\Physx-4.1\include</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>GLM_ENABLE_EXPERIMENTAL;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
+    <Link>
+      <AdditionalLibraryDirectories>$(SolutionDir)External\Physx-4.1\libs\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>PhysX_64.lib;PhysXCommon_64.lib;PhysXFoundation_64.lib;PhysXCooking_64.lib;PhysXExtensions_static_64.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+    <PostBuildEvent>
+      <Command>copy "$(SolutionDir)External\glew-2.1.0\bin\Release\x64\glew32.dll" "$(OutDir)"
+copy "$(SolutionDir)External\Assimp\dlls\x64\assimp-vc140-mt.dll" "$(OutDir)"
+copy "$(SolutionDir)External\PhysX-4.1\dlls\x64\PhysX_64.dll" "$(OutDir)"
+copy "$(SolutionDir)External\PhysX-4.1\dlls\x64\PhysXCommon_64.dll" "$(OutDir)"
+copy "$(SolutionDir)External\PhysX-4.1\dlls\x64\PhysXFoundation_64.dll" "$(OutDir)"
+copy "$(SolutionDir)External\PhysX-4.1\dlls\x64\PhysXCooking_64.dll" "$(OutDir)"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -119,13 +137,16 @@
   <ItemGroup>
     <ClCompile Include="Asteroid.cpp" />
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="Helicopter.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Player.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Asteroid.h" />
+    <ClInclude Include="Constants.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GamePaths.h" />
+    <ClInclude Include="Helicopter.h" />
     <ClInclude Include="Player.h" />
   </ItemGroup>
   <ItemGroup>

@@ -15,6 +15,7 @@
 #include "GamePaths.h"
 #include "Player.h"
 #include "Asteroid.h"
+#include "Helicopter.h"
 
 enum GameState
 {

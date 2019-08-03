@@ -348,7 +348,7 @@ void Tilemap::Draw()
 	renderer->EnableAttributes(1);
 	renderer->BindBuffer(vertexBufferId, 0);
 	renderer->BindTextureBuffer(uvBufferId, 1);
-	renderer->DrawBuffer(0, countOfVertices * activeTilesColumns * activeTilesRows, drawMode);
+	renderer->DrawBuffer(countOfVertices * activeTilesColumns * activeTilesRows, drawMode);
 	renderer->DisableAttributes(0);
 	renderer->DisableAttributes(1);
 }

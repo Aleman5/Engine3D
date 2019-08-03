@@ -128,6 +128,8 @@ void Node::SetParent(Node* parent)
 		this->parent->RemoveChild(this);
 	this->parent = parent;
 	this->parent->AddChild(this);
+
+	this->transform->SetParent(this->parent->transform);
 }
 
 void Node::AddChild(Node* node)

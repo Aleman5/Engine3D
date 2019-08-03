@@ -1,8 +1,10 @@
 #pragma once
 
+#include <vector>
 #include "Exports.h"
+#include "Enums.h"
 #include "Window.h"
-#include "Material.h"
+//#include "Material.h"
 #include "Definitions.h"
 #include "GL\glew.h"
 #include "GLFW\glfw3.h"
@@ -12,6 +14,8 @@
 #include <glm\gtc\matrix_transform.hpp>
 #include <glm\gtx\transform.hpp>
 #include <glm\glm.hpp>
+
+using namespace glm;
 
 enum class Planes
 {
@@ -116,9 +120,12 @@ public:
 		unsigned char* data			// Data of the file
 	);
 	void DrawBuffer(
-		unsigned int attributeId,	// Location to fill in
 		int size,					// Total of vertices to draw
 		GLenum mode					// Draw mode
+	);
+	void DrawBuffer(
+		int size,					// Total of vertices to draw
+		PrimitiveType mode			// Draw mode
 	);
 	void DrawElementBuffer(
 		unsigned int indices

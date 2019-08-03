@@ -1,10 +1,11 @@
 #include "Material.h"
 
-Material::Material()
+Material::Material() : programId(-1), matrixId(-1)
 {
 }
 Material::~Material()
 {
+	glDeleteProgram(programId);
 }
 
 unsigned int Material::LoadShader(const char * vertex_file_path, const char * fragment_file_path)
@@ -93,9 +94,22 @@ unsigned int Material::LoadShader(const char * vertex_file_path, const char * fr
 	glDeleteShader(VertexShaderID);
 	glDeleteShader(FragmentShaderID);
 
-	programId = ProgramID;
-
 	return ProgramID;
+}
+
+Material* Material::GenerateMaterial(const char* vertexShaderPath, const char* pixelShaderPath)
+{
+	Material* material = new Material;
+
+	material->programId = material->LoadShader(vertexShaderPath, pixelShaderPath);
+
+	return material;
+}
+
+void Material::DestroyMaterial(Material* material)
+{
+	if (material)
+		delete material;
 }
 
 void Material::Bind()
@@ -118,16 +132,33 @@ void Material::Bind(const char* texName, unsigned int texture)
 
 }
 
-void Material::BindTexture(unsigned int texture)
+void Material::BindTexture()
 {
-	glUseProgram(programId);
-
-	glUniform1i(texture, 0);
-
+	if (textureId != -1)
+	{
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_2D, header->id);
+		glUniform1i(textureId, 0);
+	}
 }
 
-void Material::SetMatrixProperty(const char* name, glm::mat4& mat)
+void Material::BindTexture(unsigned int texture)
+{
+	textureId = texture;
+
+	glUseProgram(programId);
+
+	glUniform1i(textureId, 0);
+}
+
+void Material::SetMatrixProperty(const char* name, mat4& mat)
 {
 	matrixId = glGetUniformLocation(programId, name);
 	glUniformMatrix4fv(matrixId, 1, GL_FALSE, &mat[0][0]);
+}
+
+void Material::SetTexture(Header* header, const char* propertyName)
+{
+	this->header = header;
+	textureId = glGetUniformLocation(programId, propertyName);
 }

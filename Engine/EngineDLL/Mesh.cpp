@@ -1,7 +1,6 @@
 #include "Mesh.h"
 
-Mesh::Mesh(Material* material)
-	: material(material)
+Mesh::Mesh() : material(Material::GenerateMaterial(TEXTURE_VERTEX_SHADER, TEXTURE_FRAGMENT_SHADER))
 {
 	Start();
 }

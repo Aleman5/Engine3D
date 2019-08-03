@@ -49,7 +49,7 @@ bool ModelImporter::AttendNode(const aiScene* aiScene, aiNode* aiNode, Node* par
 Mesh* ModelImporter::InitMesh(const aiScene* aiScene, const aiMesh* aiMesh, Node* parent,
 							 FCCubeData& fcData, const string modelPath, const string texturePath, unsigned int Index, Material* material)
 {
-	Mesh* mesh = new Mesh(material);
+	Mesh* mesh = new Mesh();
 
 	mesh->m_Entries.resize(aiScene->mNumMeshes);
 	mesh->m_Textures.resize(aiScene->mNumMaterials);
@@ -93,7 +93,10 @@ Mesh* ModelImporter::InitMesh(const aiScene* aiScene, const aiMesh* aiMesh, Node
 	for (unsigned int i = 0; i < aiScene->mNumMaterials; i++)
 	{
 		mesh->m_Textures[i] = TextureImporter::LoadImage(texturePath.c_str());
-		mesh->bufferTextures.push_back(Renderer::getInstance()->GenTexture(mesh->m_Textures[i].width, mesh->m_Textures[i].height, mesh->m_Textures[i].imageFormat, mesh->m_Textures[i].data));
+
+		unsigned int textureId = Renderer::getInstance()->GenTexture(mesh->m_Textures[i].width, mesh->m_Textures[i].height, mesh->m_Textures[i].imageFormat, mesh->m_Textures[i].data);
+		mesh->m_Textures[i].id = textureId;
+		mesh->bufferTextures.push_back(textureId);
 	}
 
 	return mesh;

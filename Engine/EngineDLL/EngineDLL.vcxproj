@@ -104,7 +104,7 @@ copy "$(SolutionDir)External\Assimp\bin\x64\assimp-vc140-mt.dll" "$(OutDir)"</Co
     </ClCompile>
     <PostBuildEvent>
       <Command>copy "$(SolutionDir)External\glew-2.1.0\bin\Release\x64\glew32.dll" "$(OutDir)"
-copy "$(SolutionDir)External\Assimp\bin\x64\*.dll" "$(OutDir)"</Command>
+copy "$(SolutionDir)External\Assimp\dlls\x64\*.dll" "$(OutDir)"</Command>
     </PostBuildEvent>
     <Link>
       <ImportLibrary>$(OutDir) $(TargetName).lib</ImportLibrary>
@@ -146,13 +146,18 @@ copy "$(SolutionDir)External\Assimp\bin\x64\*.dll" "$(OutDir)"</Command>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Animation.h" />
+    <ClInclude Include="BoundingBox.h" />
     <ClInclude Include="Box.h" />
+    <ClInclude Include="BoxCollider.h" />
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="CapsuleCollider.h" />
     <ClInclude Include="Circle.h" />
+    <ClInclude Include="Collider.h" />
     <ClInclude Include="CollisionManager.h" />
     <ClInclude Include="Component.h" />
     <ClInclude Include="Definitions.h" />
     <ClInclude Include="Entity.h" />
+    <ClInclude Include="Enums.h" />
     <ClInclude Include="Exports.h" />
     <ClInclude Include="GameBase.h" />
     <ClInclude Include="GlobalDefs.h" />
@@ -164,22 +169,28 @@ copy "$(SolutionDir)External\Assimp\bin\x64\*.dll" "$(OutDir)"</Command>
     <ClInclude Include="PhysicsManager.h" />
     <ClInclude Include="Rectangle.h" />
     <ClInclude Include="Renderer.h" />
+    <ClInclude Include="Rigidbody.h" />
     <ClInclude Include="Shape.h" />
+    <ClInclude Include="SimulationEventCallback.h" />
     <ClInclude Include="Sprite.h" />
     <ClInclude Include="Layers.h" />
     <ClInclude Include="Structs.h" />
     <ClInclude Include="TextureImporter.h" />
+    <ClInclude Include="ThirdPersonCameraController.h" />
     <ClInclude Include="Tilemap.h" />
     <ClInclude Include="Transform.h" />
     <ClInclude Include="Triangle.h" />
-    <ClInclude Include="Typedef.h" />
     <ClInclude Include="Window.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Animation.cpp" />
+    <ClCompile Include="BoundingBox.cpp" />
     <ClCompile Include="Box.cpp" />
+    <ClCompile Include="BoxCollider.cpp" />
     <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="CapsuleCollider.cpp" />
     <ClCompile Include="Circle.cpp" />
+    <ClCompile Include="Collider.cpp" />
     <ClCompile Include="CollisionManager.cpp" />
     <ClCompile Include="Component.cpp" />
     <ClCompile Include="Definitions.cpp" />
@@ -193,10 +204,13 @@ copy "$(SolutionDir)External\Assimp\bin\x64\*.dll" "$(OutDir)"</Command>
     <ClCompile Include="PhysicsManager.cpp" />
     <ClCompile Include="Rectangle.cpp" />
     <ClCompile Include="Renderer.cpp" />
+    <ClCompile Include="Rigidbody.cpp" />
     <ClCompile Include="Shape.cpp" />
+    <ClCompile Include="SimulationEventCallback.cpp" />
     <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="Structs.cpp" />
     <ClCompile Include="TextureImporter.cpp" />
+    <ClCompile Include="ThirdPersonCameraController.cpp" />
     <ClCompile Include="Tilemap.cpp" />
     <ClCompile Include="Transform.cpp" />
     <ClCompile Include="Triangle.cpp" />

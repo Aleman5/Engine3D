@@ -24,10 +24,10 @@ bool Game::OnStart()
 	gameState = CONTINUE;
 
 	material = new Material();
-	material->LoadShader(SIMPLE_VERTEX_SHADER, SIMPLE_FRAGMENT_SHADER);
+	material = Material::GenerateMaterial(SIMPLE_VERTEX_SHADER, SIMPLE_FRAGMENT_SHADER);
 
 	matTexture = new Material();
-	matTexture->LoadShader(TEXTURE_VERTEX_SHADER, TEXTURE_FRAGMENT_SHADER);
+	matTexture = Material::GenerateMaterial(TEXTURE_VERTEX_SHADER, TEXTURE_FRAGMENT_SHADER);
 
 	scene = new Node("Scene");
 	SetScene(scene);

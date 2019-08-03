@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Renderer.h"
+#include "Material.h"
 #include "Layers.h"
 
 class ENGINEDLL_API Entity

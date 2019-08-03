@@ -70,7 +70,7 @@ void Sprite::Draw()
 	renderer->EnableAttributes(1);
 	renderer->BindBuffer(bufferId, 0);
 	renderer->BindTextureBuffer(uvBufferId, 1);
-	renderer->DrawBuffer(0, count, drawMode);
+	renderer->DrawBuffer(count, drawMode);
 	renderer->DisableAttributes(0);
 	renderer->DisableAttributes(1);
 }

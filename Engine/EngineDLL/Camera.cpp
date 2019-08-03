@@ -295,6 +295,19 @@ void Camera::Rotate(float horRotation, float verRotation)
 	up = vec4(0, 1, 0, 0);
 }
 
+void Camera::SetViewDirection(vec3 sViewDirection)
+{
+	/*viewDirection = normalize(sViewDirection);
+	transform->ForceLocalForward(sViewDirection);
+	updateFrustum();
+
+	vec3 center = globalPosition + viewDirection;
+	vec3 upVector = transform->getLocalUp();
+
+	updateFrustum();
+	renderer->UpdateView(globalPosition, center, upVector);*/
+}
+
 void Camera::DebugModeOn()
 {
 	debugMode = true;

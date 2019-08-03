@@ -196,9 +196,14 @@ void Renderer::BindTexture(unsigned int bufferId, unsigned int width, unsigned i
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);*/
 }
 
-void Renderer::DrawBuffer(unsigned int attributeId, int size, GLenum mode)
+void Renderer::DrawBuffer(int size, GLenum mode)
 {
 	glDrawArrays(mode, 0, size);
+}
+
+void Renderer::DrawBuffer(int size, PrimitiveType mode)
+{
+	glDrawArrays((int)mode, 0, size);
 }
 
 void Renderer::DrawElementBuffer(unsigned int indices)

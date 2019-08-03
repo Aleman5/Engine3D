@@ -5,7 +5,6 @@
 #include "Renderer.h"
 #include "Window.h"
 #include "Node.h"
-#include "Typedef.h"
 
 #include "GLFW\glfw3.h"
 

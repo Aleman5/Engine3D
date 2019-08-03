@@ -1,11 +1,14 @@
 #pragma once
 
+#include <glm/vec3.hpp>
 #include "Exports.h"
 #include "Input.h"
 #include "Definitions.h"
 #include "Renderer.h"
 #include "Material.h"
 #include "Component.h"
+
+using namespace glm;
 
 enum CameraType
 {
@@ -142,6 +145,7 @@ public:
 	void Roll(float degrees);
 
 	void Rotate(float horRotation, float verRotation);
+	void SetViewDirection(vec3 viewDirection);
 
 	void DebugModeOn();
 	void DebugModeOff();

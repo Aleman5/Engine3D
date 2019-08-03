@@ -5,9 +5,11 @@
 #include <vector>
 #include "Exports.h"
 #include "Component.h"
+#include "Material.h"
 #include "Transform.h"
 #include "Structs.h"
 #include "TextureImporter.h"
+#include "GlobalDefs.h"
 
 using namespace std;
 
@@ -35,6 +37,6 @@ public:
 
 	bool GetDebugMode();
 
-	Mesh(Material* material);
+	Mesh();
 	~Mesh();
 };

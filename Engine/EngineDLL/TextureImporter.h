@@ -9,6 +9,7 @@
 #define PNG_FORMAT 1
 
 struct Header {
+	unsigned int id;
 	unsigned int dataPos;		// Position of the Data
 	unsigned int width, height;	// Width and Height of the image
 	unsigned int imageSize;		// Size of the image
