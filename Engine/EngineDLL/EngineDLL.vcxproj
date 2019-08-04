@@ -69,7 +69,10 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-  <PropertyGroup />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <OutDir>$(SolutionDir)Binaries\$(TargetName)\$(Platform)\$(Configuration)\</OutDir>
+    <IntDir>$(SolutionDir)Intermediate\$(TargetName)\$(Platform)\$(Configuration)\</IntDir>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
@@ -77,20 +80,21 @@
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
       <PreprocessorDefinitions>_WINDLL;GLM_ENABLE_EXPERIMENTAL;ENGINEDLL_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)External\glew-2.1.0\include;$(SolutionDir)External\glfw-3.2.1\include;$(SolutionDir)External\glm-0.9.9.0;$(SolutionDir)External\Assimp\include;$(SolutionDir)External\SOIL\include;$(SolutionDir)External\PhysX-4.1\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)External\glew-2.1.0\include;$(SolutionDir)External\glfw-3.3\include;$(SolutionDir)External\glm-0.9.9.0;$(SolutionDir)External\Assimp\include;$(SolutionDir)External\SOIL\include;$(SolutionDir)External\PhysX-4.1\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <ImportLibrary>$(OutDir) $(TargetName).lib</ImportLibrary>
-      <AdditionalLibraryDirectories>$(SolutionDir)External\Assimp\lib\Win32\;$(SolutionDir)External\SOIL\lib\x86;$(SolutionDir)External\glew-2.1.0\lib\Release\Win32\;$(SolutionDir)External\glfw-3.2.1\lib\x86;$(SolutionDir)External\PhysX-4.1\libs\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)External\Assimp\libs\x86\;$(SolutionDir)External\SOIL\lib\x86;$(SolutionDir)External\glew-2.1.0\lib\Release\Win32\;$(SolutionDir)External\glfw-3.3\libs\x86;$(SolutionDir)External\PhysX-4.1\libs\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>glew32.lib;glfw3.lib;opengl32.lib;glu32.lib;assimp-vc140-mt.lib;SOIL.lib;PhysX_64.lib;PhysXCommon_64.lib;PhysXFoundation_64.lib;PhysXCooking_64.lib;PhysXExtensions_static_64.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <IgnoreSpecificDefaultLibraries>libcmt.lib;msvcrt.lib;libcmtd.lib</IgnoreSpecificDefaultLibraries>
     </Link>
     <CustomBuildStep>
       <Outputs>
       </Outputs>
     </CustomBuildStep>
     <PostBuildEvent>
-      <Command>copy "$(SolutionDir)External\glew-2.1.0\bin\Release\Win32\glew32.dll" "$(OutDir)"
-copy "$(SolutionDir)External\Assimp\bin\x64\assimp-vc140-mt.dll" "$(OutDir)"</Command>
+      <Command>
+      </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -99,19 +103,22 @@ copy "$(SolutionDir)External\Assimp\bin\x64\assimp-vc140-mt.dll" "$(OutDir)"</Co
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)External\glew-2.1.0\include;$(SolutionDir)External\glfw-3.2.1\include;$(SolutionDir)External\glm-0.9.9.0;$(SolutionDir)External\Assimp\include;$(SolutionDir)External\PhysX-4.1\include;$(SolutionDir)External\SOIL\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>_WINDLL;%(PreprocessorDefinitions);ENGINEDLL_EXPORTS;GLM_ENABLE_EXPERIMENTAL</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir)External\glew-2.1.0\include;$(SolutionDir)External\glfw-3.3\include;$(SolutionDir)External\glm-0.9.9.0;$(SolutionDir)External\Assimp\include;$(SolutionDir)External\PhysX-4.1\include;$(SolutionDir)External\SOIL\include;$(SolutionDir)$(ProjectName);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>ENGINEDLL_EXPORTS;GLM_ENABLE_EXPERIMENTAL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)\%(RelativeDir)</ObjectFileName>
     </ClCompile>
     <PostBuildEvent>
-      <Command>copy "$(SolutionDir)External\glew-2.1.0\bin\Release\x64\glew32.dll" "$(OutDir)"
-copy "$(SolutionDir)External\Assimp\dlls\x64\*.dll" "$(OutDir)"</Command>
+      <Command>xcopy "$(SolutionDir)Binaries\$(TargetName)\$(Platform)\$(Configuration)\EngineDLL.dll" "$(SolutionDir)Binaries\TestEngine\$(Platform)\$(Configuration)\" /y /i
+xcopy "$(SolutionDir)Binaries\$(TargetName)\$(Platform)\$(Configuration)\EngineDLL.pdb" "$(SolutionDir)Binaries\TestEngine\$(Platform)\$(Configuration)\" /y /i
+xcopy "$(SolutionDir)External\glew-2.1.0\bin\Release\x64\glew32.dll" "$(OutDir)"
+xcopy "$(SolutionDir)External\Assimp\dlls\x64\assimp-vc140-mt.dll" "$(OutDir)"</Command>
     </PostBuildEvent>
     <Link>
       <ImportLibrary>$(OutDir) $(TargetName).lib</ImportLibrary>
-      <AdditionalLibraryDirectories>$(SolutionDir)External\Assimp\lib\x64;$(SolutionDir)External\PhysX-4.1\libs\x64;$(SolutionDir)External\glfw-3.2.1\lib\x64;$(SolutionDir)External\glew-2.1.0\lib\Release\x64\;$(SolutionDir)External\SOIL\lib\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)External\Assimp\libs\x64;$(SolutionDir)External\PhysX-4.1\libs\x64;$(SolutionDir)External\glfw-3.3\libs\x64;$(SolutionDir)External\glew-2.1.0\lib\Release\x64;$(SolutionDir)External\SOIL\lib\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>glew32.lib;glfw3.lib;opengl32.lib;glu32.lib;assimp-vc140-mt.lib;SOIL.lib;PhysX_64.lib;PhysXCommon_64.lib;PhysXFoundation_64.lib;PhysXCooking_64.lib;PhysXExtensions_static_64.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <IgnoreSpecificDefaultLibraries>
-      </IgnoreSpecificDefaultLibraries>
+      <IgnoreSpecificDefaultLibraries>libcmt.lib;msvcrt.lib;libcmtd.lib</IgnoreSpecificDefaultLibraries>
+      <LinkTimeCodeGeneration>UseFastLinkTimeCodeGeneration</LinkTimeCodeGeneration>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
