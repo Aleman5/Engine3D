@@ -28,9 +28,6 @@ class Game : public GameBase
 {
 	Input* input;
 	GameState gameState;
-	Material* material;
-	Material* matTexture;
-	Material* matMesh;
 
 	Camera* camera;
 	Camera* debugCamera;

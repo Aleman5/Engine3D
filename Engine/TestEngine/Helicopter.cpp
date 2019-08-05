@@ -66,9 +66,7 @@ void Helicopter::Start(Node* scene, glm::vec3 position, float ascensionForce, fl
 	root = new Node("Heli", scene);
 	camera = new Node("HeliCamera", root);
 
-	Material* matG = Material::GenerateMaterial(TEXTURE_VERTEX_SHADER, TEXTURE_FRAGMENT_SHADER);
-
-	ModelImporter::getInstance()->Load(root, HELICOPTER_PATH, HELICOPTER_TEXTURE_PATH, matG);
+	ModelImporter::getInstance()->Load(root, HELICOPTER_PATH, HELICOPTER_TEXTURE_PATH);
 
 	ascensionForce = ascensionForce;
 	torqueForce = torqueForce;
@@ -84,7 +82,7 @@ void Helicopter::Start(Node* scene, glm::vec3 position, float ascensionForce, fl
 
 	Material* mat = Material::GenerateMaterial(TEXTURE_VERTEX_SHADER, TEXTURE_FRAGMENT_SHADER);
 
-	Camera* c = (Camera*)camera->AddComponent(new Camera(mat, false));
+	Camera* c = (Camera*)camera->AddComponent(new Camera(false));
 	ThirdPersonCameraController* tpcc = (ThirdPersonCameraController*)camera->AddComponent(new ThirdPersonCameraController());
 	BoxCollider* bc = (BoxCollider*)root->AddComponent(new BoxCollider());
 

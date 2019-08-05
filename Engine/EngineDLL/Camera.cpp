@@ -1,17 +1,19 @@
 #include "Camera.h"
+#include "GlobalDefs.h"
 
-Camera::Camera(Material* material)
-	: material(material), controlledByMouse(false), input(Input::getInstance()), rotationSpeed(90.0f)
+Camera::Camera() : material(Material::GenerateMaterial(TEXTURE_VERTEX_SHADER, TEXTURE_FRAGMENT_SHADER)),
+		controlledByMouse(false), input(Input::getInstance()), rotationSpeed(90.0f)
 {
 	Start();
 }
-Camera::Camera(Material* material, bool controlledByMouse)
-	: material(material), controlledByMouse(controlledByMouse), input(Input::getInstance()), rotationSpeed(90.0f)
+Camera::Camera(bool controlledByMouse) : material(Material::GenerateMaterial(TEXTURE_VERTEX_SHADER, TEXTURE_FRAGMENT_SHADER)), 
+		controlledByMouse(controlledByMouse), input(Input::getInstance()), rotationSpeed(90.0f)
 {
 	Start();
 }
 Camera::~Camera()
 {
+	delete material;
 }
 
 void Camera::Start()
@@ -142,9 +144,8 @@ void Camera::Draw()
 		if (material != NULL)
 		{
 			material->Bind("myTextureSampler", 2);
-			//mat4 model = CalculateModel();
 			mat4 newMVP = renderer->GetProjMatrix() * vMatrix * renderer->GetModelMatrix();
-			material->SetMatrixProperty("MVP", newMVP/*renderer->GetMVP()*/);
+			material->SetMatrixProperty("MVP", newMVP);
 		}
 
 		unsigned int id = renderer->GenBuffer(vertex, sizeof(float) * 12 * 3);

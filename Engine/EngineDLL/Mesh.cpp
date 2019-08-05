@@ -6,7 +6,7 @@ Mesh::Mesh() : material(Material::GenerateMaterial(TEXTURE_VERTEX_SHADER, TEXTUR
 }
 Mesh::~Mesh()
 {
-	//if (texturePath) delete texturePath;
+	delete material;
 }
 
 void Mesh::Start()

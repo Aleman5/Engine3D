@@ -14,7 +14,6 @@ using namespace std;
 
 class Mesh;
 class Node;
-class Material;
 class aiScene;
 class aiNode;
 class aiMesh;
@@ -24,13 +23,13 @@ class ENGINEDLL_API ModelImporter
 	static ModelImporter *instance;
 
 	bool AttendNode(const aiScene* aiScene, aiNode* aiNode, Node* parent,
-					FCCubeData& fcData, const string modelPath, const string texturePath, Material* material);
+					FCCubeData& fcData, const string modelPath, const string texturePath);
 	Mesh* InitMesh(const aiScene* aiScene, const aiMesh* aiMesh, Node* parent,
-				   FCCubeData& fcData, const string modelPath, const string texturePath, unsigned int Index, Material* material);
+				   FCCubeData& fcData, const string modelPath, const string texturePath, unsigned int Index);
 	void InitTexture();
 
 public:
-	void Load(Node* thisNode, const string modelPath, const string texturePath, Material* material);
+	void Load(Node* thisNode, const string modelPath, const string texturePath);
 
 	static ModelImporter* getInstance()
 	{

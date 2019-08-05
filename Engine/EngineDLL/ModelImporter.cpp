@@ -13,7 +13,7 @@ ModelImporter::ModelImporter()
 {
 }
 
-void ModelImporter::Load(Node* thisNode, const string modelPath, const string texturePath, Material* material)
+void ModelImporter::Load(Node* thisNode, const string modelPath, const string texturePath)
 {
 	Assimp::Importer Importer;
 
@@ -22,32 +22,32 @@ void ModelImporter::Load(Node* thisNode, const string modelPath, const string te
 	if (!pScene)
 		printf("Error parsing '%s': '%s'\n", modelPath.c_str(), Importer.GetErrorString());
 
-	AttendNode(pScene, pScene->mRootNode, thisNode, thisNode->fcData, modelPath, texturePath, material);
+	AttendNode(pScene, pScene->mRootNode, thisNode, thisNode->fcData, modelPath, texturePath);
 
 	thisNode->fcData.UpdateData();
 }
 
 bool ModelImporter::AttendNode(const aiScene* aiScene, aiNode* aiNode, Node* parent,
-							   FCCubeData& fcData, const string modelPath, const string texturePath, Material* material)
+							   FCCubeData& fcData, const string modelPath, const string texturePath)
 {
 	for (int i = 0; i < (int)aiNode->mNumMeshes; i++)
 	{
 		const aiMesh* aiMesh = aiScene->mMeshes[aiNode->mMeshes[i]];
 
 		Node* child = new Node(aiNode->mName.C_Str(), parent);
-		child->AddComponent(InitMesh(aiScene, aiMesh, parent, fcData, modelPath, texturePath, i, material));
+		child->AddComponent(InitMesh(aiScene, aiMesh, parent, fcData, modelPath, texturePath, i));
 	}
 
 	for (int i = 0; i < (int)aiNode->mNumChildren; i++)
 	{
-		AttendNode(aiScene, aiNode->mChildren[i], parent, fcData, modelPath, texturePath, material);
+		AttendNode(aiScene, aiNode->mChildren[i], parent, fcData, modelPath, texturePath);
 	}
 
 	return true;
 }
 
 Mesh* ModelImporter::InitMesh(const aiScene* aiScene, const aiMesh* aiMesh, Node* parent,
-							 FCCubeData& fcData, const string modelPath, const string texturePath, unsigned int Index, Material* material)
+							 FCCubeData& fcData, const string modelPath, const string texturePath, unsigned int Index)
 {
 	Mesh* mesh = new Mesh();
 

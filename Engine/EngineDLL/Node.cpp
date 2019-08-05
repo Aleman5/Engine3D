@@ -108,14 +108,10 @@ void Node::Draw()
 		{
 			if (shouldDraw)
 			{
-				cout << "Drawing " << name << endl;
-
 				if (myMesh)
 					if (myMesh->GetDebugMode())
 						myMesh->DrawFCData(fcData);
 			}
-			else
-				cout << "Not drawing " << name << endl;
 		}
 
 		renderer->SetModelMatrix(currentModelMatrix);

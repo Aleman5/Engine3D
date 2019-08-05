@@ -158,7 +158,7 @@ public:
 	/// <summary>Returns the position</summary>
 	vec3 GetPosition() { return vec3(pos.x, pos.y, pos.z); };
 
-	Camera(Material* material);
-	Camera(Material* material, bool controlledByMouse);
+	Camera();
+	Camera(bool controlledByMouse);
 	~Camera();
 };

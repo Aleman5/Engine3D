@@ -23,22 +23,16 @@ bool Game::OnStart()
 	speed = 2.0f;
 	gameState = CONTINUE;
 
-	material = new Material();
-	material = Material::GenerateMaterial(SIMPLE_VERTEX_SHADER, SIMPLE_FRAGMENT_SHADER);
-
-	matTexture = new Material();
-	matTexture = Material::GenerateMaterial(TEXTURE_VERTEX_SHADER, TEXTURE_FRAGMENT_SHADER);
-
 	scene = new Node("Scene");
 	SetScene(scene);
 
 	nCamera = new Node("CameraHolder", scene);
-	camera = (Camera*)nCamera->AddComponent(new Camera(matTexture, true));
+	camera = (Camera*)nCamera->AddComponent(new Camera(true));
 	camera->Teleport(0.0f, 0.0f, -50.0f);
 	camera->SetAsMainCamera();
 
 	nDebugCamera = new Node("DebugCameraHolder", scene);
-	debugCamera = (Camera*)nDebugCamera->AddComponent(new Camera(matTexture, true));
+	debugCamera = (Camera*)nDebugCamera->AddComponent(new Camera(true));
 	debugCamera->Teleport(0.0f, 140.0f, -70.0f);
 	debugCamera->Pitch(45.0f);
 	debugCamera->SetSpeed(200.0f);
@@ -54,7 +48,7 @@ bool Game::OnStart()
 
 	nWeaponMesh = new Node("M4A1Mesh", nWeapon);
 	nWeaponMesh->transform->Scale(0.4f, 0.4f, 0.4f);
-	ModelImporter::getInstance()->Load(nWeaponMesh, M4A1_PATH, M4A1_TEXTURE_PATH, matTexture);
+	ModelImporter::getInstance()->Load(nWeaponMesh, M4A1_PATH, M4A1_TEXTURE_PATH);
 	//nWeaponMesh->ActivateMeshDebugMode();
 
 	nSpider = new Node("Spider", nWeapon);
@@ -63,7 +57,7 @@ bool Game::OnStart()
 
 	nSpiderMesh = new Node("SpiderMesh", nSpider);
 	nSpiderMesh->transform->Scale(0.4f, 0.4f, 0.4f);
-	ModelImporter::getInstance()->Load(nSpiderMesh, SPIDER_PATH, SPIDER_TEXTURE_PATH, matTexture);
+	ModelImporter::getInstance()->Load(nSpiderMesh, SPIDER_PATH, SPIDER_TEXTURE_PATH);
 	//nSpiderMesh->ActivateMeshDebugMode();
 
 	nHelicopter = new Node("Helicopter", nObjects);
@@ -72,7 +66,7 @@ bool Game::OnStart()
 	
 	nHelicopterMesh = new Node("HelicopterMesh", nHelicopter);
 	nHelicopterMesh->transform->Scale(0.01f, 0.01f, 0.01f);
-	ModelImporter::getInstance()->Load(nHelicopterMesh, HELICOPTER_PATH, HELICOPTER_TEXTURE_PATH, matTexture);
+	ModelImporter::getInstance()->Load(nHelicopterMesh, HELICOPTER_PATH, HELICOPTER_TEXTURE_PATH);
 	//nHelicopterMesh->ActivateMeshDebugMode();
 
 	return true;
@@ -80,10 +74,6 @@ bool Game::OnStart()
 
 bool Game::OnStop()
 {
-	delete material;
-	delete matTexture;
-	delete matMesh;
-
 	delete scene;
 
 	return true;

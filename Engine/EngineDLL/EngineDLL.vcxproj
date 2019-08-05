@@ -108,10 +108,10 @@
       <ObjectFileName>$(IntDir)\%(RelativeDir)</ObjectFileName>
     </ClCompile>
     <PostBuildEvent>
-      <Command>xcopy "$(SolutionDir)Binaries\$(TargetName)\$(Platform)\$(Configuration)\EngineDLL.dll" "$(SolutionDir)Binaries\TestEngine\$(Platform)\$(Configuration)\" /y /i
-xcopy "$(SolutionDir)Binaries\$(TargetName)\$(Platform)\$(Configuration)\EngineDLL.pdb" "$(SolutionDir)Binaries\TestEngine\$(Platform)\$(Configuration)\" /y /i
-xcopy "$(SolutionDir)External\glew-2.1.0\bin\Release\x64\glew32.dll" "$(OutDir)"
-xcopy "$(SolutionDir)External\Assimp\dlls\x64\assimp-vc140-mt.dll" "$(OutDir)"</Command>
+      <Command>copy "$(SolutionDir)Binaries\$(TargetName)\$(Platform)\$(Configuration)\EngineDLL.dll" "$(SolutionDir)Binaries\TestEngine\$(Platform)\$(Configuration)\" /y /i
+copy "$(SolutionDir)Binaries\$(TargetName)\$(Platform)\$(Configuration)\EngineDLL.pdb" "$(SolutionDir)Binaries\TestEngine\$(Platform)\$(Configuration)\" /y /i
+copy "$(SolutionDir)External\glew-2.1.0\bin\Release\x64\glew32.dll" "$(OutDir)"
+copy "$(SolutionDir)External\Assimp\dlls\x64\assimp-vc140-mt.dll" "$(OutDir)"</Command>
     </PostBuildEvent>
     <Link>
       <ImportLibrary>$(OutDir) $(TargetName).lib</ImportLibrary>
