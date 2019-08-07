@@ -1,7 +1,7 @@
 #include "BoundingBox.h"
 #include "Renderer.h"
 
-BoundingBox::BoundingBox()
+BoundingBox::BoundingBox() : maxs(vec3(-99999.0f, -99999.0f, -99999.0f)), mins(vec3(99999.0f, 99999.0f, 99999.0f))
 {
 	Start();
 }
@@ -27,48 +27,23 @@ void BoundingBox::SetTransform(Transform* transform)
 	this->transform = transform;
 }
 
-void BoundingBox::SetVertices(vec3 sVertices[CUBE_VERTICES])
+void BoundingBox::SetVertice(int index, vec3 sVertice)
 {
-	for (int i = 0; i < CUBE_VERTICES; i++)
-	{
-		this->vertices[i] = sVertices[i];
+	vertices[index] = sVertice;
 
-		if (vertices[i].x > maxs.x)
-			maxs.x = vertices[i].x;
-		if (vertices[i].y > maxs.y)
-			maxs.y = vertices[i].y;
-		if (vertices[i].z > maxs.z)
-			maxs.z = vertices[i].z;
+	if (vertices[index].x > maxs.x)
+		maxs.x = vertices[index].x;
+	if (vertices[index].y > maxs.y)
+		maxs.y = vertices[index].y;
+	if (vertices[index].z > maxs.z)
+		maxs.z = vertices[index].z;
 
-		if (vertices[i].x < mins.x)
-			mins.x = vertices[i].x;
-		if (vertices[i].y < mins.y)
-			mins.y = vertices[i].y;
-		if (vertices[i].z < mins.z)
-			mins.z = vertices[i].z;
-	}
-}
-
-void BoundingBox::SetVertices(vec4 sVertices[CUBE_VERTICES])
-{
-	for (int i = 0; i < CUBE_VERTICES; i++)
-	{
-		vertices[i] = sVertices[i];
-
-		if (vertices[i].x > maxs.x)
-			maxs.x = vertices[i].x;
-		if (vertices[i].y > maxs.y)
-			maxs.y = vertices[i].y;
-		if (vertices[i].z > maxs.z)
-			maxs.z = vertices[i].z;
-
-		if (vertices[i].x < mins.x)
-			mins.x = vertices[i].x;
-		if (vertices[i].y < mins.y)
-			mins.y = vertices[i].y;
-		if (vertices[i].z < mins.z)
-			mins.z = vertices[i].z;
-	}
+	if (vertices[index].x < mins.x)
+		mins.x = vertices[index].x;
+	if (vertices[index].y < mins.y)
+		mins.y = vertices[index].y;
+	if (vertices[index].z < mins.z)
+		mins.z = vertices[index].z;
 }
 
 vec3 BoundingBox::GetVertexGlobalPosition(unsigned int index) const

@@ -17,7 +17,8 @@ void Transform::Start()
 	isStatic = false;
 	mass = 1.0f;
 
-	vectorPosition = vectorRotation = vectorScale = vec3(0.0f);
+	vectorPosition = vectorRotation = vec3(0.0f);
+	vectorScale = vec3(1.0f);
 
 	right = vec3(1, 0, 0);
 	up	  = vec3(0, 1, 0);

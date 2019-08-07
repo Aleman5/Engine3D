@@ -72,6 +72,10 @@ bool Game::OnStart()
 	//nHelicopterMesh->ActivateMeshDebugMode();
 	*/
 	
+	input = Input::getInstance();
+	input->SetWindowContext(GetWindow());
+	//input->HideCursor();
+
 	scene = new Node("Scene");
 	SetScene(scene);
 
@@ -79,6 +83,7 @@ bool Game::OnStart()
 	ModelImporter::getInstance()->LoadRandomTerrain(terrain, 128, 128, vec3(10.0f, 50.0f, 10.0f), TERRAIN_TEXTURE_PATH);
 
 	heli = new Helicopter();
+	helipad = new Helipad();
 
 	Terrain* aTerrain = (Terrain*)terrain->GetComponent("Terrain");
 
@@ -211,7 +216,7 @@ bool Game::OnUpdate()
 
 	if (gameState == 0)
 	{
-		CollisionManager::getInstance()->DetectCollisions();
+		//CollisionManager::getInstance()->DetectCollisions();
 		input->PollEvents();
 	}
 

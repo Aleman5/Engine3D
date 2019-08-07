@@ -66,7 +66,7 @@ void Helicopter::Start(Node* scene, vec3 position, float sAscensionForce, float 
 	root = new Node("Heli", scene);
 	camera = new Node("HeliCamera", root);
 
-	ModelImporter::getInstance()->Load(root, HELICOPTER_PATH, HELICOPTER_TEXTURE_PATH);
+	ModelImporter::getInstance()->Load(root, SPACESHIP_PATH, SPACESHIP_TEXTURE_PATH);
 
 	ascensionForce = sAscensionForce;
 	torqueForce = sTorqueForce;
@@ -76,7 +76,10 @@ void Helicopter::Start(Node* scene, vec3 position, float sAscensionForce, float 
 	root->transform->Teleport(position.x, position.y, position.z);
 
 	BoundingBox* bb = new BoundingBox();
-	bb->SetVertices(root->fcData.vertex);
+	for (int i = 0; i < CUBE_VERTICES; i++) {
+		vec3 v = root->fcData.vertex[i];
+		bb->SetVertice(i, v);
+	}
 	root->AddComponent(bb);
 
 	Material* mat = Material::GenerateMaterial(TEXTURE_VERTEX_SHADER, TEXTURE_FRAGMENT_SHADER);

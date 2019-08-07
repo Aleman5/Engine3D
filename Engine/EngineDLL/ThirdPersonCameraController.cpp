@@ -52,15 +52,15 @@ void ThirdPersonCameraController::Rotate(float horRotation, float verRotation)
 }
 
 void ThirdPersonCameraController::SetUpController(Node* sCameraNode, Node* sFollowTargetNode,
-	float rotationSpeed, float radius)
+	float sRotationSpeed, float sRadius)
 {
 	cameraTransform = sCameraNode->transform;
 	followTargetTransform = sFollowTargetNode->transform;
 
 	camera = (Camera*)sCameraNode->GetComponent("Camera");
 
-	rotationSpeed = rotationSpeed;
-	radius = radius;
+	rotationSpeed = sRotationSpeed;
+	radius = sRadius;
 
 	initialPivotForward = followTargetTransform->GetForward();
 	initialPivotUp = followTargetTransform->GetUp();

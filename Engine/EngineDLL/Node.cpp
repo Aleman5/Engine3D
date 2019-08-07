@@ -82,7 +82,7 @@ void Node::Draw()
 
 				for (int j = 0; j < 8; j++)
 				{
-					if (renderer->ClassifyPoint(planes[i], renderer->GetModelMatrix() * fcData.vertex[j]) == POSITIVE)
+					if (renderer->ClassifyPoint(planes[i], renderer->GetModelMatrix() * vec4(fcData.vertex[j], 1.0f)) == POSITIVE)
 					{
 						allBehind = false;
 						break;

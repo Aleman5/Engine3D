@@ -121,10 +121,11 @@ void PhysicsManager::FetchSimulationResults()
 	scene->fetchResults(true);
 }
 
-void PhysicsManager::DrawDebugVisualization(Renderer* renderer) const
+void PhysicsManager::DrawDebugVisualization() const
 {
 	const PxRenderBuffer& rb = scene->getRenderBuffer();
 
+	Renderer* renderer = Renderer::getInstance();
 	renderer->loadIdentityMatrix();
 
 	debugRenderMaterial->Bind();

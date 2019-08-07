@@ -4,8 +4,8 @@
 #include <glm/vec3.hpp>
 #include "Exports.h"
 #include "Component.h"
+#include "GlobalDefs.h"
 
-#define CUBE_VERTICES 8
 
 using namespace glm;
 using namespace std;
@@ -26,8 +26,7 @@ public:
 	void Draw() override;
 	void SetTransform(Transform* transform) override;
 
-	void SetVertices(vec3 vertices[CUBE_VERTICES]);
-	void SetVertices(vec4 vertices[CUBE_VERTICES]);
+	void SetVertice(int index, vec3 vertice);
 
 	vec3 GetVertexGlobalPosition(unsigned int index) const;
 

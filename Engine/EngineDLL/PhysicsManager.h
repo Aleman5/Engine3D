@@ -33,7 +33,7 @@ public:
 	void Simulate();
 	void FetchSimulationResults();
 
-	void DrawDebugVisualization(Renderer* renderer) const;
+	void DrawDebugVisualization() const;
 
 	void AddActor(PxActor* actor);
 	void RemoveActor(PxActor* actor);

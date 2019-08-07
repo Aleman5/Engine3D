@@ -9,4 +9,5 @@ constexpr const char* MODEL_TEX_FRAGMENT_SHADER = "Shaders\\ModelTexturePixelSha
 
 
 constexpr const float MAX_BYTE_VALUE = 255.0f;
+constexpr const int CUBE_VERTICES = 8;
 constexpr float DEFAULT_GRAVITY_Y = -9.81f;
