@@ -7,6 +7,7 @@
 #include "Node.h"
 #include "Input.h"
 #include "CollisionManager.h"
+#include "SimulationEventCallback.h"
 #include "Terrain.h"
 #include "Camera.h"
 #include "Mesh.h"
@@ -28,6 +29,7 @@ class Game : public GameBase
 {
 	Input* input;
 	GameState gameState;
+	SimulationEventCallback* simEventCb;
 
 	//Camera* debugCamera;
 

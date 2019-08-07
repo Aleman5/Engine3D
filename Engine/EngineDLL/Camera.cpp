@@ -68,8 +68,6 @@ void Camera::Update()
 
 	if (globalPosition != globalPos || viewDirection != viewDir)
 	{
-		cout << "Me he modificado" << endl;
-
 		globalPosition = globalPos;
 		viewDirection = viewDir;
 

@@ -19,17 +19,13 @@ enum class RotationDir
 	ROLL_LEFT, ROLL_RIGHT
 };
 
-class SimulationEventCallback;
-
 class Helicopter
 {
 private:
 	Node* root;
 	Node* camera;
 
-	RigidBody* rigidBody;
-
-	SimulationEventCallback* simulationCallback;
+	RigidBody* rigidbody;
 
 	float ascensionForce;
 	float torqueForce;
@@ -47,6 +43,8 @@ public:
 
 	void Start(Node* scene, vec3 position, float ascensionForce, float torqueForce, float mass, float fuel);
 	void Update();
+
+	PxRigidActor* GetRigidActor() { return rigidbody->GetRigidActor(); };
 
 	inline Node* GetRootObject() const { return root; }
 	inline float GetFuel() const { return fuel; }

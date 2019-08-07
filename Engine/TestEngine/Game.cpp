@@ -76,6 +76,8 @@ bool Game::OnStart()
 	input->SetWindowContext(GetWindow());
 	input->HideCursor();
 
+	simEventCb = new SimulationEventCallback();
+	
 	scene = new Node("Scene");
 	SetScene(scene);
 
@@ -95,7 +97,7 @@ bool Game::OnStart()
 	float maxHelipadZ = aTerrain->GetHeightmapColumns() * aTerrain->GetScale().z - minHelipadZ;
 	float helipadY = aTerrain->GetScale().y;
 
-	heli->Start(scene, vec3(spaceshipX, 225.0f, spaceshipZ), 7000.0f, 5000.0f, 1000.0f, 1500.0f);
+	heli->Start(scene, vec3(spaceshipX, 225.0f, spaceshipZ), 10000.0f, 10000.0f, 1000.0f, 2500.0f);
 	helipad->Start(scene, helipadY, vec2(minHelipadX, minHelipadZ), vec2(maxHelipadX, maxHelipadZ));
 
 	vec3 helipadPosition = helipad->GetPlatform()->transform->GetGlobalPosition();
@@ -104,7 +106,10 @@ bool Game::OnStart()
 
 	aTerrain->FlattenArea(terrain, helipadGridPos.x - 4, helipadGridPos.x + 4, helipadGridPos.y - 4, helipadGridPos.y + 4, flattenHeight);
 
-	PhysicsManager::getInstance()->SetCurrentSceneGravity(vec3(0.0f, -1.62f, 0.0f));
+	simEventCb->AddSpaceshipRigidActor(heli->GetRigidActor());
+	simEventCb->AddHelipadRigidActor(helipad->GetRigidActor());
+	PhysicsManager::getInstance()->SetSimulationEventCallback(simEventCb);
+	PhysicsManager::getInstance()->SetCurrentSceneGravity(vec3(0.0f, -1.5f, 0.0f));
 
 	return true;
 }
@@ -112,6 +117,7 @@ bool Game::OnStart()
 bool Game::OnStop()
 {
 	delete scene;
+	delete simEventCb;
 
 	return true;
 }

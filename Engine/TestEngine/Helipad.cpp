@@ -31,10 +31,10 @@ void Helipad::Start(Node* scene, float sHeightPosition, vec2 minHorPos, vec2 max
 	platform->AddComponent(bb);
 
 	BoxCollider* bc = (BoxCollider*)platform->AddComponent(new BoxCollider());
-	RigidBody*   rb = (RigidBody*)  platform->AddComponent(new RigidBody());
+	rigidbody = (RigidBody*)  platform->AddComponent(new RigidBody());
 
 	bc->CreateGeometry(bb);
-	rb->CreateRigidBody(bc, true, 500.0f, 0.5f, 0.5f, 0.0f, vec3(0.0f, 18.0f, 0.0f));
+	rigidbody->CreateRigidBody(bc, true, 500.0f, 0.5f, 0.5f, 0.0f, vec3(0.0f, 18.0f, 0.0f));
 }
 
 void Helipad::SetRandomPosition(vec2 min, vec2 max)

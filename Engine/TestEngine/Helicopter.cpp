@@ -5,15 +5,13 @@
 #include "Constants.h"
 
 Helicopter::Helicopter() :
-	root(NULL), camera(NULL),
+	root(NULL), camera(NULL), rigidbody(NULL),
 	ascensionForce(HELI_ASCENSION_FORCE), torqueForce(HELI_TORQUE_FORCE), mass(HELI_MASS), fuel(HELI_INITIAL_FUEL)
 {
-
 }
 
 Helicopter::~Helicopter()
 {
-	delete simulationCallback;
 }
 
 void Helicopter::Ascend()
@@ -21,7 +19,7 @@ void Helicopter::Ascend()
 	if (fuel > 0.0f)
 	{
 		vec3 force = root->transform->GetUp() * ascensionForce;
-		rigidBody->AddForce(force, ForceMode::FORCE);
+		rigidbody->AddForce(force, ForceMode::FORCE);
 
 		fuel = max(fuel - FUEL_DEPLETION_RATE * (float)Defs::getInstance()->deltaTime, 0.0f);
 	}
@@ -58,7 +56,7 @@ void Helicopter::Rotate(RotationDir rotationDir)
 		break;
 	}
 
-	rigidBody->AddTorque(torque, ForceMode::FORCE);
+	rigidbody->AddTorque(torque, ForceMode::FORCE);
 }
 
 void Helicopter::Start(Node* scene, vec3 position, float sAscensionForce, float sTorqueForce, float sMass, float sFuel)
@@ -89,15 +87,12 @@ void Helicopter::Start(Node* scene, vec3 position, float sAscensionForce, float 
 	ThirdPersonCameraController* tpcc = (ThirdPersonCameraController*)camera->AddComponent(new ThirdPersonCameraController());
 	BoxCollider* bc = (BoxCollider*)root->AddComponent(new BoxCollider());
 
-	rigidBody = (RigidBody*)root->AddComponent(new RigidBody());
+	rigidbody = (RigidBody*)root->AddComponent(new RigidBody());
 
 	bc->CreateGeometry(bb);
-	rigidBody->CreateRigidBody(bc, false, mass, 0.25f, 0.25f, 0.25f);
+	rigidbody->CreateRigidBody(bc, false, mass, 1.25f, 1.25f, 1.25f);
 
 	tpcc->SetUpController(camera, root, 70.0f, 120.0f);
-
-	simulationCallback = new SimulationEventCallback(rigidBody->GetRigidActor());
-	PhysicsManager::getInstance()->SetSimulationEventCallback(simulationCallback);
 }
 
 void Helicopter::Update()

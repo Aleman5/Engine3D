@@ -40,7 +40,7 @@ public:
 	void AddTorque(vec3 torque, ForceMode forceMode);
 	void ClearTorque(ForceMode forceMode);
 
-	inline PxRigidActor* GetRigidActor() const { return rigidActor; }
+	inline PxRigidActor* GetRigidActor() { return rigidActor; }
 
 	RigidBody();
 	virtual ~RigidBody();

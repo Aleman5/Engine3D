@@ -14,8 +14,11 @@ private:
 	PxRigidActor* helipadActor;
 
 public:
-	SimulationEventCallback(PxRigidActor* spaceshipActor);
+	SimulationEventCallback();
 	~SimulationEventCallback();
+
+	void AddSpaceshipRigidActor(PxRigidActor* sSpaceshipActor) { spaceshipActor = sSpaceshipActor; };
+	void AddHelipadRigidActor(PxRigidActor* sHelipadActor) { helipadActor = sHelipadActor; };
 
 	void onContact(const PxContactPairHeader& pairHeader, const PxContactPair* pairs,
 		PxU32 nbPairs) override;
