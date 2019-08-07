@@ -74,7 +74,7 @@ bool Game::OnStart()
 	
 	input = Input::getInstance();
 	input->SetWindowContext(GetWindow());
-	//input->HideCursor();
+	input->HideCursor();
 
 	scene = new Node("Scene");
 	SetScene(scene);
@@ -95,7 +95,7 @@ bool Game::OnStart()
 	float maxHelipadZ = aTerrain->GetHeightmapColumns() * aTerrain->GetScale().z - minHelipadZ;
 	float helipadY = aTerrain->GetScale().y;
 
-	heli->Start(scene, vec3(spaceshipX, 75.0f, spaceshipZ), 7000.0f, 5000.0f, 1000.0f, 1000.0f);
+	heli->Start(scene, vec3(spaceshipX, 225.0f, spaceshipZ), 7000.0f, 5000.0f, 1000.0f, 1500.0f);
 	helipad->Start(scene, helipadY, vec2(minHelipadX, minHelipadZ), vec2(maxHelipadX, maxHelipadZ));
 
 	vec3 helipadPosition = helipad->GetPlatform()->transform->GetGlobalPosition();
@@ -138,61 +138,6 @@ bool Game::OnUpdate()
 			camera->Rise(ADVANCE);
 		if (input->isInput(GLFW_KEY_E))
 			camera->Rise(BACK);*/
-
-		/*if (input->isInput(GLFW_KEY_R))
-			camera->Roll(cameraSpeed * Defs::getInstance()->deltaTime);
-		if (input->isInput(GLFW_KEY_F))
-			camera->Roll(cameraSpeed * -Defs::getInstance()->deltaTime);
-		if (input->isInput(GLFW_KEY_T))
-			camera->Pitch(cameraSpeed * Defs::getInstance()->deltaTime);
-		if (input->isInput(GLFW_KEY_G))
-			camera->Pitch(cameraSpeed * -Defs::getInstance()->deltaTime);
-		if (input->isInput(GLFW_KEY_Y))
-			camera->Yaw(cameraSpeed * Defs::getInstance()->deltaTime);
-		if (input->isInput(GLFW_KEY_H))
-			camera->Yaw(cameraSpeed * -Defs::getInstance()->deltaTime);*/
-
-		/*if ((input->isInput(GLFW_KEY_X)))
-		{
-			camera->SetAsMainCamera();
-		}
-
-		if ((input->isInput(GLFW_KEY_C)))
-		{
-			camera->RemoveAsMainCamera();
-		}
-
-		if ((input->isInput(GLFW_KEY_V)))
-		{
-			if (scene->IsActive())
-				scene->DesactivateNode();
-			else
-				scene->ActivateNode();
-		}
-
-		if ((input->isInput(GLFW_KEY_B)))
-		{
-			if (nWeapon->IsActive())
-				nWeapon->DesactivateNode();
-			else
-				nWeapon->ActivateNode();
-		}
-
-		if ((input->isInput(GLFW_KEY_N)))
-		{
-			if (nSpider->IsActive())
-				nSpider->DesactivateNode();
-			else
-				nSpider->ActivateNode();
-		}
-
-		if ((input->isInput(GLFW_KEY_J)))
-		{
-			if (nWeapon->GetComponent("Mesh"))
-				nWeapon->RemoveComponent("Mesh");
-		}*/
-
-		
 	}
 	break;
 	case WIN:
@@ -207,16 +152,8 @@ bool Game::OnUpdate()
 	break;
 	}
 
-	//nObjects->transform->RotateX(speed * 30.0f * Defs::getInstance()->deltaTime);
-	//nWeapon->transform->RotateZ(speed * 10.0f * Defs::getInstance()->deltaTime);
-
-	//nWeapon->transform->RotateY(speed * 30.0f * Defs::getInstance()->deltaTime);
-	//nSpider->transform->RotateY(speed * Defs::getInstance()->deltaTime);
-	//nThorHammer->transform->RotateY(speed * Defs::getInstance()->deltaTime);
-
 	if (gameState == 0)
 	{
-		//CollisionManager::getInstance()->DetectCollisions();
 		input->PollEvents();
 	}
 

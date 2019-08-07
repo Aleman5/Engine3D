@@ -50,7 +50,7 @@ struct sPerspective
 
 	sPerspective()
 		: fovy(glm::radians(45.0f)), aspect(4.0f / 3.0f),
-		  zNear(0.1f), zFar(400.0f)
+		  zNear(0.1f), zFar(1000.0f)
 	{
 	};
 };

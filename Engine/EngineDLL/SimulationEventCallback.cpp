@@ -1,7 +1,7 @@
 #include "SimulationEventCallback.h"
 
 SimulationEventCallback::SimulationEventCallback(PxRigidActor* spaceshipActor) : physx::PxSimulationEventCallback(),
-_spaceshipActor(spaceshipActor)
+spaceshipActor(spaceshipActor)
 {
 
 }
@@ -20,7 +20,7 @@ void SimulationEventCallback::onContact(const PxContactPairHeader& pairHeader, c
 
 		if (cp.events & PxPairFlag::eNOTIFY_TOUCH_FOUND)
 		{
-			if (pairHeader.actors[0] == _spaceshipActor || pairHeader.actors[1] == _spaceshipActor)
+			if (pairHeader.actors[0] == spaceshipActor || pairHeader.actors[1] == spaceshipActor)
 			{
 				cout << "Collision detected!" << endl;
 			}

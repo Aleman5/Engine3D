@@ -10,7 +10,8 @@ using namespace std;
 class ENGINEDLL_API SimulationEventCallback : public PxSimulationEventCallback
 {
 private:
-	PxRigidActor* _spaceshipActor;
+	PxRigidActor* spaceshipActor;
+	PxRigidActor* helipadActor;
 
 public:
 	SimulationEventCallback(PxRigidActor* spaceshipActor);
