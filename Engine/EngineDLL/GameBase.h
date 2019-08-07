@@ -5,14 +5,18 @@
 #include "Renderer.h"
 #include "Window.h"
 #include "Node.h"
+#include "PhysicsManager.h"
 
 #include "GLFW\glfw3.h"
+
+using namespace glm;
 
 class ENGINEDLL_API GameBase
 {
 	Window * window;	// Window reference
 	Renderer* renderer; // Renderer reference
 	Node* nScene;		// Root Node reference
+	PhysicsManager* physicsManager; // Physics Manager reference
 	
 	double currentFrame;// Actual Time
 	double lastFrame;	// Previous frame

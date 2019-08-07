@@ -1,6 +1,20 @@
 #include "TextureImporter.h"
 #include "SOIL.h"
 
+unsigned char* Header::LoadHeightmap(const string& heightmapPath, int& width, int& height)
+{
+	int channels;
+	unsigned char* heightmapData = SOIL_load_image(heightmapPath.c_str(), &width, &height, &channels, SOIL_LOAD_L);
+
+	if (!heightmapData)
+	{
+		SOIL_free_image_data(heightmapData);
+		cout << "The image file could not be loaded." << endl;
+	}
+
+	return heightmapData;
+}
+
 TextureImporter::TextureImporter()
 {
 

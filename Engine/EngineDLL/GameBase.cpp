@@ -1,4 +1,5 @@
 #include "GameBase.h"
+#include "GlobalDefs.h"
 
 GameBase::GameBase()
 {
@@ -13,6 +14,9 @@ bool GameBase::Start(int width, int height, const char* windowMe)
 	Defs* defs = Defs::getInstance();
 
 	Defs::getInstance()->UpdateDeltaTime();
+
+	physicsManager = PhysicsManager::getInstance();
+	physicsManager->Start(vec3(0.0f, DEFAULT_GRAVITY_Y, 0.0f), 8u);
 
 	currentFrame = 0.0f;
 	lastFrame = 0.0f;
@@ -34,6 +38,9 @@ bool GameBase::Start(int width, int height, const char* windowMe)
 	{
 		return false;
 	}
+
+	physicsManager->PrepareMaterial();
+
 	return true;
 }
 
@@ -42,6 +49,7 @@ bool GameBase::Stop()
 	OnStop();
 	nScene = NULL;
 
+	physicsManager->Stop();
 	renderer->Stop();
 
 	window->Stop();
@@ -65,6 +73,10 @@ void GameBase::Loop()
 		if (!state) break;
 		if (nScene)
 			nScene->Update();
+
+		physicsManager->Simulate();
+		physicsManager->FetchSimulationResults();
+
 		if (!state) break;
 		state = OnDraw();
 		if (nScene)

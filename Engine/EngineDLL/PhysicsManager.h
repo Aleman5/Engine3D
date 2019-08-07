@@ -42,6 +42,8 @@ public:
 
 	void SetSimulationEventCallback(PxSimulationEventCallback* simulationCallback);
 
+	void PrepareMaterial();
+
 	PxMaterial* CreatePhysicsMaterial(float staticFriction, float dynamicFriction, float restitution);
 	PxRigidActor* CreateRigidActor(PxTransform pxTransform, bool isStatic);
 	PxHeightField* CreateHeighField(PxHeightFieldDesc hfDesc);

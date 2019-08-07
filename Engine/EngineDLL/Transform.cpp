@@ -80,9 +80,8 @@ void Transform::Teleport(float newX, float newY, float newZ)
 
 void Transform::Scale(vec3 vector3)
 {
-	lScaleMat *= glm::scale(vector3);
-
-	vectorScale += vector3;
+	vectorScale = vector3;
+	lScaleMat = scale(mat4(1.0f), vector3);
 
 	UpdateModel();
 }
@@ -91,9 +90,8 @@ void Transform::Scale(float newX, float newY, float newZ)
 {
 	vec3 vector3(newX, newY, newZ);
 
-	lScaleMat *= glm::scale(vector3);
-
-	vectorScale += vector3;
+	vectorScale = vector3;
+	lScaleMat = scale(mat4(1.0f), vector3);
 
 	UpdateModel();
 }

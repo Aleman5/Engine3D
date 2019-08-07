@@ -15,6 +15,8 @@ struct Header {
 	unsigned int imageSize;		// Size of the image
 	unsigned int imageFormat;	// Format of the image
 	unsigned char * data;		// Data of the image
+
+	static unsigned char* LoadHeightmap(const string& heightmapPath, int& width, int& height);
 };
 static class TextureImporter
 {

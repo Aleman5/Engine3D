@@ -15,7 +15,7 @@ using namespace glm;
 
 class ENGINEDLL_API Material
 {
-	Header* header;
+	Header header;
 
 	unsigned int matrixId;		// Id of the Matrix
 	unsigned int programId;		// Id of the Program
@@ -42,7 +42,7 @@ public:
 		mat4& mat		// Value of the matrix
 	);
 	void SetTexture(
-		Header* header,
+		Header header,
 		const char* propertyName
 	);
 

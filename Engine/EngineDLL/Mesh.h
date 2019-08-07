@@ -32,6 +32,8 @@ public:
 	
 	void DrawFCData(const FCCubeData& fcData);
 
+	void SetDiffTex(vector<Header> diffuseTextures = vector<Header>());
+
 	void ActivateDebugMode();
 	void DesactivateDebugMode();
 

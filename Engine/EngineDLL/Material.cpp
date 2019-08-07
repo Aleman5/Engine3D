@@ -99,7 +99,7 @@ unsigned int Material::LoadShader(const char * vertex_file_path, const char * fr
 
 Material* Material::GenerateMaterial(const char* vertexShaderPath, const char* pixelShaderPath)
 {
-	Material* material = new Material;
+	Material* material = new Material();
 
 	material->programId = material->LoadShader(vertexShaderPath, pixelShaderPath);
 
@@ -137,7 +137,7 @@ void Material::BindTexture()
 	if (textureId != -1)
 	{
 		glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_2D, header->id);
+		glBindTexture(GL_TEXTURE_2D, header.id);
 		glUniform1i(textureId, 0);
 	}
 }
@@ -157,7 +157,7 @@ void Material::SetMatrixProperty(const char* name, mat4& mat)
 	glUniformMatrix4fv(matrixId, 1, GL_FALSE, &mat[0][0]);
 }
 
-void Material::SetTexture(Header* header, const char* propertyName)
+void Material::SetTexture(Header header, const char* propertyName)
 {
 	this->header = header;
 	textureId = glGetUniformLocation(programId, propertyName);

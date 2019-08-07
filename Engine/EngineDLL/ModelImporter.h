@@ -28,8 +28,14 @@ class ENGINEDLL_API ModelImporter
 				   FCCubeData& fcData, const string modelPath, const string texturePath, unsigned int Index);
 	void InitTexture();
 
+	static vector<unsigned int> GenerateTerrainIndices(int rows, int columns);
+
 public:
 	void Load(Node* thisNode, const string modelPath, const string texturePath);
+	void LoadTerrain(Node* thisNode, const string& heightmapPath, vec3 scale,
+		const string& texturesPath = "");
+	void LoadRandomTerrain(Node* thisNode, int rows, int columns, vec3 scale,
+		const char* texturesPath = "");
 
 	static ModelImporter* getInstance()
 	{

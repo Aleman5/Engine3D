@@ -28,7 +28,8 @@ void Mesh::Draw()
 {
 	if (material != NULL)
 	{
-		material->Bind("myTextureSampler", bufferTextures[0]);
+		//material->Bind("myTextureSampler", bufferTextures[0]);
+		material->BindTexture();
 		material->SetMatrixProperty("MVP", renderer->GetMVP());
 	} 
 
@@ -96,7 +97,8 @@ void Mesh::DrawFCData(const FCCubeData& fcData)
 
 	if (material != NULL)
 	{
-		material->Bind("myTextureSampler", bufferTextures[0]);
+		//material->Bind("myTextureSampler", bufferTextures[0]);
+		material->BindTexture();
 		material->SetMatrixProperty("MVP", renderer->GetMVP());
 	}
 
@@ -119,6 +121,18 @@ void Mesh::DrawFCData(const FCCubeData& fcData)
 void Mesh::SetTransform(Transform* transform)
 {
 	this->transform = transform;
+}
+
+void Mesh::SetDiffTex(vector<Header> diffuseTextures)
+{
+	if (diffuseTextures.size() > 0)
+	{
+		material = Material::GenerateMaterial(MODEL_TEX_VERTEX_SHADER, MODEL_TEX_FRAGMENT_SHADER);
+		m_Textures = diffuseTextures;
+		material->SetTexture(diffuseTextures[0], "myTextureSampler");
+	}
+	else
+		material = Material::GenerateMaterial(SIMPLE_VERTEX_SHADER, SIMPLE_FRAGMENT_SHADER);
 }
 
 void Mesh::ActivateDebugMode()

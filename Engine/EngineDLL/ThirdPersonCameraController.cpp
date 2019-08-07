@@ -3,6 +3,7 @@
 
 ThirdPersonCameraController::ThirdPersonCameraController()
 {
+	Start();
 }
 ThirdPersonCameraController::~ThirdPersonCameraController()
 {
@@ -11,7 +12,7 @@ ThirdPersonCameraController::~ThirdPersonCameraController()
 void ThirdPersonCameraController::Start()
 {
 	name = "ThirdPersonCameraController";
-	reqTransform = true;
+	reqTransform = false;
 }
 void ThirdPersonCameraController::Update()
 {

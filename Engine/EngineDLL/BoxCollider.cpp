@@ -2,6 +2,7 @@
 
 BoxCollider::BoxCollider()
 {
+	Start();
 }
 BoxCollider::~BoxCollider()
 {

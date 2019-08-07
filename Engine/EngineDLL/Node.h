@@ -59,6 +59,7 @@ public:
 	string GetName();
 	Node* GetChild(unsigned int index);
 	Component* GetComponent(string type);
+	Component* GetComponentInChildren(string type);
 	vector<Component*> GetComponents(string type);
 
 	Node(string name);

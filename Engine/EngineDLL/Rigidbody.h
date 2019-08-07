@@ -1,7 +1,7 @@
 #pragma once
 
 #include <iostream>
-#include "PxPhysicsAPI.h"
+#include <PxPhysicsAPI.h>
 #include "Exports.h"
 #include "Component.h"
 #include "Enums.h"

@@ -16,6 +16,7 @@ MeshEntry::~MeshEntry()
 
 void MeshEntry::Init(const vector<Vertex>& Vertices, const vector<unsigned int>& Indices)
 {
+	indices = Indices;
 	NumIndices = Indices.size();
 
 	float* positions = new float[Vertices.size() * 3];

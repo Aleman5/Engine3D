@@ -7,15 +7,15 @@
 #include "Node.h"
 #include "Input.h"
 #include "CollisionManager.h"
+#include "Terrain.h"
 #include "Camera.h"
 #include "Mesh.h"
 #include "Box.h"
 
 // Extra includes
 #include "GamePaths.h"
-#include "Player.h"
-#include "Asteroid.h"
 #include "Helicopter.h"
+#include "Helipad.h"
 
 enum GameState
 {
@@ -29,19 +29,22 @@ class Game : public GameBase
 	Input* input;
 	GameState gameState;
 
-	Camera* camera;
-	Camera* debugCamera;
+	//Camera* debugCamera;
+
+	//Node* nCamera;
+	//Node* nDebugCamera;
+	//Node* nObjects;
+	//Node* nWeapon;
+	//Node* nWeaponMesh;
+	//Node* nSpider;
+	//Node* nSpiderMesh;
+	//Node* nHelicopter;
+	//Node* nHelicopterMesh;
 
 	Node* scene;
-	Node* nCamera;
-	Node* nDebugCamera;
-	Node* nObjects;
-	Node* nWeapon;
-	Node* nWeaponMesh;
-	Node* nSpider;
-	Node* nSpiderMesh;
-	Node* nHelicopter;
-	Node* nHelicopterMesh;
+	Node* terrain;
+	Helicopter* heli;
+	Helipad* helipad;
 
 	float speed;
 

@@ -2,7 +2,10 @@
 #include "assimp/postprocess.h"
 #include "assimp/scene.h"
 
+#include "RandomHeightGenerator.h"
+#include "GlobalDefs.h"
 #include "ModelImporter.h"
+#include "Terrain.h"
 #include "Node.h"
 #include "Mesh.h"
 
@@ -25,6 +28,112 @@ void ModelImporter::Load(Node* thisNode, const string modelPath, const string te
 	AttendNode(pScene, pScene->mRootNode, thisNode, thisNode->fcData, modelPath, texturePath);
 
 	thisNode->fcData.UpdateData();
+}
+
+void ModelImporter::LoadTerrain(Node* thisNode, const string& heightmapPath, vec3 scale,
+	const string& texturesPath)
+{
+	//Node* terrainObject = new Node("Terrain", parent);
+
+	int hmColumns, hmRows;
+	unsigned char* heightmap = Header::LoadHeightmap(heightmapPath, hmColumns, hmRows);
+
+	unsigned char* pixel = heightmap;
+
+	vector<Vertex> vertices;
+	vector<vector<int>> heights;
+
+	vector<int> currentRowHeights;
+
+	for (unsigned int row = 0; row < (unsigned int)hmRows; row++)
+	{
+		currentRowHeights.clear();
+
+		for (unsigned int col = 0; col < (unsigned int)hmColumns; col++)
+		{
+			float posX = col * scale.x;
+			float posY = (float)*pixel / MAX_BYTE_VALUE * scale.y;
+			float posZ = row * scale.z;
+
+			float u = (float)col / (float)hmColumns;
+			float v = 1.0f - (float)row / (float)hmRows;
+
+			Vertex vertex(vec3(posX, posY, posZ),
+						  vec2(u, v),
+						  vec3(0.0f, 0.0f, 0.0f));
+
+			currentRowHeights.push_back((int)*pixel);
+			vertices.push_back(vertex);
+			pixel++;
+		}
+
+		heights.push_back(currentRowHeights);
+	}
+
+	vector<unsigned int> indices = GenerateTerrainIndices(hmRows, hmColumns);
+
+	//return terrainObject;
+}
+
+void ModelImporter::LoadRandomTerrain(Node* thisNode, int rows, int columns, vec3 scale,
+	const char* texturesPath)
+{
+	Mesh* mesh = new Mesh();
+
+	RandomHeightGenerator::GenerateSeed();
+
+	vector<Vertex> vertices;
+	vector<vector<int>> heights;
+
+	vector<int> currentRowHeights;
+
+	for (unsigned int row = 0; row < (unsigned int)rows; row++)
+	{
+		currentRowHeights.clear();
+
+		for (unsigned int col = 0; col < (unsigned int)columns; col++)
+		{
+			int randomHeight = RandomHeightGenerator::GenerateHeight(row, col);
+
+			float posX = col * scale.x;
+			float posY = (float)randomHeight / MAX_BYTE_VALUE * scale.y;
+			float posZ = row * scale.z;
+
+			float u = (float)col / (float)columns;
+			float v = 1.0f - (float)row / (float)rows;
+
+			Vertex vertex(vec3(posX, posY, posZ),
+						  vec2(u, v),
+						  vec3(0.0f, 0.0f, 0.0f));
+
+			currentRowHeights.push_back(randomHeight);
+			vertices.push_back(vertex);
+		}
+
+		heights.push_back(currentRowHeights);
+	}
+
+	vector<unsigned int> indices = GenerateTerrainIndices(rows, columns);
+
+	if (texturesPath != "")
+	{
+		mesh->m_Textures.push_back(TextureImporter::LoadImage(texturesPath));
+
+		unsigned int textureId = Renderer::getInstance()->GenTexture(mesh->m_Textures[0].width, mesh->m_Textures[0].height, mesh->m_Textures[0].imageFormat, mesh->m_Textures[0].data);
+		mesh->m_Textures[0].id = textureId;
+		mesh->bufferTextures.push_back(textureId);
+	}
+
+	
+	Terrain* terrain = (Terrain*)thisNode->AddComponent(new Terrain());
+	terrain->CreateHeightField(heights, rows, columns, scale);
+
+	mesh->m_Entries.resize(1);
+	mesh->m_Entries[0].Init(vertices, indices);
+
+	mesh->SetDiffTex(mesh->m_Textures);
+
+	thisNode->AddComponent(mesh);
 }
 
 bool ModelImporter::AttendNode(const aiScene* aiScene, aiNode* aiNode, Node* parent,
@@ -99,6 +208,8 @@ Mesh* ModelImporter::InitMesh(const aiScene* aiScene, const aiMesh* aiMesh, Node
 		mesh->bufferTextures.push_back(textureId);
 	}
 
+	mesh->SetDiffTex(mesh->m_Textures);
+
 	return mesh;
 }
 
@@ -106,4 +217,31 @@ void ModelImporter::InitTexture()
 {
 	//for (int i = 0; i < m_Textures.size(); i++)
 	//	bufferTextures.push_back(renderer->GenTexture(m_Textures[i].width, m_Textures[i].height, m_Textures[i].imageFormat, m_Textures[i].data));
+}
+
+vector<unsigned int> ModelImporter::GenerateTerrainIndices(int rows, int columns)
+{
+	vector<unsigned int> indices;
+
+	unsigned int start = 0;
+	unsigned int gridRows = rows - 1;
+	unsigned int gridColumns = columns - 1;
+
+	for (unsigned int row = 0; row < gridRows; row++)
+	{
+		for (unsigned int col = 0; col < gridColumns; col++)
+		{
+			start = row * columns + col;
+
+			indices.push_back(start);
+			indices.push_back(start + 1);
+			indices.push_back(start + columns);
+
+			indices.push_back(start + columns);
+			indices.push_back(start + columns + 1);
+			indices.push_back(start + 1);
+		}
+	}
+
+	return indices;
 }

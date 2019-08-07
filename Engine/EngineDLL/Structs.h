@@ -46,6 +46,7 @@ struct MeshEntry
 	unsigned int indicesBuffer;
 	unsigned int uvBuffer;
 
+	vector<unsigned int> indices;
 
 	unsigned int NumIndices;
 	unsigned int MaterialIndex;

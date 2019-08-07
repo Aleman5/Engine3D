@@ -4,6 +4,7 @@
 
 CapsuleCollider::CapsuleCollider()
 {
+	Start();
 }
 
 

@@ -3,6 +3,7 @@
 
 BoundingBox::BoundingBox()
 {
+	Start();
 }
 BoundingBox::~BoundingBox()
 {

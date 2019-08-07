@@ -2,6 +2,7 @@
 
 Box::Box()
 {
+	Start();
 }
 Box::~Box()
 {

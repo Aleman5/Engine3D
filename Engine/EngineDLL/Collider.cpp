@@ -2,6 +2,7 @@
 
 Collider::Collider() : geometry(NULL), transform(NULL)
 {
+	Start();
 }
 
 Collider::~Collider()

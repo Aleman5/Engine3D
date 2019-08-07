@@ -157,6 +157,7 @@ xcopy "$(SolutionDir)Binaries\EngineDLL\$(Platform)\$(Configuration)\EngineDLL.p
     <ClCompile Include="Asteroid.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Helicopter.cpp" />
+    <ClCompile Include="Helipad.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Player.cpp" />
   </ItemGroup>
@@ -166,6 +167,7 @@ xcopy "$(SolutionDir)Binaries\EngineDLL\$(Platform)\$(Configuration)\EngineDLL.p
     <ClInclude Include="Game.h" />
     <ClInclude Include="GamePaths.h" />
     <ClInclude Include="Helicopter.h" />
+    <ClInclude Include="Helipad.h" />
     <ClInclude Include="Player.h" />
   </ItemGroup>
   <ItemGroup>

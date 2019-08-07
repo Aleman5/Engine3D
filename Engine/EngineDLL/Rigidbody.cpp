@@ -6,7 +6,7 @@
 
 RigidBody::RigidBody() : rigidActor(NULL), shape(NULL), material(NULL)
 {
-
+	Start();
 }
 
 RigidBody::~RigidBody()
@@ -43,11 +43,11 @@ void RigidBody::SetTransform(Transform* transform)
 	this->transform = transform;
 }
 
-void RigidBody::CreateRigidBody(Collider* collider, bool isStatic, float mass,
+void RigidBody::CreateRigidBody(Collider* collider, bool sIsStatic, float mass,
 	float staticFriction, float dynamicFriction, float restitution,
 	vec3 colliderOffset)
 {
-	isStatic = isStatic;
+	isStatic = sIsStatic;
 
 	vec3 position = transform->GetGlobalPosition();
 	vec3 rotation = transform->GetGlobalRotation();

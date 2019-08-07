@@ -298,7 +298,23 @@ Component* Node::GetComponent(string type)
 		if (components[i]->GetName() == type)
 			return components[i];
 
-	cout << name << "doesn't have a component of type: " << type << endl;
+	cout << name << " doesn't have a component of type: " << type << endl;
+
+	return NULL;
+}
+
+Component* Node::GetComponentInChildren(string type)
+{
+	Component* comp = NULL;
+
+	for (int i = 0; i < nodeChilds.size(); i++)
+	{
+
+		comp = nodeChilds[i]->GetComponent(type);
+		if (comp) return comp;
+	}
+
+	cout << name << " doesn't have a component of type: " << type << endl;
 
 	return NULL;
 }
@@ -322,7 +338,7 @@ vector<Component*> Node::GetComponents(string type)
 
 	if (comps.size() == 0)
 	{
-		cout << name << "doesn't have a component of type: " << type << endl;
+		cout << name << " doesn't have a component of type: " << type << endl;
 	}
 
 	return comps;

@@ -88,8 +88,6 @@ bool PhysicsManager::Start(vec3 gravity, unsigned int numThreads)
 		return false;
 	}
 
-	debugRenderMaterial = Material::GenerateMaterial(SIMPLE_VERTEX_SHADER, SIMPLE_FRAGMENT_SHADER);
-
 	scene->setVisualizationParameter(PxVisualizationParameter::eSCALE, 1.0f);
 	scene->setVisualizationParameter(PxVisualizationParameter::eWORLD_AXES, 10.0f);
 	scene->setVisualizationParameter(PxVisualizationParameter::eACTOR_AXES, 5.0f);
@@ -176,6 +174,11 @@ void PhysicsManager::SetSimulationEventCallback(PxSimulationEventCallback* simul
 	scene->setSimulationEventCallback(simulationCallback);
 }
 
+void PhysicsManager::PrepareMaterial()
+{
+	debugRenderMaterial = Material::GenerateMaterial(SIMPLE_VERTEX_SHADER, SIMPLE_FRAGMENT_SHADER);
+}
+
 PxMaterial* PhysicsManager::CreatePhysicsMaterial(float staticFriction, float dynamicFriction, float restitution)
 {
 	return physics->createMaterial(staticFriction, dynamicFriction, restitution);
@@ -186,7 +189,7 @@ PxRigidActor* PhysicsManager::CreateRigidActor(PxTransform pxTransform, bool isS
 	PxRigidActor* rigidActor = NULL;
 
 	rigidActor = (isStatic) ? (PxRigidActor*)physics->createRigidStatic(pxTransform) :
-		(PxRigidActor*)physics->createRigidDynamic(pxTransform);
+							  (PxRigidActor*)physics->createRigidDynamic(pxTransform);
 
 	return rigidActor;
 }
