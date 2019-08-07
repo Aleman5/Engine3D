@@ -17,7 +17,7 @@ void Helipad::Start(Node* scene, float sHeightPosition, vec2 minHorPos, vec2 max
 {
 	platform = new Node("Platform", scene);
 	ModelImporter::getInstance()->Load(platform, HELIPAD_PATH, HELIPAD_TEXTURE_PATH);
-	cout << "me llamaron xdxd" << endl;
+	
 	heightPosition = sHeightPosition;
 
 	platform->transform->Scale(5.0f, 5.0f, 5.0f);

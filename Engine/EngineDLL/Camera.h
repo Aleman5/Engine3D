@@ -10,6 +10,8 @@
 
 using namespace glm;
 
+class Transform;
+
 enum CameraType
 {
 	Orthogonal = 0,
@@ -56,12 +58,16 @@ struct sPerspective
 class ENGINEDLL_API Camera : public Component
 {
 	Renderer* renderer;
+	Transform* transform;
 	Material* material;
 	Input* input;
 
 	sOrthogonal ortho;
 	sPerspective persp;
 	CameraType type;
+
+	vec3 globalPosition;
+	vec3 viewDirection;
 
 	mat4 vMatrix;
 	vec4 right;

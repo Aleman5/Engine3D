@@ -28,9 +28,9 @@ void Mesh::Draw()
 {
 	if (material != NULL)
 	{
-		//material->Bind("myTextureSampler", bufferTextures[0]);
-		material->BindTexture();
+		material->Bind();
 		material->SetMatrixProperty("MVP", renderer->GetMVP());
+		material->BindTexture();
 	} 
 
 	renderer->EnableAttributes(0);
@@ -97,9 +97,9 @@ void Mesh::DrawFCData(const FCCubeData& fcData)
 
 	if (material != NULL)
 	{
-		//material->Bind("myTextureSampler", bufferTextures[0]);
-		material->BindTexture();
+		material->Bind();
 		material->SetMatrixProperty("MVP", renderer->GetMVP());
+		material->BindTexture();
 	}
 
 	renderer->EnableAttributes(0);

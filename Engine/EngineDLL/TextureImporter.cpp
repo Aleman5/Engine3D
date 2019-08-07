@@ -89,15 +89,15 @@ Header TextureImporter::LoadImage(const char* imagePath)
 	{
 	case 1:
 		h.imageFormat = GL_RED;
-		if (h.imageSize == 0)    h.imageSize = h.width * h.height;
+		h.imageSize = h.width * h.height;
 		break;
 	case 3:
 		h.imageFormat = GL_RGB;
-		if (h.imageSize == 0)    h.imageSize = h.width * h.height * 3;
+		h.imageSize = h.width * h.height * 3;
 		break;
 	case 4:
 		h.imageFormat = GL_RGBA;
-		if (h.imageSize == 0)    h.imageSize = h.width * h.height * 4;
+		h.imageSize = h.width * h.height * 4;
 		break;
 	}
 

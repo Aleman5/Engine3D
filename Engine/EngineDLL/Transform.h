@@ -97,6 +97,8 @@ public:
 	void UpdateRotationMatrix();
 	void ConvertToEulerAngles(const vec4& quaternion, float& pitch, float& yaw, float& roll);
 
+	void ForceLocalForward(vec3 newForward);
+
 	void SetLayer(Layers layer);
 	void SetParent(Transform* parent);
 	void SetGlobalPosition(float x, float y, float z);

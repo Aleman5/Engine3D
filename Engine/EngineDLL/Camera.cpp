@@ -1,5 +1,6 @@
 #include "Camera.h"
 #include "GlobalDefs.h"
+#include "Transform.h"
 
 Camera::Camera() : material(Material::GenerateMaterial(TEXTURE_VERTEX_SHADER, TEXTURE_FRAGMENT_SHADER)),
 		controlledByMouse(false), input(Input::getInstance()), rotationSpeed(90.0f)
@@ -19,7 +20,7 @@ Camera::~Camera()
 void Camera::Start()
 {
 	name = "Camera";
-	reqTransform = false;
+	reqTransform = true;
 
 	ortho = sOrthogonal{};
 	persp = sPerspective{};
@@ -52,12 +53,36 @@ void Camera::Start()
 
 void Camera::Update()
 {
-	if (controlledByMouse && isMainCamera)
+	if (!isMainCamera) return;
+
+	if (controlledByMouse)
 	{
 		float horRotation = input->GetAxis(Axis::HORIZONTAL) * rotationSpeed * Defs::getInstance()->deltaTime;
 		float verRotation = input->GetAxis(Axis::VERTICAL)   * rotationSpeed * Defs::getInstance()->deltaTime;
 
 		Rotate(horRotation, verRotation);
+	}
+
+	vec3 globalPos = transform->GetGlobalPosition();
+	vec3 viewDir   = transform->GetLocalForward();
+
+	if (globalPosition != globalPos || viewDirection != viewDir)
+	{
+		cout << "Me he modificado" << endl;
+
+		globalPosition = globalPos;
+		viewDirection = viewDir;
+
+		vec3 center = globalPosition + viewDirection;
+		vec3 upVector = transform->GetLocalUp();
+		vec3 fwdVector = transform->GetLocalForward();
+		vec3 rightVector = transform->GetLocalRight();
+
+		vMatrix = lookAt(globalPosition, center, upVector);
+
+		renderer->SetCameraPosition(vMatrix);
+		renderer->ExtractPlanes(globalPosition, fwdVector, rightVector, upVector,
+								persp.zNear, persp.zFar, persp.aspect, persp.fovy);
 	}
 }
 
@@ -67,22 +92,6 @@ void Camera::Draw()
 	{
 		float* vertex = new float[12 * 3]
 		{
-			/*fcNew.vertex[0].x, fcNew.vertex[0].y, fcNew.vertex[0].z,
-			fcNew.vertex[1].x, fcNew.vertex[1].y, fcNew.vertex[1].z,
-			fcNew.vertex[4].x, fcNew.vertex[4].y, fcNew.vertex[4].z,
-
-			fcNew.vertex[1].x, fcNew.vertex[1].y, fcNew.vertex[1].z,
-			fcNew.vertex[4].x, fcNew.vertex[4].y, fcNew.vertex[4].z,
-			fcNew.vertex[5].x, fcNew.vertex[5].y, fcNew.vertex[5].z,
-
-			fcNew.vertex[2].x, fcNew.vertex[2].y, fcNew.vertex[2].z,
-			fcNew.vertex[3].x, fcNew.vertex[3].y, fcNew.vertex[3].z,
-			fcNew.vertex[6].x, fcNew.vertex[6].y, fcNew.vertex[6].z,
-
-			fcNew.vertex[3].x, fcNew.vertex[3].y, fcNew.vertex[3].z,
-			fcNew.vertex[6].x, fcNew.vertex[6].y, fcNew.vertex[6].z,
-			fcNew.vertex[7].x, fcNew.vertex[7].y, fcNew.vertex[7].z,*/
-
 			 persp.zNear, persp.zNear, persp.zNear,
 			 persp.zNear,-persp.zNear, persp.zNear,
 			 persp.zFar, -persp.zFar,  persp.zFar,
@@ -116,22 +125,6 @@ void Camera::Draw()
 			0.0f, 0.0f, 0.0f,
 			0.0f, 0.0f, 0.0f,
 			0.0f, 0.0f, 0.0f,
-			
-			/*1.0f, 1.0f, 1.0f,
-			1.0f, 1.0f, 1.0f,
-			1.0f, 1.0f, 1.0f,
-			
-			1.0f, 1.0f, 1.0f,
-			1.0f, 1.0f, 1.0f,
-			1.0f, 1.0f, 1.0f,
-			
-			1.0f, 1.0f, 1.0f,
-			1.0f, 1.0f, 1.0f,
-			1.0f, 1.0f, 1.0f,
-			
-			1.0f, 1.0f, 1.0f,
-			1.0f, 1.0f, 1.0f,
-			1.0f, 1.0f, 1.0f,*/
 		};
 
 		vector<unsigned int> indices{
@@ -143,9 +136,10 @@ void Camera::Draw()
 
 		if (material != NULL)
 		{
-			material->Bind("myTextureSampler", 2);
+			material->Bind();
 			mat4 newMVP = renderer->GetProjMatrix() * vMatrix * renderer->GetModelMatrix();
 			material->SetMatrixProperty("MVP", newMVP);
+			material->BindTexture();
 		}
 
 		unsigned int id = renderer->GenBuffer(vertex, sizeof(float) * 12 * 3);
@@ -176,14 +170,15 @@ mat4 Camera::CalculateModel()
 	vecAxisX[1] = vecAxisX[2] = 0.0f;
 	vecAxisX[0] = 1.0f;
 
-	//model *= rotate(mat4(1.0f), right, vecAxisX);
-
 	return model;
 }
 
 void Camera::SetTransform(Transform* transform)
 {
+	this->transform = transform;
 
+	globalPosition = this->transform->GetGlobalPosition();
+	viewDirection = this->transform->GetLocalForward();
 }
 
 void Camera::UpdateRendererPos()
@@ -198,6 +193,7 @@ void Camera::UpdateRendererPos()
 	{
 		if (isMainCamera)
 		{
+			cout << "Hola" << endl;
 			renderer->SetCameraPosition(vMatrix);
 			renderer->ExtractPlanes(pos, fwd, right, up, persp.zNear, persp.zFar, persp.aspect, persp.fovy);
 		}
@@ -298,15 +294,19 @@ void Camera::Rotate(float horRotation, float verRotation)
 
 void Camera::SetViewDirection(vec3 sViewDirection)
 {
-	/*viewDirection = normalize(sViewDirection);
+	viewDirection = normalize(sViewDirection);
 	transform->ForceLocalForward(sViewDirection);
-	updateFrustum();
 
 	vec3 center = globalPosition + viewDirection;
-	vec3 upVector = transform->getLocalUp();
+	vec3 upVector = transform->GetLocalUp();
+	vec3 fwdVector = transform->GetLocalForward();
+	vec3 rightVector = transform->GetLocalRight();
 
-	updateFrustum();
-	renderer->UpdateView(globalPosition, center, upVector);*/
+	vMatrix = lookAt(globalPosition, center, upVector);
+
+	renderer->SetCameraPosition(vMatrix);
+	renderer->ExtractPlanes(globalPosition, fwdVector, rightVector, upVector,
+							persp.zNear, persp.zFar, persp.aspect, persp.fovy);
 }
 
 void Camera::DebugModeOn()

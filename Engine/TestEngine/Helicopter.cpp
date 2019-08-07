@@ -20,6 +20,7 @@ void Helicopter::Ascend()
 {
 	if (fuel > 0.0f)
 	{
+		cout << "Ascendiendo wey" << endl;
 		vec3 force = root->transform->GetUp() * ascensionForce;
 		rigidBody->AddForce(force, ForceMode::FORCE);
 
@@ -68,6 +69,8 @@ void Helicopter::Start(Node* scene, vec3 position, float sAscensionForce, float 
 
 	ModelImporter::getInstance()->Load(root, SPACESHIP_PATH, SPACESHIP_TEXTURE_PATH);
 
+	root->transform->Scale(0.1f, 0.1f, 0.1f);
+
 	ascensionForce = sAscensionForce;
 	torqueForce = sTorqueForce;
 	mass = sMass;
@@ -84,7 +87,7 @@ void Helicopter::Start(Node* scene, vec3 position, float sAscensionForce, float 
 
 	Material* mat = Material::GenerateMaterial(TEXTURE_VERTEX_SHADER, TEXTURE_FRAGMENT_SHADER);
 
-	Camera* c = (Camera*)camera->AddComponent(new Camera(false));
+	Camera* c = (Camera*)camera->AddComponent(new Camera());
 	c->SetAsMainCamera();
 	ThirdPersonCameraController* tpcc = (ThirdPersonCameraController*)camera->AddComponent(new ThirdPersonCameraController());
 	BoxCollider* bc = (BoxCollider*)root->AddComponent(new BoxCollider());
@@ -94,7 +97,7 @@ void Helicopter::Start(Node* scene, vec3 position, float sAscensionForce, float 
 	bc->CreateGeometry(bb);
 	rigidBody->CreateRigidBody(bc, false, mass, 0.25f, 0.25f, 0.25f);
 
-	tpcc->SetUpController(camera, root, 70.0f, 120.0f);
+	tpcc->SetUpController(camera, root, 70.0f, 150.0f);
 
 	simulationCallback = new SimulationEventCallback(rigidBody->GetRigidActor());
 	PhysicsManager::getInstance()->SetSimulationEventCallback(simulationCallback);
@@ -103,7 +106,7 @@ void Helicopter::Start(Node* scene, vec3 position, float sAscensionForce, float 
 void Helicopter::Update()
 {
 	Input* input = Input::getInstance();
-
+	cout << "Update Helicopter" << endl;
 	if (input->isInput(GLFW_KEY_SPACE))
 		Ascend();
 

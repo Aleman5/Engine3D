@@ -1,6 +1,6 @@
 #include "Material.h"
 
-Material::Material() : programId(-1), matrixId(-1)
+Material::Material() : programId(-1), matrixId(-1), textureId(-1)
 {
 }
 Material::~Material()

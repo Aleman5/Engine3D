@@ -247,6 +247,12 @@ vec4 Transform::ConvertToQuaternion(float pitch, float yaw, float roll)
 	return rotQuat;
 }
 
+void Transform::ForceLocalForward(vec3 newForward)
+{
+	newForward = glm::normalize(newForward);
+	lFwd = newForward;
+}
+
 void Transform::SetLayer(Layers layer)
 {
 	this->layer = layer;
