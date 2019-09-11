@@ -23,9 +23,9 @@ class ENGINEDLL_API ModelImporter
 	static ModelImporter *instance;
 
 	bool AttendNode(const aiScene* aiScene, aiNode* aiNode, Node* parent,
-					FCCubeData& fcData, const string modelPath, const string texturePath);
+					const string modelPath, const string texturePath);
 	Mesh* InitMesh(const aiScene* aiScene, const aiMesh* aiMesh, Node* parent,
-				   FCCubeData& fcData, const string modelPath, const string texturePath, unsigned int Index);
+					Node* child, const string modelPath, const string texturePath, unsigned int Index);
 	void InitTexture();
 
 	static vector<unsigned int> GenerateTerrainIndices(int rows, int columns);

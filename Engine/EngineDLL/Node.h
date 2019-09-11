@@ -18,6 +18,7 @@ class ENGINEDLL_API Node
 
 	string name;
 	bool isActive;
+	bool shouldDraw;
 	vector<Node*> nodeChilds;
 	vector<Component*> components;
 

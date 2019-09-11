@@ -71,8 +71,8 @@ struct FCCubeData
 
 	bool initialized = false;
 
-	float minX = 999999.0f, minY = 999999.0f, minZ = 999999.0f;
-	float maxX = -999999.0f, maxY = -999999.0f, maxZ = -999999.0f;
+	float lMinX = 999999.0f, lMinY = 999999.0f, lMinZ = 999999.0f;
+	float lMaxX = -999999.0f, lMaxY = -999999.0f, lMaxZ = -999999.0f;
 
 	FCCubeData() { vertex = new vec3[CUBE_VERTICES]; }
 
@@ -86,26 +86,61 @@ struct FCCubeData
 		Bottom_Right_Far.y = minY;	Bottom_Right_Near.y = minY;	 Bottom_Left_Far.y = minY;	Bottom_Left_Near.y = minY;
 		Bottom_Right_Far.z = maxZ;	Bottom_Right_Near.z = minZ;	 Bottom_Left_Far.z = maxZ;	Bottom_Left_Near.z = minZ;*/
 
-		vertex = new vec3[8];
+		//vertex = new vec3[8];
 
-		vertex[0].x = maxX;	 vertex[1].x = maxX;  vertex[2].x = minX;  vertex[3].x = minX;
-		vertex[0].y = maxY;	 vertex[1].y = maxY;  vertex[2].y = maxY;  vertex[3].y = maxY;
-		vertex[0].z = maxZ;	 vertex[1].z = minZ;  vertex[2].z = maxZ;  vertex[3].z = minZ;
-							 					 					  
-		vertex[4].x = maxX;  vertex[5].x = maxX;  vertex[6].x = minX;  vertex[7].x = minX;
-		vertex[4].y = minY;	 vertex[5].y = minY;  vertex[6].y = minY;  vertex[7].y = minY;
-		vertex[4].z = maxZ;	 vertex[5].z = minZ;  vertex[6].z = maxZ;  vertex[7].z = minZ;
+		vertex[0].x = lMaxX; vertex[1].x = lMaxX;  vertex[2].x = lMinX;  vertex[3].x = lMinX;
+		vertex[0].y = lMaxY; vertex[1].y = lMaxY;  vertex[2].y = lMaxY;  vertex[3].y = lMaxY;
+		vertex[0].z = lMaxZ; vertex[1].z = lMinZ;  vertex[2].z = lMaxZ;  vertex[3].z = lMinZ;
+		
+		vertex[4].x = lMaxX; vertex[5].x = lMaxX;  vertex[6].x = lMinX;  vertex[7].x = lMinX;
+		vertex[4].y = lMinY; vertex[5].y = lMinY;  vertex[6].y = lMinY;  vertex[7].y = lMinY;
+		vertex[4].z = lMaxZ; vertex[5].z = lMinZ;  vertex[6].z = lMaxZ;  vertex[7].z = lMinZ;
 
 		initialized = true;
 	}
 
+	void CompareData(FCCubeData childFcData)
+	{
+		vertex[0].x = childFcData.vertex[0].x > lMaxX ? childFcData.vertex[0].x : lMaxX; 
+		vertex[0].y = childFcData.vertex[0].y > lMaxY ? childFcData.vertex[0].y : lMaxY; 
+		vertex[0].z = childFcData.vertex[0].z > lMaxZ ? childFcData.vertex[0].z : lMaxZ; 
+
+		vertex[1].x = lMaxX;
+		vertex[1].y = lMaxY;
+		vertex[1].z = lMinZ;
+
+		vertex[2].x = lMinX;
+		vertex[2].y = lMaxY;
+		vertex[2].z = lMaxZ;
+
+		vertex[3].x = lMinX;
+		vertex[3].y = lMaxY;
+		vertex[3].z = lMinZ;
+
+		vertex[4].x = lMaxX;
+		vertex[4].y = lMinY;
+		vertex[4].z = lMaxZ;
+
+		vertex[5].x = lMaxX;
+		vertex[5].y = lMinY;
+		vertex[5].z = lMinZ;
+
+		vertex[6].x = lMinX;
+		vertex[6].y = lMinY;
+		vertex[6].z = lMaxZ;
+
+		vertex[7].x = lMinX;
+		vertex[7].y = lMinY;
+		vertex[7].z = lMinZ;
+	}
+
 	void NewValue(const vec3 newValue)
 	{
-		if (newValue.x > maxX) maxX = newValue.x;
-		if (newValue.x < minX) minX = newValue.x;
-		if (newValue.y > maxY) maxY = newValue.y;
-		if (newValue.y < minY) minY = newValue.y;
-		if (newValue.z > maxZ) maxZ = newValue.z;
-		if (newValue.z < minZ) minZ = newValue.z;
+		if (newValue.x > lMaxX) lMaxX = newValue.x;
+		if (newValue.x < lMinX) lMinX = newValue.x;
+		if (newValue.y > lMaxY) lMaxY = newValue.y;
+		if (newValue.y < lMinY) lMinY = newValue.y;
+		if (newValue.z > lMaxZ) lMaxZ = newValue.z;
+		if (newValue.z < lMinZ) lMinZ = newValue.z;
 	}
 };

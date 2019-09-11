@@ -25,7 +25,7 @@ void ModelImporter::Load(Node* thisNode, const string modelPath, const string te
 	if (!pScene)
 		printf("Error parsing '%s': '%s'\n", modelPath.c_str(), Importer.GetErrorString());
 
-	AttendNode(pScene, pScene->mRootNode, thisNode, thisNode->fcData, modelPath, texturePath);
+	AttendNode(pScene, pScene->mRootNode, thisNode, modelPath, texturePath);
 
 	thisNode->fcData.UpdateData();
 }
@@ -137,26 +137,26 @@ void ModelImporter::LoadRandomTerrain(Node* thisNode, int rows, int columns, vec
 }
 
 bool ModelImporter::AttendNode(const aiScene* aiScene, aiNode* aiNode, Node* parent,
-							   FCCubeData& fcData, const string modelPath, const string texturePath)
+							   const string modelPath, const string texturePath)
 {
 	for (int i = 0; i < (int)aiNode->mNumMeshes; i++)
 	{
 		const aiMesh* aiMesh = aiScene->mMeshes[aiNode->mMeshes[i]];
 
 		Node* child = new Node(aiNode->mName.C_Str(), parent);
-		child->AddComponent(InitMesh(aiScene, aiMesh, parent, fcData, modelPath, texturePath, i));
+		child->AddComponent(InitMesh(aiScene, aiMesh, parent, child, modelPath, texturePath, i));
 	}
 
 	for (int i = 0; i < (int)aiNode->mNumChildren; i++)
 	{
-		AttendNode(aiScene, aiNode->mChildren[i], parent, fcData, modelPath, texturePath);
+		AttendNode(aiScene, aiNode->mChildren[i], parent, modelPath, texturePath);
 	}
 
 	return true;
 }
 
 Mesh* ModelImporter::InitMesh(const aiScene* aiScene, const aiMesh* aiMesh, Node* parent,
-							 FCCubeData& fcData, const string modelPath, const string texturePath, unsigned int Index)
+							 Node* child, const string modelPath, const string texturePath, unsigned int Index)
 {
 	Mesh* mesh = new Mesh();
 
@@ -183,10 +183,12 @@ Mesh* ModelImporter::InitMesh(const aiScene* aiScene, const aiMesh* aiMesh, Node
 			vec2((float)pTexCoord->x, (float)pTexCoord->y),
 			vec3((float)pNormal->x, (float)pNormal->y, (float)pNormal->z));
 
-		fcData.NewValue(v.m_pos);
+		child->fcData.NewValue(v.m_pos);
 
 		Vertices.push_back(v);
 	}
+
+	child->fcData.UpdateData();
 
 	for (unsigned int i = 0; i < aiMesh->mNumFaces; i++)
 	{

@@ -1,12 +1,12 @@
 #include "Node.h"
 
 Node::Node(string name)
-	: name(name), myMesh(NULL)
+	: name(name), myMesh(NULL), shouldDraw(true)
 {
 	Start();
 }
 Node::Node(string name, Node* parent)
-	: name(name), myMesh(NULL)
+	: name(name), myMesh(NULL), shouldDraw(true)
 {
 	Start();
 	SetParent(parent);
@@ -60,17 +60,10 @@ void Node::Update()
 
 		for (int i = 0; i < nodeChilds.size(); i++)
 			nodeChilds[i]->Update();
-	}
-}
 
-void Node::Draw()
-{
-	if (isActive)
-	{
-		mat4 currentModelMatrix = renderer->GetModelMatrix();
-		renderer->MultiplyModelMatrix(transform->GetModelMatrix());
-
-		bool shouldDraw = true;
+		if (parent)
+			if (parent->fcData.initialized)
+				parent->fcData.CompareData(fcData);
 
 		if (fcData.initialized)
 		{
@@ -94,6 +87,15 @@ void Node::Draw()
 				}
 			}
 		}
+	}
+}
+
+void Node::Draw()
+{
+	if (isActive)
+	{
+		mat4 currentModelMatrix = renderer->GetModelMatrix();
+		renderer->MultiplyModelMatrix(transform->GetModelMatrix());
 
 		if (shouldDraw)
 		{
@@ -106,6 +108,8 @@ void Node::Draw()
 
 		if (fcData.initialized)
 		{
+			fcData.UpdateData();
+
 			if (shouldDraw)
 			{
 				if (myMesh)
@@ -113,6 +117,8 @@ void Node::Draw()
 						myMesh->DrawFCData(fcData);
 			}
 		}
+
+		shouldDraw = true;
 
 		renderer->SetModelMatrix(currentModelMatrix);
 	}
