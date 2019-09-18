@@ -283,10 +283,6 @@ void Camera::Rotate(float horRotation, float verRotation)
 	Pitch(verRotation);
 	Yaw(horRotation);
 
-	//cout << "fwd:   " << fwd.x   << fwd.y   << fwd.z   << fwd.w   << endl;
-	//cout << "right: " << right.x << right.y << right.z << right.w << endl;
-	//cout << "up:    " << up.x    << up.y    << up.z    << up.w    << endl;
-
 	up = vec4(0, 1, 0, 0);
 }
 

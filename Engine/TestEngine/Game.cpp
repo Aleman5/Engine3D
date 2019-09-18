@@ -11,7 +11,7 @@ Game::~Game()
 
 bool Game::OnStart()
 {
-	/*
+	
 	input = Input::getInstance();
 	input->SetWindowContext(GetWindow());
 	input->HideCursor();
@@ -22,27 +22,33 @@ bool Game::OnStart()
 	cmgr->SetRelation(Character, Wall);
 	cmgr->SetRelation(Enemy, Wall);
 
+	simEventCb = new SimulationEventCallback();
+
+	// ------------------------- Start ------------------------- //
+	// -------------------- Scene BSP Test --------------------- //
+	// --------------------------------------------------------- //
+
 	speed = 2.0f;
 	gameState = CONTINUE;
 
-	scene = new Node("Scene");
-	SetScene(scene);
+	sceneBSPTest = new Node("Scene");
+	SetScene(sceneBSPTest);
 
-	nCamera = new Node("CameraHolder", scene);
-	camera = (Camera*)nCamera->AddComponent(new Camera(true));
+	nCamera = new Node("CameraHolder", sceneBSPTest);
+	Camera* camera = (Camera*)nCamera->AddComponent(new Camera(true));
 	camera->Teleport(0.0f, 0.0f, -50.0f);
 	camera->SetAsMainCamera();
 
-	nDebugCamera = new Node("DebugCameraHolder", scene);
+	/*nDebugCamera = new Node("DebugCameraHolder", sceneBSPTest);
 	debugCamera = (Camera*)nDebugCamera->AddComponent(new Camera(true));
 	debugCamera->Teleport(0.0f, 140.0f, -70.0f);
 	debugCamera->Pitch(45.0f);
 	debugCamera->SetSpeed(200.0f);
-	debugCamera->SetAsMainDebugCamera();
+	debugCamera->SetAsMainDebugCamera();*/
 
 	//scene->ActivateCameraDebugMode();
 
-	nObjects = new Node("Objects", scene);
+	nObjects = new Node("Objects", sceneBSPTest);
 
 	nWeapon = new Node("M4A1", nObjects);
 	nWeapon->transform->SetLayer(Character);
@@ -70,18 +76,21 @@ bool Game::OnStart()
 	nHelicopterMesh->transform->Scale(0.01f, 0.01f, 0.01f);
 	ModelImporter::getInstance()->Load(nHelicopterMesh, HELICOPTER_PATH, HELICOPTER_TEXTURE_PATH);
 	//nHelicopterMesh->ActivateMeshDebugMode();
-	*/
 	
-	input = Input::getInstance();
-	input->SetWindowContext(GetWindow());
-	input->HideCursor();
+	// --------------------------------------------------------- //
+	// -------------------- Scene BSP Test --------------------- //
+	// -------------------------- End -------------------------- //
 
-	simEventCb = new SimulationEventCallback();
+
+	// ------------------------- Start ------------------------- //
+	// -------------------- Scene Spaceship -------------------- //
+	// --------------------------------------------------------- //
+
 	
-	scene = new Node("Scene");
-	SetScene(scene);
+	/*sceneSpaceship = new Node("SceneSpaceship");
+	SetScene(sceneSpaceship);
 
-	terrain = new Node("MyTerrain", scene);
+	terrain = new Node("MyTerrain", sceneSpaceship);
 	ModelImporter::getInstance()->LoadRandomTerrain(terrain, 128, 128, vec3(10.0f, 50.0f, 10.0f), TERRAIN_TEXTURE_PATH);
 
 	heli = new Helicopter();
@@ -97,8 +106,8 @@ bool Game::OnStart()
 	float maxHelipadZ = aTerrain->GetHeightmapColumns() * aTerrain->GetScale().z - minHelipadZ;
 	float helipadY = aTerrain->GetScale().y;
 
-	heli->Start(scene, vec3(spaceshipX, 225.0f, spaceshipZ), 10000.0f, 10000.0f, 1000.0f, 2500.0f);
-	helipad->Start(scene, helipadY, vec2(minHelipadX, minHelipadZ), vec2(maxHelipadX, maxHelipadZ));
+	heli->Start(sceneSpaceship, vec3(spaceshipX, 225.0f, spaceshipZ), 10000.0f, 10000.0f, 1000.0f, 2500.0f);
+	helipad->Start(sceneSpaceship, helipadY, vec2(minHelipadX, minHelipadZ), vec2(maxHelipadX, maxHelipadZ));
 
 	vec3 helipadPosition = helipad->GetPlatform()->transform->GetGlobalPosition();
 	vec2 helipadGridPos(helipadPosition.z / aTerrain->GetScale().z, helipadPosition.x / aTerrain->GetScale().x);
@@ -107,7 +116,12 @@ bool Game::OnStart()
 	aTerrain->FlattenArea(terrain, helipadGridPos.x - 4, helipadGridPos.x + 4, helipadGridPos.y - 4, helipadGridPos.y + 4, flattenHeight);
 
 	simEventCb->AddSpaceshipRigidActor(heli->GetRigidActor());
-	simEventCb->AddHelipadRigidActor(helipad->GetRigidActor());
+	simEventCb->AddHelipadRigidActor(helipad->GetRigidActor());*/
+
+	// --------------------------------------------------------- //
+	// -------------------- Scene Spaceship -------------------- //
+	// -------------------------- End -------------------------- //
+
 	PhysicsManager::getInstance()->SetSimulationEventCallback(simEventCb);
 	PhysicsManager::getInstance()->SetCurrentSceneGravity(vec3(0.0f, -1.5f, 0.0f));
 
@@ -116,7 +130,8 @@ bool Game::OnStart()
 
 bool Game::OnStop()
 {
-	delete scene;
+	delete sceneBSPTest;
+	delete sceneSpaceship;
 	delete simEventCb;
 
 	return true;
@@ -128,7 +143,7 @@ bool Game::OnUpdate()
 	{
 	case CONTINUE:
 	{
-		heli->Update();
+		//heli->Update();
 
 		//float cameraSpeed = 50.0f;
 

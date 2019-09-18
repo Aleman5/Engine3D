@@ -33,17 +33,18 @@ class Game : public GameBase
 
 	//Camera* debugCamera;
 
-	//Node* nCamera;
-	//Node* nDebugCamera;
-	//Node* nObjects;
-	//Node* nWeapon;
-	//Node* nWeaponMesh;
-	//Node* nSpider;
-	//Node* nSpiderMesh;
-	//Node* nHelicopter;
-	//Node* nHelicopterMesh;
+	Node* nCamera;
+	Node* nDebugCamera;
+	Node* nObjects;
+	Node* nWeapon;
+	Node* nWeaponMesh;
+	Node* nSpider;
+	Node* nSpiderMesh;
+	Node* nHelicopter;
+	Node* nHelicopterMesh;
 
-	Node* scene;
+	Node* sceneBSPTest;
+	Node* sceneSpaceship;
 	Node* terrain;
 	Helicopter* heli;
 	Helipad* helipad;

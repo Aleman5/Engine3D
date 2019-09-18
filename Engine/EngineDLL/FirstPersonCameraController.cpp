@@ -1,20 +1,20 @@
-#include "ThirdPersonCameraController.h"
+#include "FirstPersonCameraController.h"
 #include "Input.h"
 
-ThirdPersonCameraController::ThirdPersonCameraController()
+FirstPersonCameraController::FirstPersonCameraController()
 {
 	Start();
 }
-ThirdPersonCameraController::~ThirdPersonCameraController()
+FirstPersonCameraController::~FirstPersonCameraController()
 {
 }
 
-void ThirdPersonCameraController::Start()
+void FirstPersonCameraController::Start()
 {
 	name = "ThirdPersonCameraController";
 	reqTransform = false;
 }
-void ThirdPersonCameraController::Update()
+void FirstPersonCameraController::Update()
 {
 	Input* input = Input::getInstance();
 
@@ -23,16 +23,16 @@ void ThirdPersonCameraController::Update()
 
 	Rotate(horRotation, verRotation);
 }
-void ThirdPersonCameraController::Draw()
+void FirstPersonCameraController::Draw()
 {
 
 }
-void ThirdPersonCameraController::SetTransform(Transform* transform)
+void FirstPersonCameraController::SetTransform(Transform* transform)
 {
-	
+
 }
 
-void ThirdPersonCameraController::Rotate(float horRotation, float verRotation)
+void FirstPersonCameraController::Rotate(float horRotation, float verRotation)
 {
 	vec3 newCameraPosition = cameraTransform->GetPosition();
 
@@ -41,18 +41,25 @@ void ThirdPersonCameraController::Rotate(float horRotation, float verRotation)
 
 	verAngle = clamp(verAngle, -VERTICAL_RANGE, VERTICAL_RANGE);
 
-	newCameraPosition.x = initialPivotRight.x	* cos(radians(horAngle)) * radius;
-	newCameraPosition.y = initialPivotUp.y		* sin(radians(verAngle)) * radius;
-	newCameraPosition.z = initialPivotForward.z * sin(radians(horAngle)) * radius;
+	newCameraPosition.x = initialPivotRight.x	* cos(radians(horAngle));
+	newCameraPosition.y = initialPivotUp.y		* sin(radians(verAngle));
+	newCameraPosition.z = initialPivotForward.z * sin(radians(horAngle));
 
 	vec3 diff = followTargetTransform->GetGlobalPosition() - cameraTransform->GetGlobalPosition();
 
 	cameraTransform->Teleport(newCameraPosition.x, newCameraPosition.y, newCameraPosition.z);
 	camera->SetViewDirection(diff);
+
+	verRotation = clamp(verRotation, -VERTICAL_RANGE, VERTICAL_RANGE);
+
+	camera->Pitch(verRotation);
+	camera->Yaw(horRotation);
+
+	//camera-> up = vec4(0, 1, 0, 0);
 }
 
-void ThirdPersonCameraController::SetUpController(Node* sCameraNode, Node* sFollowTargetNode,
-	float sRotationSpeed, float sRadius)
+void FirstPersonCameraController::SetUpController(Node* sCameraNode, Node* sFollowTargetNode,
+	float sRotationSpeed)
 {
 	cameraTransform = sCameraNode->transform;
 	followTargetTransform = sFollowTargetNode->transform;
@@ -60,12 +67,11 @@ void ThirdPersonCameraController::SetUpController(Node* sCameraNode, Node* sFoll
 	camera = (Camera*)sCameraNode->GetComponent("Camera");
 
 	rotationSpeed = sRotationSpeed;
-	radius = sRadius;
 
 	initialPivotForward = followTargetTransform->GetForward();
 	initialPivotUp = followTargetTransform->GetUp();
 	initialPivotRight = followTargetTransform->GetRight();
 
 	cameraTransform->SetRotation(0.0f, 0.0f, 0.0f);
-	cameraTransform->Teleport(0.0f, 0.0f, -radius);
+	cameraTransform->Teleport(0.0f, 0.0f, 0.0f);
 }
