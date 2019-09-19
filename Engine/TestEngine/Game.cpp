@@ -35,9 +35,9 @@ bool Game::OnStart()
 	SetScene(sceneBSPTest);
 
 	nCamera = new Node("CameraHolder", sceneBSPTest);
-	Camera* camera = (Camera*)nCamera->AddComponent(new Camera(true));
-	camera->Teleport(0.0f, 0.0f, -50.0f);
-	camera->SetAsMainCamera();
+	mainCamera = (Camera*)nCamera->AddComponent(new Camera(true));
+	mainCamera->Teleport(0.0f, 0.0f, -50.0f);
+	mainCamera->SetAsMainCamera();
 
 	/*nDebugCamera = new Node("DebugCameraHolder", sceneBSPTest);
 	debugCamera = (Camera*)nDebugCamera->AddComponent(new Camera(true));
@@ -147,18 +147,18 @@ bool Game::OnUpdate()
 
 		//float cameraSpeed = 50.0f;
 
-		/*if (input->isInput(GLFW_KEY_W))
-			camera->WalkFront(ADVANCE);
+		if (input->isInput(GLFW_KEY_W))
+			mainCamera->WalkFront(ADVANCE);
 		if (input->isInput(GLFW_KEY_S))
-			camera->WalkFront(BACK);
+			mainCamera->WalkFront(BACK);
 		if (input->isInput(GLFW_KEY_A))
-			camera->WalkSideWays(ADVANCE);
+			mainCamera->WalkSideWays(ADVANCE);
 		if (input->isInput(GLFW_KEY_D))
-			camera->WalkSideWays(BACK);
+			mainCamera->WalkSideWays(BACK);
 		if (input->isInput(GLFW_KEY_Q))
-			camera->Rise(ADVANCE);
+			mainCamera->Rise(ADVANCE);
 		if (input->isInput(GLFW_KEY_E))
-			camera->Rise(BACK);*/
+			mainCamera->Rise(BACK);
 	}
 	break;
 	case WIN:

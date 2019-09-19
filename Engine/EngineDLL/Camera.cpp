@@ -21,7 +21,7 @@ void Camera::Start()
 {
 	name = "Camera";
 	reqTransform = true;
-
+	
 	ortho = sOrthogonal{};
 	persp = sPerspective{};
 	type  = Perspective;
@@ -191,7 +191,6 @@ void Camera::UpdateRendererPos()
 	{
 		if (isMainCamera)
 		{
-			cout << "Hola" << endl;
 			renderer->SetCameraPosition(vMatrix);
 			renderer->ExtractPlanes(pos, fwd, right, up, persp.zNear, persp.zFar, persp.aspect, persp.fovy);
 		}

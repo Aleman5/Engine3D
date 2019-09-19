@@ -211,6 +211,7 @@ Mesh* ModelImporter::InitMesh(const aiScene* aiScene, const aiMesh* aiMesh, Node
 	}
 
 	mesh->SetDiffTex(mesh->m_Textures);
+	child->ActivateMeshDebugMode(); // For Testing
 
 	return mesh;
 }

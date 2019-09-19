@@ -112,9 +112,16 @@ void Node::Draw()
 
 			if (shouldDraw)
 			{
+				cout << "Should Draw" << endl;
 				if (myMesh)
+				{
+					cout << "Mesh" << endl;
 					if (myMesh->GetDebugMode())
+					{
+						cout << "Holiguis" << endl;
 						myMesh->DrawFCData(fcData);
+					}
+				}
 			}
 		}
 
@@ -247,7 +254,7 @@ void Node::DesactivateCameraDebugMode()
 
 void Node::ActivateMeshDebugMode()
 {
-	myMesh = (Mesh*)GetChild(0)->GetComponent("Mesh");
+	myMesh = (Mesh*)GetComponent("Mesh");
 	
 	if (!myMesh)
 	{

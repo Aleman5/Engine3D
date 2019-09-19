@@ -31,7 +31,7 @@ class Game : public GameBase
 	GameState gameState;
 	SimulationEventCallback* simEventCb;
 
-	//Camera* debugCamera;
+	Camera* mainCamera;
 
 	Node* nCamera;
 	Node* nDebugCamera;
