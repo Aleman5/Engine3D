@@ -110,6 +110,10 @@ public:
 		unsigned int bufferId,		// Buffer to use.
 		unsigned int attributeId	// Location to fill in
 	);
+	void BindNormalBuffer(
+		unsigned int bufferId,		// Buffer to use.
+		unsigned int attributeId	// Location to fill in
+	);
 	void BindElementBuffer(
 		unsigned int bufferId		// Buffer to use.
 	);

@@ -179,6 +179,19 @@ void Renderer::BindTextureBuffer(unsigned int bufferId, unsigned int attributebI
 	);
 }
 
+void Renderer::BindNormalBuffer(unsigned int bufferId, unsigned int attributebId)
+{
+	glBindBuffer(GL_ARRAY_BUFFER, bufferId);
+	glVertexAttribPointer(
+		attributebId,       // debe corresponder en el shader.
+		3,                  // tamaño
+		GL_FLOAT,           // tipo
+		GL_FALSE,           // normalizado?
+		0,                  // corrimiento
+		(void*)0            // desfase del buffer
+	);
+}
+
 void Renderer::BindElementBuffer(unsigned int bufferId)
 {
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, bufferId);

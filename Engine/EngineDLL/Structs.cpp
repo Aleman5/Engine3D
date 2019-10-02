@@ -41,6 +41,7 @@ void MeshEntry::Init(const vector<Vertex>& Vertices, const vector<unsigned int>&
 	verticesBuffer = renderer->GenBuffer(positions, sizeof(float) * Vertices.size() * 3);
 	indicesBuffer = renderer->GenElementBuffer(Indices);
 	uvBuffer = renderer->GenBuffer(textures, sizeof(float) * Vertices.size() * 2);
+	normalBuffer = renderer->GenBuffer(normals, sizeof(float) * Vertices.size() * 3);
 
 	delete positions;
 	delete textures;

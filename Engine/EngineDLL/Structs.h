@@ -46,6 +46,7 @@ struct MeshEntry
 	unsigned int verticesBuffer;
 	unsigned int indicesBuffer;
 	unsigned int uvBuffer;
+	unsigned int normalBuffer;
 
 	vector<unsigned int> indices;
 

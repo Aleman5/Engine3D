@@ -35,17 +35,20 @@ void Mesh::Draw()
 
 	renderer->EnableAttributes(0);
 	renderer->EnableAttributes(1);
+	renderer->EnableAttributes(2);
 
 	for (unsigned int i = 0; i < m_Entries.size(); i++)
 	{
 		renderer->BindBuffer(m_Entries[i].verticesBuffer, 0);
 		renderer->BindTextureBuffer(m_Entries[i].uvBuffer, 1);
+		renderer->BindNormalBuffer (m_Entries[i].normalBuffer, 2);
 		renderer->BindElementBuffer(m_Entries[i].indicesBuffer);
 		renderer->DrawElementBuffer(m_Entries[i].NumIndices);
 	}
 
 	renderer->DisableAttributes(0);
 	renderer->DisableAttributes(1);
+	renderer->DisableAttributes(2);
 }
 
 void Mesh::DrawFCData(const FCCubeData& fcData)
