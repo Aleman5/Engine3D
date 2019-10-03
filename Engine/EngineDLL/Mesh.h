@@ -17,6 +17,7 @@ class ENGINEDLL_API Mesh : public Component
 {
 	Renderer* renderer;
 	Material* material;
+	Material* debugMaterial;
 	Transform* transform;
 
 	bool debugMode;

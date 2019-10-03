@@ -16,7 +16,7 @@ void main(){
     // Output position of the vertex, in clip space : MVP * position
     gl_Position =  MVP * vec4(vertexPosition_modelspace,1.0f);
 
-    // UV of the vertex. No special space for this one.
+    // UV and Normal of the vertex.
     UV = vertexUV;
 	Normal = vertexNormal;
 }
