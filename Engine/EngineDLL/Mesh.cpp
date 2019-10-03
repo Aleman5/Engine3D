@@ -134,7 +134,7 @@ void Mesh::SetDiffTex(vector<Header> diffuseTextures)
 {
 	if (diffuseTextures.size() > 0)
 	{
-		material = Material::GenerateMaterial(MODEL_TEX_VERTEX_SHADER, MODEL_TEX_FRAGMENT_SHADER);
+		material = Material::GenerateMaterial(CEL_SHADING_VERTEX_SHADER, CEL_SHADING_FRAGMENT_SHADER);
 		m_Textures = diffuseTextures;
 		material->SetTexture(diffuseTextures[0], "myTextureSampler");
 	}

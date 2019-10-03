@@ -170,8 +170,8 @@ Mesh* ModelImporter::InitMesh(const aiScene* aiScene, const aiMesh* aiMesh, Node
 
 	const aiVector3D Zero3D(0.0f, 0.0f, 0.0f);
 
-	float minX = 999999.0f, minY = 999999.0f, minZ = 999999.0f;
-	float maxX = -999999.0f, maxY = -999999.0f, maxZ = -999999.0f;
+	float minX =  FLT_MAX, minY =  FLT_MAX, minZ =  FLT_MAX;
+	float maxX = -FLT_MAX, maxY = -FLT_MAX, maxZ = -FLT_MAX;
 
 	for (unsigned int i = 0; i < aiMesh->mNumVertices; i++)
 	{

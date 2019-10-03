@@ -119,4 +119,5 @@ void main()
     tempColor = ComputeLighting(hitPoint, lightDir, tempColor);
     
     color = vec4(tempColor, 1.0);
+    //color = vec4(0.0,0.0,0.0, 1.0);
 }

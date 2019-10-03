@@ -80,7 +80,7 @@ void Helicopter::Start(Node* scene, vec3 position, float sAscensionForce, float 
 	}
 	root->AddComponent(bb);
 
-	Material* mat = Material::GenerateMaterial(TEXTURE_VERTEX_SHADER, TEXTURE_FRAGMENT_SHADER);
+	Material* mat = Material::GenerateMaterial(CEL_SHADING_VERTEX_SHADER, CEL_SHADING_FRAGMENT_SHADER);
 
 	Camera* c = (Camera*)camera->AddComponent(new Camera());
 	c->SetAsMainCamera();

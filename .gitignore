@@ -16,3 +16,7 @@ Engine/TestEngine/x64/Debug/
 Engine/TestEngine/x64/
 
 Engine/EngineDLL/x64/
+
+Engine/Binaries/
+
+Engine/Intermediate/
