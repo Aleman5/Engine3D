@@ -13,18 +13,18 @@
 class ENGINEDLL_API Defs
 {
 	static Defs *instance;
-	double currentFrame; // Actual Time
-	double lastFrame;	// Previous frame
+	double lastTime;	// Previous frame
 
 	Defs();
 public:
 	double deltaTime;	// Delta time
+	double currentTime; // Actual Time
 
 	void UpdateDeltaTime()
 	{
-		currentFrame = glfwGetTime();			// Save the actual time
-		deltaTime = currentFrame - lastFrame;	// Make a difference btw the actualFrame and the lastFrame
-		lastFrame = currentFrame;				// Save the lastFrame with the actual time
+		currentTime = glfwGetTime();			// Save the actual time
+		deltaTime = currentTime - lastTime;	// Make a difference btw the actualFrame and the lastFrame
+		lastTime = currentTime;				// Save the lastFrame with the actual time
 	}
 
 	static Defs* getInstance()

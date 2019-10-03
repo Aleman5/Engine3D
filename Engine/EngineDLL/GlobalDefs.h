@@ -6,6 +6,8 @@ constexpr const char* TEXTURE_VERTEX_SHADER	  = "Shaders\\TextureVertexShader.ve
 constexpr const char* TEXTURE_FRAGMENT_SHADER = "Shaders\\TextureFragmentShader.fragmentshader";
 constexpr const char* MODEL_TEX_VERTEX_SHADER = "Shaders\\ModelTextureVertexShader.vertexshader";
 constexpr const char* MODEL_TEX_FRAGMENT_SHADER = "Shaders\\ModelTexturePixelShader.pixelshader";
+constexpr const char* CEL_SHADING_VERTEX_SHADER = "Shaders\\CelShadingVertexShader.vertexshader";
+constexpr const char* CEL_SHADING_FRAGMENT_SHADER = "Shaders\\CelShadingFragmentShader.fragmentshader";
 
 
 constexpr const float MAX_BYTE_VALUE = 255.0f;

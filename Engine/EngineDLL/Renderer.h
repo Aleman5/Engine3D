@@ -56,6 +56,8 @@ class ENGINEDLL_API Renderer
 	mat4 orthoMatrix;
 	mat4 perspMatrix;
 
+	float fov;
+
 	vec4 CreatePlane(const vec3& normal, const vec3& point);
 	void NormalizePlanes();
 
@@ -180,7 +182,8 @@ public:
 
 	unsigned int GetWindowWidht()  { return window->GetWidth();  };
 	unsigned int GetWindowHeight() { return window->GetHeight(); };
-	vec4* GetPlanes()			   { return planes; };
+	float GetFov()				   { return fov;				 };
+	vec4* GetPlanes()			   { return planes;				 };
 	vec3 GetCameraPosition()	   { return eyePosition;		 };
 	mat4 GetProjMatrix()		   { return projectionMatrix;	 };
 	mat4 GetViewMatrix()		   { return viewMatrix;			 };

@@ -2,7 +2,7 @@
 
 Renderer * Renderer::instance = NULL;
 
-Renderer::Renderer()
+Renderer::Renderer() : fov(0.0f)
 {
 }
 
@@ -350,7 +350,7 @@ void Renderer::SetProjOrtho(float left, float right, float bottom, float top, fl
 void Renderer::SetProjPersp(float fovy, float aspect, float zNear, float zFar)
 {
 	projectionMatrix = glm::perspective(fovy, aspect, zNear, zFar);
-
+	fov = fovy;
 	SetMVP();
 }
 

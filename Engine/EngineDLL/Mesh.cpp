@@ -1,6 +1,6 @@
 #include "Mesh.h"
 
-Mesh::Mesh() : material(Material::GenerateMaterial(TEXTURE_VERTEX_SHADER, TEXTURE_FRAGMENT_SHADER))
+Mesh::Mesh() : material(Material::GenerateMaterial(CEL_SHADING_VERTEX_SHADER, CEL_SHADING_FRAGMENT_SHADER))
 {
 	Start();
 }
@@ -30,6 +30,9 @@ void Mesh::Draw()
 	{
 		material->Bind();
 		material->SetMatrixProperty("MVP", renderer->GetMVP());
+		material->SetVec2Property  ("iResolution", vec2(renderer->GetWindowWidht(), renderer->GetWindowHeight()));
+		material->SetFloatProperty ("iTime", Defs::getInstance()->currentTime);
+		material->SetFloatProperty ("iFov", renderer->GetFov());
 		material->BindTexture();
 	} 
 
@@ -102,11 +105,15 @@ void Mesh::DrawFCData(const FCCubeData& fcData)
 	{
 		material->Bind();
 		material->SetMatrixProperty("MVP", renderer->GetMVP());
+		material->SetVec2Property("iResolution", vec2(renderer->GetWindowWidht(), renderer->GetWindowHeight()));
+		material->SetFloatProperty("iTime", Defs::getInstance()->currentTime);
+		material->SetFloatProperty("iFov", renderer->GetFov());
 		material->BindTexture();
 	}
 
 	renderer->EnableAttributes(0);
 	renderer->EnableAttributes(1);
+	renderer->EnableAttributes(2);
 
 	unsigned int id = renderer->GenBuffer(fcVertex, sizeof(float) * 12 * 3);
 	unsigned int colorId = renderer->GenBuffer(verticesColorData, sizeof(float) * 12 * 3);
@@ -114,11 +121,13 @@ void Mesh::DrawFCData(const FCCubeData& fcData)
 
 	renderer->BindBuffer(id, 0);
 	renderer->BindTextureBuffer(colorId, 1);
+	renderer->BindNormalBuffer(m_Entries[0].normalBuffer, 2);
 	renderer->BindElementBuffer(elementsId);
 	renderer->DrawElementBuffer(elementsId);
 
 	renderer->DisableAttributes(0);
 	renderer->DisableAttributes(1);
+	renderer->DisableAttributes(2);
 }
 
 void Mesh::SetTransform(Transform* transform)

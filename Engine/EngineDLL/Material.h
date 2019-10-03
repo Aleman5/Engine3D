@@ -35,6 +35,14 @@ public:
 		const char* name,// Name of the matrix to fill a material
 		mat4& mat		 // Value of the matrix
 	);
+	void SetFloatProperty(
+		const char* name,// Name of the float to fill a material
+		float f			// Value of the float
+	);
+	void SetVec2Property(
+		const char* name,// Name of the vec2 to fill a material
+		vec2 vec		 // Value of the vec2
+	);
 	void SetTexture(Header header, const char* propertyName);
 
 	Material();

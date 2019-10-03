@@ -157,6 +157,18 @@ void Material::SetMatrixProperty(const char* name, mat4& mat)
 	glUniformMatrix4fv(matrixId, 1, GL_FALSE, &mat[0][0]);
 }
 
+void Material::SetFloatProperty(const char* name, float f)
+{
+	matrixId = glGetUniformLocation(programId, name);
+	glUniform1f(matrixId, f);
+}
+
+void Material::SetVec2Property(const char* name, vec2 vec)
+{
+	matrixId = glGetUniformLocation(programId, name);
+	glUniform2f(matrixId, vec.x, vec.y);
+}
+
 void Material::SetTexture(Header header, const char* propertyName)
 {
 	this->header = header;

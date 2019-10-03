@@ -112,7 +112,7 @@ void Node::Draw()
 
 			if (shouldDraw)
 			{
-				cout << "Should Draw" << endl;
+				//cout << "Should Draw" << endl;
 				if (myMesh)
 				{
 					cout << "Mesh" << endl;
