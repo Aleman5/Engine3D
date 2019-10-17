@@ -32,6 +32,7 @@ void Mesh::Draw()
 		material->Bind();
 		material->SetMatrixProperty("MVP", renderer->GetMVP());
 		material->SetVec2Property  ("iResolution", vec2(renderer->GetWindowWidht(), renderer->GetWindowHeight()));
+		material->SetVec3Property  ("iLightDir", Defs::getInstance()->lightDirection);
 		material->SetFloatProperty ("iTime", Defs::getInstance()->currentTime);
 		material->SetFloatProperty ("iFov", renderer->GetFov());
 		material->BindTexture();

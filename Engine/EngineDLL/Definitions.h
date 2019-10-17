@@ -10,6 +10,8 @@
 
 #include "GLFW\glfw3.h"
 
+using namespace glm;
+
 class ENGINEDLL_API Defs
 {
 	static Defs *instance;
@@ -19,12 +21,15 @@ class ENGINEDLL_API Defs
 public:
 	double deltaTime;	// Delta time
 	double currentTime; // Actual Time
+	vec3 lightDirection = vec3();// Actual Light direction
 
 	void UpdateDeltaTime()
 	{
-		currentTime = glfwGetTime();			// Save the actual time
+		currentTime = glfwGetTime();		// Save the actual time
 		deltaTime = currentTime - lastTime;	// Make a difference btw the actualFrame and the lastFrame
 		lastTime = currentTime;				// Save the lastFrame with the actual time
+
+		lightDirection = vec3(sin(currentTime * 2.0f) * 6.0f, 4.0f, sin(currentTime * 1.25f) * 5.0f);
 	}
 
 	static Defs* getInstance()

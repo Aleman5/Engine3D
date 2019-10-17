@@ -19,6 +19,7 @@ out vec4 color;
 // Values that stay constant for the whole mesh.
 uniform sampler2D myTextureSampler;
 uniform vec2 iResolution;
+uniform vec3 iLightDir;
 uniform float iTime;
 uniform float iFov;
 
@@ -39,6 +40,7 @@ float March(vec3 origin, vec3 direction, float start, float stop, inout float ed
     for	(int i = 0; i < MAX_STEPS; i++)
     {
         float dist = SceneSDF(origin + (depth * direction)); // Grab min step
+        //float dist = ;
         edgeLength = min(dist, edgeLength);
         
         if (dist < EPSILON) // Hit
@@ -112,11 +114,11 @@ void main()
     }
     
     vec3 hitPoint = origin + (dist * viewDir);
-    vec3 lightDir = vec3(sin(iTime * 2.0) * 6.0, 4.0, sin(iTime * 1.25) * 5.0);
+    //vec3 lightDir = vec3(sin(iTime * 2.0) * 6.0, 4.0, sin(iTime * 1.25) * 5.0);
     //vec3 tempColor = vec3(1.0, 0.5, 0.1);
 	vec3 tempColor = texture(myTextureSampler, UV).rgb;
     
-    tempColor = ComputeLighting(hitPoint, lightDir, tempColor);
+    tempColor = ComputeLighting(hitPoint, iLightDir, tempColor);
     
     color = vec4(tempColor, 1.0);
     //color = vec4(0.0,0.0,0.0, 1.0);
