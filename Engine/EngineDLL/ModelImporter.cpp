@@ -27,7 +27,7 @@ void ModelImporter::Load(Node* thisNode, const string modelPath, const string te
 
 	AttendNode(pScene, pScene->mRootNode, thisNode, modelPath, texturePath);
 
-	thisNode->fcData.UpdateData();
+	//thisNode->fcData.UpdateData();
 }
 
 void ModelImporter::LoadTerrain(Node* thisNode, const string& heightmapPath, vec3 scale,
