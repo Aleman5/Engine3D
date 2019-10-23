@@ -39,6 +39,32 @@ void Node::Delete()
 	}
 }
 
+void Node::CheckPlanes()
+{
+	if (fcData.initialized)
+	{
+		vec4* planes = renderer->GetPlanes();
+
+		for (int i = 0; i < 6; i++)
+		{
+			bool allBehind = true;
+
+			for (int j = 0; j < 8; j++)
+			{
+				if (renderer->ClassifyPoint(planes[i], renderer->GetModelMatrix() * vec4(fcData.vertex[j], 1.0f)) == POSITIVE)
+				{
+					allBehind = false;
+					break;
+				}
+			}
+			if (allBehind)
+			{
+				shouldDraw = false;
+			}
+		}
+	}
+}
+
 void Node::Start()
 {
 	parent = NULL;
@@ -64,29 +90,6 @@ void Node::Update()
 		if (parent)
 			if (parent->fcData.initialized)
 				parent->fcData.CompareData(fcData);
-
-		if (fcData.initialized)
-		{
-			vec4* planes = renderer->GetPlanes();
-
-			for (int i = 0; i < 6; i++)
-			{
-				bool allBehind = true;
-
-				for (int j = 0; j < 8; j++)
-				{
-					if (renderer->ClassifyPoint(planes[i], renderer->GetModelMatrix() * vec4(fcData.vertex[j], 1.0f)) == POSITIVE)
-					{
-						allBehind = false;
-						break;
-					}
-				}
-				if (allBehind)
-				{
-					shouldDraw = false;
-				}
-			}
-		}
 	}
 }
 
@@ -96,6 +99,8 @@ void Node::Draw()
 	{
 		mat4 currentModelMatrix = renderer->GetModelMatrix();
 		renderer->MultiplyModelMatrix(transform->GetModelMatrix());
+
+		CheckPlanes();
 
 		if (shouldDraw)
 		{

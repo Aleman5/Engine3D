@@ -25,6 +25,7 @@ class ENGINEDLL_API Node
 	Mesh* myMesh;
 
 	void Delete();
+	void CheckPlanes();
 
 protected:
 	void Start();
