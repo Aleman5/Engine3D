@@ -1,4 +1,6 @@
 #include "Renderer.h"
+#include "BSP.h"
+#include "Node.h"
 
 Renderer * Renderer::instance = NULL;
 
@@ -449,9 +451,23 @@ void Renderer::NormalizePlanes()
 	
 }
 
+void Renderer::MakeBSPClean(Node* scene)
+{
+	for (int i = 0; i < bSPs.size(); i++)
+	{
+		// Acá chequear por cada plano BSP todos los meshes,
+		// solamente si shouldDraw == true
+	}
+}
+
 Halfspace Renderer::ClassifyPoint(const vec4& plane, const vec4& vertex)
 {
 	float distToPlane = plane.x * vertex.x + plane.y * vertex.y + plane.z * vertex.z + plane.w;
 
 	return distToPlane >= 0.0f ? POSITIVE : NEGATIVE;
+}
+
+void Renderer::AddBSP(BSP* bsp)
+{
+	bSPs.push_back(bsp);
 }

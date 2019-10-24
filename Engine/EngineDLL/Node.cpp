@@ -39,8 +39,20 @@ void Node::Delete()
 	}
 }
 
+void Node::CheckBSP()
+{
+	if (!shouldDraw) return;
+
+	if (true)
+	{
+
+	}
+}
+
 void Node::CheckPlanes()
 {
+	if (!shouldDraw) return;
+
 	if (fcData.initialized)
 	{
 		vec4* planes = renderer->GetPlanes();
@@ -100,6 +112,7 @@ void Node::Draw()
 		mat4 currentModelMatrix = renderer->GetModelMatrix();
 		renderer->MultiplyModelMatrix(transform->GetModelMatrix());
 
+		CheckBSP();
 		CheckPlanes();
 
 		if (shouldDraw)

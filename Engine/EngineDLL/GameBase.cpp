@@ -80,7 +80,10 @@ void GameBase::Loop()
 		if (!state) break;
 		state = OnDraw();
 		if (nScene)
+		{
+			renderer->MakeBSPClean(nScene);
 			nScene->Draw();
+		}
 
 		renderer->SwapBuffers();
 	}

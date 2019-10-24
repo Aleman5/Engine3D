@@ -1,5 +1,6 @@
 #include "Game.h"
 #include "GlobalDefs.h"
+#include "BSP.h"
 
 Game::Game()
 {
@@ -77,6 +78,12 @@ bool Game::OnStart()
 	ModelImporter::getInstance()->Load(nHelicopterMesh, HELICOPTER_PATH, HELICOPTER_TEXTURE_PATH);
 	//nHelicopterMesh->ActivateMeshDebugMode();
 	
+	nBSP1 = new Node("BSP1", sceneBSPTest);
+	Renderer::getInstance()->AddBSP((BSP*)nBSP1->AddComponent(new BSP(vec4(0.0f, 0.0f, 0.0f, 1.0f))));
+
+	nBSP2 = new Node("BSP1", sceneBSPTest);
+	Renderer::getInstance()->AddBSP((BSP*)nBSP2->AddComponent(new BSP(vec4(0.0f, 0.0f, 0.0f, 1.0f))));
+
 	// --------------------------------------------------------- //
 	// -------------------- Scene BSP Test --------------------- //
 	// -------------------------- End -------------------------- //

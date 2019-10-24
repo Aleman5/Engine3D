@@ -43,6 +43,9 @@ class Game : public GameBase
 	Node* nHelicopter;
 	Node* nHelicopterMesh;
 
+	Node* nBSP1;
+	Node* nBSP2;
+
 	Node* sceneBSPTest;
 	Node* sceneSpaceship;
 	Node* terrain;

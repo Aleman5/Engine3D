@@ -17,6 +17,9 @@
 
 using namespace glm;
 
+class BSP;
+class Node;
+
 enum class Planes
 {
 	TOP,
@@ -51,6 +54,7 @@ class ENGINEDLL_API Renderer
 	mat4 projectionMatrix;	// Position of the transform based on the frustum of the camera
 	mat4 MVP;				// The final position of the entity in world space
 
+	vector<BSP*> bSPs;
 	vec4 planes[(int)Planes::COUNT];
 
 	mat4 orthoMatrix;
@@ -178,7 +182,11 @@ public:
 	/// <summary>Updates the values of the perspective projection</summary>
 	void SetProjPersp(float fovy, float aspect, float zNear, float zFar);
 
+	void MakeBSPClean(Node* scene);
+
 	Halfspace ClassifyPoint(const vec4& plane, const vec4& vertex);
+
+	void AddBSP(BSP* bsp);
 
 	unsigned int GetWindowWidht()  { return window->GetWidth();  };
 	unsigned int GetWindowHeight() { return window->GetHeight(); };
@@ -200,4 +208,3 @@ public:
 private:
 	Renderer();
 };
-
