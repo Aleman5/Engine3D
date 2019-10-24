@@ -1,4 +1,5 @@
 #include "Node.h"
+#include "BSP.h"
 
 Node::Node(string name)
 	: name(name), myMesh(NULL), shouldDraw(true)
@@ -39,16 +40,6 @@ void Node::Delete()
 	}
 }
 
-void Node::CheckBSP()
-{
-	if (!shouldDraw) return;
-
-	if (true)
-	{
-
-	}
-}
-
 void Node::CheckPlanes()
 {
 	if (!shouldDraw) return;
@@ -58,23 +49,18 @@ void Node::CheckPlanes()
 		vec4* planes = renderer->GetPlanes();
 
 		for (int i = 0; i < 6; i++)
-		{
-			bool allBehind = true;
-
-			for (int j = 0; j < 8; j++)
-			{
-				if (renderer->ClassifyPoint(planes[i], renderer->GetModelMatrix() * vec4(fcData.vertex[j], 1.0f)) == POSITIVE)
-				{
-					allBehind = false;
-					break;
-				}
-			}
-			if (allBehind)
-			{
+			if (IsBehindPlane(planes[i]))
 				shouldDraw = false;
-			}
-		}
 	}
+}
+
+bool Node::IsBehindPlane(vec4& plane, Halfspace halfspace)
+{
+	for (int j = 0; j < 8; j++)
+		if (renderer->ClassifyPoint(plane, renderer->GetModelMatrix() * vec4(fcData.vertex[j], 1.0f)) == halfspace)
+			return false;
+
+	return true;
 }
 
 void Node::Start()
@@ -112,7 +98,6 @@ void Node::Draw()
 		mat4 currentModelMatrix = renderer->GetModelMatrix();
 		renderer->MultiplyModelMatrix(transform->GetModelMatrix());
 
-		CheckBSP();
 		CheckPlanes();
 
 		if (shouldDraw)
@@ -307,9 +292,35 @@ void Node::DesactivateMeshDebugMode()
 	myMesh = NULL;
 }
 
+void Node::CheckHalfspace(BSP* bsp)
+{
+	mat4 currentModelMatrix = renderer->GetModelMatrix();
+	renderer->MultiplyModelMatrix(transform->GetModelMatrix());
+
+	if (fcData.initialized)
+	{
+		for (int i = 0; i < 8; i++)
+			if (IsBehindPlane(bsp->plane, bsp->halfspace))
+				shouldDraw = false;
+	}
+
+	if (shouldDraw)
+	{
+		for (int i = 0; i < nodeChilds.size(); i++)
+			nodeChilds[i]->CheckHalfspace(bsp);
+	}
+
+	renderer->SetModelMatrix(currentModelMatrix);
+}
+
 string Node::GetName()
 {
 	return name;
+}
+
+int Node::GetChildCount()
+{
+	return nodeChilds.size();
 }
 
 Node* Node::GetChild(unsigned int index)

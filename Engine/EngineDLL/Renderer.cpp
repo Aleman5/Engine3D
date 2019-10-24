@@ -370,7 +370,7 @@ vec4 Renderer::CreatePlane(const vec3& normal, const vec3& point)
 
 void Renderer::ExtractPlanes()
 {
-	glm::mat4 comboMatrix = projectionMatrix * glm::transpose(viewMatrix);
+	mat4 comboMatrix = projectionMatrix * glm::transpose(viewMatrix);
 
 	// Left clipping plane
 	planes[0].x = comboMatrix[0][3] + comboMatrix[0][3];
@@ -437,27 +437,20 @@ void Renderer::ExtractPlanes(vec3 globalPos, vec3 fwd, vec3 right, vec3 up, floa
 	planes[(int)Planes::BOTTOM] = CreatePlane(normalBottom, globalPos);
 }
 
-void Renderer::NormalizePlanes()
+void Renderer::NormalizePlane(vec4& plane)
 {
-	for (int i = 0; i < 6; i++)
-	{
-		float mag;
-		mag = sqrt(planes[i].x * planes[i].x + planes[i].y * planes[i].y + planes[i].z * planes[i].z);
-		planes[i].x = planes[i].x / mag;
-		planes[i].y = planes[i].y / mag;
-		planes[i].z = planes[i].z / mag;
-		planes[i].w = planes[i].w / mag;
-	}
-	
+	float mag;
+	mag = sqrt(plane.x * plane.x + plane.y * plane.y + plane.z * plane.z);
+	plane.x = plane.x / mag;
+	plane.y = plane.y / mag;
+	plane.z = plane.z / mag;
+	plane.w = plane.w / mag;
 }
 
 void Renderer::MakeBSPClean(Node* scene)
 {
 	for (int i = 0; i < bSPs.size(); i++)
-	{
-		// Acá chequear por cada plano BSP todos los meshes,
-		// solamente si shouldDraw == true
-	}
+		scene->CheckHalfspace(bSPs[i]);
 }
 
 Halfspace Renderer::ClassifyPoint(const vec4& plane, const vec4& vertex)

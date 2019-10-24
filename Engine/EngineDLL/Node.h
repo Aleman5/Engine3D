@@ -12,6 +12,8 @@
 
 using namespace std;
 
+class BSP;
+
 class ENGINEDLL_API Node
 {
 	Renderer* renderer;
@@ -25,8 +27,8 @@ class ENGINEDLL_API Node
 	Mesh* myMesh;
 
 	void Delete();
-	void CheckBSP();
 	void CheckPlanes();
+	bool IsBehindPlane(vec4& plane, Halfspace halfspace = POSITIVE);
 
 protected:
 	void Start();
@@ -59,7 +61,10 @@ public:
 	void ActivateMeshDebugMode();
 	void DesactivateMeshDebugMode();
 
+	void CheckHalfspace(BSP* bsp);
+
 	string GetName();
+	int GetChildCount();
 	Node* GetChild(unsigned int index);
 	Component* GetComponent(string type);
 	Component* GetComponentInChildren(string type);

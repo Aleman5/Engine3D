@@ -79,10 +79,14 @@ bool Game::OnStart()
 	//nHelicopterMesh->ActivateMeshDebugMode();
 	
 	nBSP1 = new Node("BSP1", sceneBSPTest);
-	Renderer::getInstance()->AddBSP((BSP*)nBSP1->AddComponent(new BSP(vec4(0.0f, 0.0f, 0.0f, 1.0f))));
+	nBSP1->transform->Teleport(-20.0f, 0.0f, 50.0f);
+	BSP* bSP1 = (BSP*)nBSP1->AddComponent(new BSP(vec3(1.0f, 0.0f, 0.0f)));
+	Renderer::getInstance()->AddBSP(bSP1);
 
 	nBSP2 = new Node("BSP1", sceneBSPTest);
-	Renderer::getInstance()->AddBSP((BSP*)nBSP2->AddComponent(new BSP(vec4(0.0f, 0.0f, 0.0f, 1.0f))));
+	nBSP2->transform->Teleport(20.0f, 0.0f, 50.0f);
+	BSP* bSP2 = (BSP*)nBSP2->AddComponent(new BSP(vec3(1.0f, 0.0f, 0.0f)));
+	Renderer::getInstance()->AddBSP(bSP2);
 
 	// --------------------------------------------------------- //
 	// -------------------- Scene BSP Test --------------------- //

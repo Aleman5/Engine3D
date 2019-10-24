@@ -4,8 +4,16 @@
 #include "Renderer.h"
 #include "Component.h"
 
+class Transform;
+
 class ENGINEDLL_API BSP : public Component
 {
+	Transform* transform;
+	Renderer* renderer;
+
+	vec3 position;
+	vec3 direction;
+
 public:
 	void Start() override;
 	void Update() override;
@@ -13,8 +21,8 @@ public:
 	void SetTransform(Transform* transform) override;
 
 	vec4 plane;
-	Halfspace actualHalfspace;
+	Halfspace halfspace;
 
-	BSP(const vec4& plane);
+	BSP(const vec3& direction);
 	~BSP();
 };

@@ -1,6 +1,7 @@
 #include "BSP.h"
+#include "Transform.h"
 
-BSP::BSP(const vec4& plane) : plane(plane)
+BSP::BSP(const vec3& direction) : renderer(Renderer::getInstance()), direction(direction)
 {
 
 }
@@ -12,12 +13,23 @@ BSP::~BSP()
 void BSP::Start()
 {
 	name = "BSP";
-	reqTransform = false;
+	reqTransform = true;
+
+	position = transform->GetGlobalPosition();
+	plane = renderer->CreatePlane(direction, position);
+	renderer->NormalizePlane(plane);
 }
 
 void BSP::Update()
 {
-	actualHalfspace = Renderer::getInstance()->ClassifyPoint(plane, vec4(Renderer::getInstance()->GetCameraPosition(), 1.0f));
+	halfspace = renderer->ClassifyPoint(plane, vec4(renderer->GetCameraPosition(), 1.0f));
+
+	if (position != transform->GetGlobalPosition())
+	{
+		position = transform->GetGlobalPosition();
+		plane = renderer->CreatePlane(direction, position);
+		renderer->NormalizePlane(plane);
+	}
 }
 
 void BSP::Draw()
@@ -27,5 +39,5 @@ void BSP::Draw()
 
 void BSP::SetTransform(Transform* transform)
 {
-
+	this->transform = transform;
 }

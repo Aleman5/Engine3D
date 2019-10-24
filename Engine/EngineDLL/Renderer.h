@@ -62,8 +62,7 @@ class ENGINEDLL_API Renderer
 
 	float fov;
 
-	vec4 CreatePlane(const vec3& normal, const vec3& point);
-	void NormalizePlanes();
+	
 
 public:
 	bool Start(
@@ -182,8 +181,9 @@ public:
 	/// <summary>Updates the values of the perspective projection</summary>
 	void SetProjPersp(float fovy, float aspect, float zNear, float zFar);
 
+	vec4 CreatePlane(const vec3& normal, const vec3& point);
+	void NormalizePlane(vec4& plane);
 	void MakeBSPClean(Node* scene);
-
 	Halfspace ClassifyPoint(const vec4& plane, const vec4& vertex);
 
 	void AddBSP(BSP* bsp);
