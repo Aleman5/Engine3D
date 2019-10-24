@@ -156,6 +156,7 @@ copy "$(SolutionDir)External\Assimp\dlls\x64\assimp-vc140-mt.dll" "$(OutDir)"</C
     <ClInclude Include="BoundingBox.h" />
     <ClInclude Include="Box.h" />
     <ClInclude Include="BoxCollider.h" />
+    <ClInclude Include="BSP.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="CapsuleCollider.h" />
     <ClInclude Include="Circle.h" />
@@ -197,6 +198,7 @@ copy "$(SolutionDir)External\Assimp\dlls\x64\assimp-vc140-mt.dll" "$(OutDir)"</C
     <ClCompile Include="BoundingBox.cpp" />
     <ClCompile Include="Box.cpp" />
     <ClCompile Include="BoxCollider.cpp" />
+    <ClCompile Include="BSP.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="CapsuleCollider.cpp" />
     <ClCompile Include="Circle.cpp" />
