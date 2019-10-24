@@ -3,7 +3,7 @@
 
 BSP::BSP(const vec3& direction) : renderer(Renderer::getInstance()), direction(direction)
 {
-
+	Start();
 }
 BSP::~BSP()
 {
@@ -15,7 +15,7 @@ void BSP::Start()
 	name = "BSP";
 	reqTransform = true;
 
-	position = transform->GetGlobalPosition();
+	position = vec3(100000.0f, 100000.0f, 100000.0f);
 	plane = renderer->CreatePlane(direction, position);
 	renderer->NormalizePlane(plane);
 }
