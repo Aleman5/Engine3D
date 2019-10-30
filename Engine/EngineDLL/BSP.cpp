@@ -23,7 +23,7 @@ void BSP::Start()
 void BSP::Update()
 {
 	halfspace = renderer->ClassifyPoint(plane, vec4(renderer->GetCameraPosition(), 1.0f));
-
+	cout << halfspace << endl;
 	if (position != transform->GetGlobalPosition())
 	{
 		position = transform->GetGlobalPosition();

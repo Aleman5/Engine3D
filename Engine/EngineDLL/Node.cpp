@@ -79,6 +79,8 @@ void Node::Update()
 {
 	if (isActive)
 	{
+		shouldDraw = true;
+
 		for (int i = 0; i < components.size(); i++)
 			components[i]->Update();
 
@@ -128,7 +130,7 @@ void Node::Draw()
 			}
 		}
 
-		shouldDraw = true;
+		//shouldDraw = true;
 
 		renderer->SetModelMatrix(currentModelMatrix);
 	}
@@ -301,7 +303,10 @@ void Node::CheckHalfspace(BSP* bsp)
 	{
 		for (int i = 0; i < 8; i++)
 			if (IsBehindPlane(bsp->plane, bsp->halfspace))
+			{
 				shouldDraw = false;
+				break;
+			}
 	}
 
 	if (shouldDraw)
