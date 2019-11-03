@@ -215,7 +215,7 @@ void Tilemap::UpdateUV()
 	int uvBufferSize = sizeof(float) * countOfVertices * 2 * activeTilesRows * activeTilesColumns;
 	int counter = 0;
 
-	glm::vec2 tilingOffset((int)renderer->GetCameraPosition().x / tileWidth, (int)renderer->GetCameraPosition().y / tileHeight);
+	glm::vec2 tilingOffset((int)renderer->GetCameraGlobalPosition().x / tileWidth, (int)renderer->GetCameraGlobalPosition().y / tileHeight);
 	int lastRow = (int)levelHeight / (int)tileHeight - 1;
 	int lastColumn = (int)levelWidth / (int)tileWidth - 1;
 

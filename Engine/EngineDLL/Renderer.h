@@ -45,9 +45,9 @@ class ENGINEDLL_API Renderer
 
 	unsigned int VertexArrayID;	// Id of the Vertex Array
 
-	vec3 cameraPosition;	// View of the Camera
-	vec3 eyePosition;		// Actual position of the Camera
-	vec3 headUpPosition;	// Head Up of the Camera
+	vec3 cameraGlobalPosition;  // View of the Camera
+	vec3 eyePosition;			// Actual position of the Camera
+	vec3 headUpPosition;		// Head Up of the Camera
 
 	mat4 modelMatrix;		// Position of the transform based on the origin
 	mat4 viewMatrix;		// Position of the transform based on the camera
@@ -192,7 +192,7 @@ public:
 	unsigned int GetWindowHeight() { return window->GetHeight(); };
 	float GetFov()				   { return fov;				 };
 	vec4* GetPlanes()			   { return planes;				 };
-	vec3 GetCameraPosition()	   { return eyePosition;		 };
+	vec3 GetCameraGlobalPosition() { return cameraGlobalPosition;};
 	mat4 GetProjMatrix()		   { return projectionMatrix;	 };
 	mat4 GetViewMatrix()		   { return viewMatrix;			 };
 	mat4 GetModelMatrix()		   { return modelMatrix;		 };

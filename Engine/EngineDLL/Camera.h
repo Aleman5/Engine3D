@@ -162,7 +162,7 @@ public:
 	void SetSpeed(float speed);
 
 	/// <summary>Returns the position</summary>
-	vec3 GetPosition() { return vec3(pos.x, pos.y, pos.z); };
+	vec3 GetGlobalPosition() { return vec3(globalPosition.x, globalPosition.y, globalPosition.z); };
 
 	Camera();
 	Camera(bool controlledByMouse);

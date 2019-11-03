@@ -37,12 +37,12 @@ bool Renderer::Start(Window* win)
 	glBindVertexArray(VertexArrayID);
 
 	//					   Default values
-	cameraPosition	= vec3(0, 0, -5);
+	cameraGlobalPosition	= vec3(0, 0, -5);
 	eyePosition		= vec3(0, 0, 0);
 	headUpPosition	= vec3(0, 1, 0);
 
 	viewMatrix = glm::lookAt(
-		cameraPosition,
+		cameraGlobalPosition,
 		eyePosition,
 		headUpPosition
 	);
@@ -249,11 +249,11 @@ void Renderer::DisableBlend()
 
 void Renderer::MoveCamera(vec3 newPos)
 {
-	cameraPosition += vec3(newPos.x, newPos.y, 0);
+	cameraGlobalPosition += vec3(newPos.x, newPos.y, 0);
 	eyePosition += newPos;
 
 	viewMatrix = glm::lookAt(
-		cameraPosition,
+		cameraGlobalPosition,
 		eyePosition,
 		headUpPosition
 	);
@@ -275,12 +275,12 @@ void Renderer::ResetCamera(float x, float y)
 {
 	vec3 newPos = vec3(x, y, 3);
 
-	cameraPosition = vec3(newPos.x, newPos.y, newPos.z);
+	cameraGlobalPosition = vec3(newPos.x, newPos.y, newPos.z);
 	eyePosition = vec3(0.0f, newPos.y, 0.0f);
 	headUpPosition = vec3(0.0f, 1.0f, 0.0f);
 
 	viewMatrix = glm::lookAt(
-		cameraPosition,
+		cameraGlobalPosition,
 		eyePosition,
 		headUpPosition
 	);
@@ -324,10 +324,8 @@ void Renderer::SetCameraPosition(mat4 newPosition)
 
 void Renderer::SetCameraPosition(float x, float y, float z)
 {
-	cameraPosition = vec3(x, y, z);
-
 	viewMatrix = glm::lookAt(
-		cameraPosition,
+		cameraGlobalPosition,
 		eyePosition,
 		headUpPosition
 	);
@@ -411,6 +409,8 @@ void Renderer::ExtractPlanes()
 
 void Renderer::ExtractPlanes(vec3 globalPos, vec3 fwd, vec3 right, vec3 up, float zNear, float zFar, float aspRatio, float fovy)
 {
+	cameraGlobalPosition = globalPos;
+
 	vec3 nearCenter = globalPos + fwd * zNear;
 	vec3 farCenter  = globalPos + fwd * zFar;
 
