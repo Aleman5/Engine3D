@@ -102,6 +102,7 @@ void Transform::RotateX(float angle)
 	vectorRotation.x += angle;
 
 	UpdateRotationMatrix();
+	UpdateDirectionVectors();
 	UpdateModel();
 }
 
@@ -110,6 +111,7 @@ void Transform::RotateY(float angle)
 	vectorRotation.y += angle;
 
 	UpdateRotationMatrix();
+	UpdateDirectionVectors();
 	UpdateModel();
 }
 
@@ -118,6 +120,7 @@ void Transform::RotateZ(float angle)
 	vectorRotation.z += angle;
 
 	UpdateRotationMatrix();
+	UpdateDirectionVectors();
 	UpdateModel();
 }
 
@@ -127,6 +130,7 @@ void Transform::Rotate(float x, float y, float z)
 	vectorRotation += rot;
 
 	UpdateRotationMatrix();
+	UpdateDirectionVectors();
 	UpdateModel();
 }
 

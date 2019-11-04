@@ -80,13 +80,13 @@ bool Game::OnStart()
 	
 	nBSP1 = new Node("BSP1", sceneBSPTest);
 	nBSP1->transform->Teleport(-20.0f, 0.0f, 50.0f);
-	BSP* bSP1 = (BSP*)nBSP1->AddComponent(new BSP(vec3(1.0f, 0.0f, 0.0f)));
-	Renderer::getInstance()->AddBSP(bSP1);
+	nBSP1->transform->Rotate(0.0f, 0.0f, 0.0f);
+	nBSP1->AddComponent(new BSP());
 
 	nBSP2 = new Node("BSP1", sceneBSPTest);
 	nBSP2->transform->Teleport(20.0f, 0.0f, 50.0f);
-	BSP* bSP2 = (BSP*)nBSP2->AddComponent(new BSP(vec3(1.0f, 0.0f, 0.0f)));
-	Renderer::getInstance()->AddBSP(bSP2);
+	nBSP2->transform->Rotate(90.0f, 0.0f, 0.0f);
+	nBSP2->AddComponent(new BSP());
 
 	// --------------------------------------------------------- //
 	// -------------------- Scene BSP Test --------------------- //

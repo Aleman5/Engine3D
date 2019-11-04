@@ -2,12 +2,12 @@
 #include "BSP.h"
 
 Node::Node(string name)
-	: name(name), myMesh(NULL), shouldDraw(true)
+	: name(name), myMesh(NULL), shouldDraw(true), isActive(true)
 {
 	Start();
 }
 Node::Node(string name, Node* parent)
-	: name(name), myMesh(NULL), shouldDraw(true)
+	: name(name), myMesh(NULL), shouldDraw(true), isActive(true)
 {
 	Start();
 	SetParent(parent);
@@ -66,7 +66,6 @@ bool Node::IsBehindPlane(vec4& plane, Halfspace halfspace)
 void Node::Start()
 {
 	parent = NULL;
-	isActive = true;
 
 	renderer = Renderer::getInstance();
 	fcData = FCCubeData();
