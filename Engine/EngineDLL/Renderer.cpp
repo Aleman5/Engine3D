@@ -410,6 +410,7 @@ void Renderer::ExtractPlanes()
 void Renderer::ExtractPlanes(vec3 globalPos, vec3 fwd, vec3 right, vec3 up, float zNear, float zFar, float aspRatio, float fovy)
 {
 	cameraGlobalPosition = globalPos;
+	cameraFwd = fwd;
 
 	vec3 nearCenter = globalPos + fwd * zNear;
 	vec3 farCenter  = globalPos + fwd * zFar;

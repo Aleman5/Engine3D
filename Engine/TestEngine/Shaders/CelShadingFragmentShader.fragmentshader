@@ -1,6 +1,7 @@
 #version 330 core
 
 #define EPSILON 0.0001
+#define ANGLE_LIMIT 2
 #define MAX_STEPS 500
 #define MIN_DIST 0.0
 #define MAX_DIST 25.0
@@ -20,6 +21,7 @@ out vec4 color;
 uniform sampler2D myTextureSampler;
 uniform vec2 iResolution;
 uniform vec3 iLightDir;
+uniform vec3 iCameraFwd;
 uniform float iTime;
 uniform float iFov;
 
@@ -56,6 +58,16 @@ float March(vec3 origin, vec3 direction, float start, float stop, inout float ed
     }
     
     return stop;
+}
+
+float mag(vec3 a)  //Calculates magnitude of a
+{
+    return sqrt(a.x * a.x + a.y * a.y + a.z * a.z);
+}
+
+float AngleFromNormal()
+{
+	return acos( dot(iCameraFwd, Normal) / (mag(iCameraFwd) * mag(Normal)) ); // Preguntar si (mag(iCameraFwd) * mag(Normal)) estan de mas
 }
 
 vec3 RayDirection(float fov, vec2 size, vec2 fragCoord)
@@ -95,7 +107,9 @@ void main()
     viewDir = (viewTransform * vec4(viewDir, 0.0)).xyz;
     
     float edgeLength = MAX_DIST;
-    float dist = March(origin, viewDir, MIN_DIST, MAX_DIST, edgeLength);
+    //float dist = March(origin, viewDir, MIN_DIST, MAX_DIST, edgeLength);
+    float dist = 1;
+	float angle = AngleFromNormal();
     
 	// This is to paint the background
     /*if (dist > MAX_DIST - EPSILON) // No hit
@@ -107,13 +121,15 @@ void main()
     
 	//color = texture(myTextureSampler, UV).rgba;
 
-    if (dist < EPSILON) // Edge hit
+    //if (dist < EPSILON) // Edge hit
+    if (angle < ANGLE_LIMIT) // Edge hit
     {
         color = vec4(0.0);
         return;
     }
     
-    vec3 hitPoint = origin + (dist * viewDir);
+    //vec3 hitPoint = origin + (dist * viewDir);
+    vec3 hitPoint = origin + viewDir;
     //vec3 lightDir = vec3(sin(iTime * 2.0) * 6.0, 4.0, sin(iTime * 1.25) * 5.0);
     //vec3 tempColor = vec3(1.0, 0.5, 0.1);
 	vec3 tempColor = texture(myTextureSampler, UV).rgb;

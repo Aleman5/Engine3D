@@ -48,6 +48,7 @@ class ENGINEDLL_API Renderer
 	vec3 cameraGlobalPosition;  // View of the Camera
 	vec3 eyePosition;			// Actual position of the Camera
 	vec3 headUpPosition;		// Head Up of the Camera
+	vec3 cameraFwd;				// Camera Forward
 
 	mat4 modelMatrix;		// Position of the transform based on the origin
 	mat4 viewMatrix;		// Position of the transform based on the camera
@@ -193,6 +194,7 @@ public:
 	float GetFov()				   { return fov;				 };
 	vec4* GetPlanes()			   { return planes;				 };
 	vec3 GetCameraGlobalPosition() { return cameraGlobalPosition;};
+	vec3 GetCameraFwd()			   { return cameraFwd;			 };
 	mat4 GetProjMatrix()		   { return projectionMatrix;	 };
 	mat4 GetViewMatrix()		   { return viewMatrix;			 };
 	mat4 GetModelMatrix()		   { return modelMatrix;		 };
