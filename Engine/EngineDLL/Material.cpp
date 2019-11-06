@@ -175,6 +175,12 @@ void Material::SetVec3Property(const char* name, vec3 vec)
 	glUniform3f(matrixId, vec.x, vec.y, vec.z);
 }
 
+void Material::SetVec4Property(const char* name, vec4 vec)
+{
+	matrixId = glGetUniformLocation(programId, name);
+	glUniform4f(matrixId, vec.x, vec.y, vec.z, vec.w);
+}
+
 void Material::SetTexture(Header header, const char* propertyName)
 {
 	this->header = header;

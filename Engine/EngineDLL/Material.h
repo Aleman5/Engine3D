@@ -47,6 +47,10 @@ public:
 		const char* name,// Name of the vec3 to fill a material
 		vec3 vec		 // Value of the vec3
 	);
+	void SetVec4Property(
+		const char* name,// Name of the vec3 to fill a material
+		vec4 vec		 // Value of the vec4
+	);
 	void SetTexture(Header header, const char* propertyName);
 
 	Material();

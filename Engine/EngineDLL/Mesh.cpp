@@ -31,9 +31,12 @@ void Mesh::Draw()
 	{
 		material->Bind();
 		material->SetMatrixProperty("MVP", renderer->GetMVP());
+		material->SetMatrixProperty("ModelMatrix", renderer->GetModelMatrixP());
 		material->SetVec2Property  ("iResolution", vec2(renderer->GetWindowWidht(), renderer->GetWindowHeight()));
 		material->SetVec3Property  ("iLightDir", Defs::getInstance()->lightDirection);
 		material->SetVec3Property  ("iCameraFwd", renderer->GetCameraFwd());
+		material->SetVec3Property  ("iCameraGlobalPos", renderer->GetCameraGlobalPosition());
+		material->SetVec4Property  ("iOutlineColor", vec4(0.0f, 1.0f, 0.0f, 0.0f));
 		material->SetFloatProperty ("iTime", Defs::getInstance()->currentTime);
 		material->SetFloatProperty ("iFov", renderer->GetFov());
 		material->BindTexture();

@@ -198,6 +198,9 @@ public:
 	mat4 GetProjMatrix()		   { return projectionMatrix;	 };
 	mat4 GetViewMatrix()		   { return viewMatrix;			 };
 	mat4 GetModelMatrix()		   { return modelMatrix;		 };
+	mat4& GetProjMatrixP()		   { return projectionMatrix;	 };
+	mat4& GetViewMatrixP()		   { return viewMatrix;			 };
+	mat4& GetModelMatrixP()		   { return modelMatrix;		 };
 	mat4& GetMVP()				   { return MVP;				 };
 
 	static Renderer* getInstance()
