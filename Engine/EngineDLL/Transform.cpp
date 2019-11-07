@@ -56,7 +56,7 @@ void Transform::Translate(vec3 vector3)
 {
 	vectorPosition += vector3;
 
-	lTransMat *= glm::translate(mat4(1.0f), vectorPosition);
+	lTransMat = glm::translate(mat4(1.0f), vectorPosition);
 
 	UpdateModel();
 }
@@ -65,7 +65,7 @@ void Transform::Translate(float newX, float newY, float newZ)
 {
 	vectorPosition += vec3(newX, newY, newZ);
 
-	lTransMat *= glm::translate(mat4(1.0f), vectorPosition);
+	lTransMat = glm::translate(mat4(1.0f), vectorPosition);
 
 	UpdateModel();
 }

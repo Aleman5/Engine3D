@@ -37,7 +37,7 @@ bool Game::OnStart()
 
 	nCamera = new Node("CameraHolder", sceneBSPTest);
 	mainCamera = (Camera*)nCamera->AddComponent(new Camera(true));
-	mainCamera->Teleport(0.0f, 0.0f, -50.0f);
+	mainCamera->Teleport(0.0f, 0.0f, -30.0f);
 	mainCamera->SetAsMainCamera();
 
 	/*nDebugCamera = new Node("DebugCameraHolder", sceneBSPTest);
@@ -51,42 +51,90 @@ bool Game::OnStart()
 
 	nObjects = new Node("Objects", sceneBSPTest);
 
-	nWeapon = new Node("M4A1", nObjects);
+	/*nWeapon = new Node("M4A1", nObjects);
 	nWeapon->transform->SetLayer(Character);
-	nWeapon->transform->Teleport(0.0f, -30.0f, 0.0f);
+	nWeapon->transform->Teleport(0.0f, 0.0f, 0.0f);
 
 	nWeaponMesh = new Node("M4A1Mesh", nWeapon);
-	nWeaponMesh->transform->Scale(0.4f, 0.4f, 0.4f);
+	nWeaponMesh->transform->Scale(0.1f, 0.1f, 0.1f);
 	ModelImporter::getInstance()->Load(nWeaponMesh, M4A1_PATH, M4A1_TEXTURE_PATH);
 	//nWeaponMesh->ActivateMeshDebugMode();
 
 	nSpider = new Node("Spider", nWeapon);
 	nSpider->transform->SetLayer(Enemy);
-	nSpider->transform->Teleport(-50.0f, -30.0f, 50.0f);
+	nSpider->transform->Teleport(-15.0f, 0.0f, 15.0f);
 
 	nSpiderMesh = new Node("SpiderMesh", nSpider);
-	nSpiderMesh->transform->Scale(0.4f, 0.4f, 0.4f);
+	nSpiderMesh->transform->Scale(0.15f, 0.15f, 0.15f);
 	ModelImporter::getInstance()->Load(nSpiderMesh, SPIDER_PATH, SPIDER_TEXTURE_PATH);
 	//nSpiderMesh->ActivateMeshDebugMode();
 
 	nHelicopter = new Node("Helicopter", nObjects);
 	nHelicopter->transform->SetLayer(Character);
-	nHelicopter->transform->Teleport(20.0f, 10.0f, 20.0f);
+	nHelicopter->transform->Teleport(10.0f, 0.0f, 10.0f);
 	
 	nHelicopterMesh = new Node("HelicopterMesh", nHelicopter);
-	nHelicopterMesh->transform->Scale(0.01f, 0.01f, 0.01f);
+	nHelicopterMesh->transform->Scale(0.005f, 0.005f, 0.005f);
 	ModelImporter::getInstance()->Load(nHelicopterMesh, HELICOPTER_PATH, HELICOPTER_TEXTURE_PATH);
-	//nHelicopterMesh->ActivateMeshDebugMode();
+	//nHelicopterMesh->ActivateMeshDebugMode();*/
 	
+	nWeap1 = new Node("nWeap1", nObjects);
+	nWeap1->transform->SetLayer(Character);
+	nWeap1->transform->Teleport(12.0f, 0.0f, 0.0f);
+
+	nWeap1Mesh = new Node("LaWeapon1", nWeap1);
+	nWeap1Mesh->transform->Scale(0.1f, 0.1f, 0.1f);
+	ModelImporter::getInstance()->Load(nWeap1Mesh, M4A1_PATH, M4A1_TEXTURE_PATH);
+
+	nWeap2 = new Node("nWeap2", nObjects);
+	nWeap2->transform->SetLayer(Character);
+	nWeap2->transform->Teleport(-12.0f, 0.0f, 0.0f);
+
+	nWeap2Mesh = new Node("LaWeapon2", nWeap2);
+	nWeap2Mesh->transform->Scale(0.1f, 0.1f, 0.1f);
+	ModelImporter::getInstance()->Load(nWeap2Mesh, M4A1_PATH, M4A1_TEXTURE_PATH);
+
+	nWeap3 = new Node("nWeap3", nObjects);
+	nWeap3->transform->SetLayer(Character);
+	nWeap3->transform->Teleport(0.0f, 0.0f, 0.0f);
+	
+	nWeap3Mesh = new Node("LaWeapon3", nWeap3);
+	nWeap3Mesh->transform->Scale(0.1f, 0.1f, 0.1f);
+	ModelImporter::getInstance()->Load(nWeap3Mesh, M4A1_PATH, M4A1_TEXTURE_PATH);
+
+	nWeap4 = new Node("nWeap4", nObjects);
+	nWeap4->transform->SetLayer(Character);
+	nWeap4->transform->Teleport(0.0f, 0.0f, 12.0f);
+	
+	nWeap4Mesh = new Node("LaWeapon4", nWeap4);
+	nWeap4Mesh->transform->Scale(0.1f, 0.1f, 0.1f);
+	ModelImporter::getInstance()->Load(nWeap4Mesh, M4A1_PATH, M4A1_TEXTURE_PATH);
+
+	nWeap5 = new Node("nWeap5", nObjects);
+	nWeap5->transform->SetLayer(Character);
+	nWeap5->transform->Teleport(-12.0f, 0.0f, -6.0f);
+	
+	nWeap5Mesh = new Node("LaWeapon5", nWeap5);
+	nWeap5Mesh->transform->Scale(0.1f, 0.1f, 0.1f);
+	ModelImporter::getInstance()->Load(nWeap5Mesh, M4A1_PATH, M4A1_TEXTURE_PATH);
+
+	timeLeft = timeToChange = 7.0f;
+	dir = 1;
+
 	nBSP1 = new Node("BSP1", sceneBSPTest);
-	nBSP1->transform->Teleport(-20.0f, 0.0f, 50.0f);
-	nBSP1->transform->Rotate(0.0f, 0.0f, 0.0f);
+	nBSP1->transform->Teleport(6.0f, 0.0f, 0.0f);
+	nBSP1->transform->Rotate(0.0f, 90.0f, 0.0f);
 	nBSP1->AddComponent(new BSP());
 
-	nBSP2 = new Node("BSP1", sceneBSPTest);
-	nBSP2->transform->Teleport(20.0f, 0.0f, 50.0f);
-	nBSP2->transform->Rotate(90.0f, 0.0f, 0.0f);
+	nBSP2 = new Node("BSP2", sceneBSPTest);
+	nBSP2->transform->Teleport(-6.0f, 0.0f, 0.0f);
+	nBSP2->transform->Rotate(0.0f, 90.0f, 0.0f);
 	nBSP2->AddComponent(new BSP());
+
+	nBSP3 = new Node("BSP3", sceneBSPTest);
+	nBSP3->transform->Teleport(0.0f, 0.0f, 6.0f);
+	nBSP3->transform->Rotate(0.0f, 0.0f, 0.0f);
+	nBSP3->AddComponent(new BSP());
 
 	// --------------------------------------------------------- //
 	// -------------------- Scene BSP Test --------------------- //
@@ -182,6 +230,16 @@ bool Game::OnUpdate()
 		
 	}
 	break;
+	}
+
+	nWeap5->transform->Translate(3.0f * dir * Defs::getInstance()->deltaTime, 0.0f, 0.0f);
+
+	timeLeft -= Defs::getInstance()->deltaTime;
+
+	if (timeLeft <= 0)
+	{
+		timeLeft = timeToChange;
+		dir *= -1;
 	}
 
 	if (gameState == 0)

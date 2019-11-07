@@ -21,7 +21,7 @@ class ENGINEDLL_API Defs
 public:
 	double deltaTime;	// Delta time
 	double currentTime; // Actual Time
-	vec3 lightDirection = vec3();// Actual Light direction
+	vec3 lightDirection = vec3(-5.0f, 4.0f, 0.0f);// Actual Light direction
 
 	void UpdateDeltaTime()
 	{
@@ -29,7 +29,7 @@ public:
 		deltaTime = currentTime - lastTime;	// Make a difference btw the actualFrame and the lastFrame
 		lastTime = currentTime;				// Save the lastFrame with the actual time
 
-		lightDirection = vec3(sin(currentTime * 2.0f) * 6.0f, 4.0f, sin(currentTime * 1.25f) * 5.0f);
+		//lightDirection = vec3(sin(currentTime * 2.0f) * 6.0f, 4.0f, sin(currentTime * 1.25f) * 5.0f);
 	}
 
 	static Defs* getInstance()

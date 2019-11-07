@@ -43,8 +43,20 @@ class Game : public GameBase
 	Node* nHelicopter;
 	Node* nHelicopterMesh;
 
+	Node* nWeap1;
+	Node* nWeap1Mesh;
+	Node* nWeap2;
+	Node* nWeap2Mesh;
+	Node* nWeap3;
+	Node* nWeap3Mesh;
+	Node* nWeap4;
+	Node* nWeap4Mesh;
+	Node* nWeap5;
+	Node* nWeap5Mesh;
+
 	Node* nBSP1;
 	Node* nBSP2;
+	Node* nBSP3;
 
 	Node* sceneBSPTest;
 	Node* sceneSpaceship;
@@ -53,6 +65,9 @@ class Game : public GameBase
 	Helipad* helipad;
 
 	float speed;
+	float timeToChange;
+	float timeLeft;
+	float dir;
 
 	void Restart();
 

@@ -72,8 +72,10 @@ void GameBase::Loop()
 		state = OnUpdate();
 		if (!state) break;
 		if (nScene)
+		{
 			nScene->Update();
-
+		}
+		Renderer::getInstance()->counter = 0;
 		physicsManager->Simulate();
 		physicsManager->FetchSimulationResults();
 
@@ -84,6 +86,7 @@ void GameBase::Loop()
 			renderer->MakeBSPClean(nScene);
 			nScene->Draw();
 		}
+		cout << "Entities being drawn: " << Renderer::getInstance()->counter << endl;
 
 		renderer->SwapBuffers();
 	}

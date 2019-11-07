@@ -66,6 +66,8 @@ class ENGINEDLL_API Renderer
 	
 
 public:
+	int counter;
+
 	bool Start(
 		Window* window	// Actual window
 	);

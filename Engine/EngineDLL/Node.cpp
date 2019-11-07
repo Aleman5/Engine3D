@@ -116,7 +116,12 @@ void Node::Draw()
 
 			if (shouldDraw)
 			{
-				//cout << "Should Draw" << endl;
+				if (parent->parent->name.find("nWeap", 0) == 0)
+				{
+					cout << "llego hasta aca " << parent->parent->name << endl;
+					renderer->counter++;
+				}
+
 				if (myMesh)
 				{
 					cout << "Mesh" << endl;

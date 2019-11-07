@@ -4,7 +4,7 @@
 
 Renderer * Renderer::instance = NULL;
 
-Renderer::Renderer() : fov(0.0f)
+Renderer::Renderer() : fov(0.0f), counter(0)
 {
 }
 
