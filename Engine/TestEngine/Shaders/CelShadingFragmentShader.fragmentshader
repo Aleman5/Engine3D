@@ -1,7 +1,7 @@
 #version 330 core
 
 #define EPSILON 0.0001
-#define ANGLE_LIMIT 2
+#define ANGLE_LIMIT 2.1
 #define MAX_STEPS 500
 #define MIN_DIST 0.0
 #define MAX_DIST 25.0
