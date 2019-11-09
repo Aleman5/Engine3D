@@ -48,13 +48,13 @@ void BSP::Draw()
 
 	vec3 pointRight = position + right * 5.0f;
 	vec3 pointUp	= position + up * 5.0f;
-
+	
 	float* vertex = new float[4 * 3]
 	{
-		 pointRight.x,  pointUp.y, position.z,
-		-pointRight.x,  pointUp.y, position.z,
-		 pointRight.x, -pointUp.y, position.z,
-		-pointRight.x, -pointUp.y, position.z,
+		 pointRight.x,  pointUp.y,																																0,
+		-pointRight.x,  pointUp.y,																																0,
+		 pointRight.x, -pointUp.y,																																0,
+		-pointRight.x, -pointUp.y,																																0,
 	};
 
 	float* verticesColorData = new float[4 * 3]

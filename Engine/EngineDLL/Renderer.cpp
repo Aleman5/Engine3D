@@ -442,10 +442,7 @@ void Renderer::NormalizePlane(vec4& plane)
 {
 	float mag;
 	mag = sqrt(plane.x * plane.x + plane.y * plane.y + plane.z * plane.z);
-	plane.x = plane.x / mag;
-	plane.y = plane.y / mag;
-	plane.z = plane.z / mag;
-	plane.w = plane.w / mag;
+	plane /= mag;
 }
 
 void Renderer::MakeBSPClean(Node* scene)

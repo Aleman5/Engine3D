@@ -133,7 +133,7 @@ bool Game::OnStart()
 
 	nBSP3 = new Node("BSP3", sceneBSPTest);
 	nBSP3->transform->Teleport(0.0f, 0.0f, 6.0f);
-	nBSP3->transform->Rotate(0.0f, 0.0f, 0.0f);
+	nBSP3->transform->Rotate(0.0f, 180.0f, 0.0f);
 	nBSP3->AddComponent(new BSP());
 
 	// --------------------------------------------------------- //
