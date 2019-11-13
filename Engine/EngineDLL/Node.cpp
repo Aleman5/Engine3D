@@ -56,8 +56,8 @@ void Node::CheckPlanes()
 
 bool Node::IsBehindPlane(vec4& plane, Halfspace halfspace)
 {
-	for (int j = 0; j < 8; j++)
-		if (renderer->ClassifyPoint(plane, renderer->GetModelMatrix() * vec4(fcData.vertex[j], 1.0f)) == halfspace)
+	for (int v = 0; v < 8; v++)
+		if (renderer->ClassifyPoint(plane, renderer->GetModelMatrix() * vec4(fcData.vertex[v], 1.0f)) == halfspace)
 			return false;
 
 	return true;

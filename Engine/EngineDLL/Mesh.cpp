@@ -31,12 +31,10 @@ void Mesh::Draw()
 	{
 		material->Bind();
 		material->SetMatrixProperty("MVP", renderer->GetMVP());
-		material->SetVec2Property  ("iResolution", vec2(renderer->GetWindowWidht(), renderer->GetWindowHeight()));
 		material->SetVec3Property  ("iLightDir", Defs::getInstance()->lightDirection);
+		material->SetVec3Property  ("iCameraGlobalPos", renderer->GetCameraGlobalPosition());
 		material->SetVec3Property  ("iCameraFwd", renderer->GetCameraFwd());
-		material->SetFloatProperty ("iTime", Defs::getInstance()->currentTime);
-		material->SetFloatProperty ("iFov", renderer->GetFov());
-		material->SetFloatProperty ("iAngleLimit", renderer->GetAngleLimit());
+		material->SetFloatProperty ("iRadianLimit", renderer->GetRadianLimit());
 		material->BindTexture();
 	} 
 
