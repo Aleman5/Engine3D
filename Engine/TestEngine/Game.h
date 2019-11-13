@@ -65,6 +65,7 @@ class Game : public GameBase
 	Helipad* helipad;
 
 	float speed;
+	float timeToStart;
 	float timeToChange;
 	float timeLeft;
 	float dir;

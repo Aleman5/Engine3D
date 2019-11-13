@@ -118,7 +118,7 @@ void Node::Draw()
 			{
 				if (parent->parent->name.find("nWeap", 0) == 0)
 				{
-					cout << "llego hasta aca " << parent->parent->name << endl;
+					//cout << "llego hasta aca " << parent->parent->name << endl;
 					renderer->counter++;
 				}
 

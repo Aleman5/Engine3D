@@ -67,16 +67,16 @@ bool Game::OnStart()
 	nSpiderMesh = new Node("SpiderMesh", nSpider);
 	nSpiderMesh->transform->Scale(0.15f, 0.15f, 0.15f);
 	ModelImporter::getInstance()->Load(nSpiderMesh, SPIDER_PATH, SPIDER_TEXTURE_PATH);
-	//nSpiderMesh->ActivateMeshDebugMode();
+	//nSpiderMesh->ActivateMeshDebugMode();*/
 
-	nHelicopter = new Node("Helicopter", nObjects);
+	/*nHelicopter = new Node("Helicopter", nObjects);
 	nHelicopter->transform->SetLayer(Character);
-	nHelicopter->transform->Teleport(10.0f, 0.0f, 10.0f);
+	nHelicopter->transform->Teleport(18.0f, 0.0f, -12.0f);
 	
 	nHelicopterMesh = new Node("HelicopterMesh", nHelicopter);
 	nHelicopterMesh->transform->Scale(0.005f, 0.005f, 0.005f);
-	ModelImporter::getInstance()->Load(nHelicopterMesh, HELICOPTER_PATH, HELICOPTER_TEXTURE_PATH);
-	//nHelicopterMesh->ActivateMeshDebugMode();*/
+	ModelImporter::getInstance()->Load(nHelicopterMesh, HELICOPTER_PATH, HELICOPTER_TEXTURE_PATH);*/
+	//nHelicopterMesh->ActivateMeshDebugMode();
 	
 	nWeap1 = new Node("nWeap1", nObjects);
 	nWeap1->transform->SetLayer(Character);
@@ -112,12 +112,13 @@ bool Game::OnStart()
 
 	nWeap5 = new Node("nWeap5", nObjects);
 	nWeap5->transform->SetLayer(Character);
-	nWeap5->transform->Teleport(-12.0f, 0.0f, -6.0f);
+	nWeap5->transform->Teleport(-16.0f, 0.0f, -6.0f);
 	
 	nWeap5Mesh = new Node("LaWeapon5", nWeap5);
 	nWeap5Mesh->transform->Scale(0.1f, 0.1f, 0.1f);
 	ModelImporter::getInstance()->Load(nWeap5Mesh, M4A1_PATH, M4A1_TEXTURE_PATH);
 
+	timeToStart = 15.0f;
 	timeLeft = timeToChange = 7.0f;
 	dir = 1;
 
@@ -232,21 +233,26 @@ bool Game::OnUpdate()
 	break;
 	}
 
-	nWeap5->transform->Translate(3.0f * dir * Defs::getInstance()->deltaTime, 0.0f, 0.0f);
+	timeToStart -= Defs::getInstance()->deltaTime;
 
-	timeLeft -= Defs::getInstance()->deltaTime;
-
-	if (timeLeft <= 0)
+	if (timeToStart <= 0.0f)
 	{
-		timeLeft = timeToChange;
-		dir *= -1;
-	}
+		nWeap5->transform->Translate(6.0f * dir * Defs::getInstance()->deltaTime, 0.0f, 0.0f);
 
-	if (gameState == 0)
-	{
-		input->PollEvents();
-	}
+		timeLeft -= Defs::getInstance()->deltaTime;
 
+		if (timeLeft <= 0)
+		{
+			timeLeft = timeToChange;
+			dir *= -1;
+		}
+
+		if (gameState == 0)
+		{
+			input->PollEvents();
+		}
+	}
+	
 	if (input->isInput(GLFW_KEY_ESCAPE)) return false;
 
 	return true;

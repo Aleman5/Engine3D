@@ -72,8 +72,6 @@ void main()
     mat4 viewTransform = LookAt(origin, vec3(0.0), vec3(0.0, 1.0, 0.0));
     viewDir = (viewTransform * vec4(viewDir, 0.0)).xyz;
     
-    float edgeLength = MAX_DIST;
-    float dist = 1;
 	float angle = AngleFromNormal();
     
     if (angle < iAngleLimit) // Edge hit
