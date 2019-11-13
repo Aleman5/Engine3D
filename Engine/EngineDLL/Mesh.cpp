@@ -36,6 +36,7 @@ void Mesh::Draw()
 		material->SetVec3Property  ("iCameraFwd", renderer->GetCameraFwd());
 		material->SetFloatProperty ("iTime", Defs::getInstance()->currentTime);
 		material->SetFloatProperty ("iFov", renderer->GetFov());
+		material->SetFloatProperty ("iAngleLimit", renderer->GetAngleLimit());
 		material->BindTexture();
 	} 
 

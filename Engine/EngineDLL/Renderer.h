@@ -62,7 +62,7 @@ class ENGINEDLL_API Renderer
 	mat4 perspMatrix;
 
 	float fov;
-
+	float angleLimit;
 	
 
 public:
@@ -194,6 +194,7 @@ public:
 	unsigned int GetWindowWidht()  { return window->GetWidth();  };
 	unsigned int GetWindowHeight() { return window->GetHeight(); };
 	float GetFov()				   { return fov;				 };
+	float GetAngleLimit()		   { return angleLimit;			 };
 	vec4* GetPlanes()			   { return planes;				 };
 	vec3 GetCameraGlobalPosition() { return cameraGlobalPosition;};
 	vec3 GetCameraFwd()			   { return cameraFwd;			 };

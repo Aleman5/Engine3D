@@ -24,41 +24,7 @@ uniform vec3 iLightDir;
 uniform vec3 iCameraFwd;
 uniform float iTime;
 uniform float iFov;
-
-float TorusSDF(vec3 samplePoint, vec2 dimensions)
-{
-	return length( vec2(length(samplePoint.xz)-dimensions.x,samplePoint.y) )-dimensions.y;
-}
-
-float SceneSDF(vec3 samplePoint)
-{
-    return TorusSDF(samplePoint, vec2(1.3, 0.45));
-}
-
-float March(vec3 origin, vec3 direction, float start, float stop, inout float edgeLength)
-{
-    float depth = start;
-    
-    for	(int i = 0; i < MAX_STEPS; i++)
-    {
-        float dist = SceneSDF(origin + (depth * direction)); // Grab min step
-        //float dist = ;
-        edgeLength = min(dist, edgeLength);
-        
-        if (dist < EPSILON) // Hit
-            return depth;
-        
-        if (dist > edgeLength && edgeLength <= EDGE_THICKNESS ) // Edge hit
-            return 0.0;
-        
-        depth += dist; // Step
-        
-        if (depth >= stop) // Reached max
-            break;
-    }
-    
-    return stop;
-}
+uniform float iAngleLimit;
 
 float mag(vec3 a)  //Calculates magnitude of a
 {
@@ -107,35 +73,19 @@ void main()
     viewDir = (viewTransform * vec4(viewDir, 0.0)).xyz;
     
     float edgeLength = MAX_DIST;
-    //float dist = March(origin, viewDir, MIN_DIST, MAX_DIST, edgeLength);
     float dist = 1;
 	float angle = AngleFromNormal();
     
-	// This is to paint the background
-    /*if (dist > MAX_DIST - EPSILON) // No hit
-    {
-		//color = vec4(0.6);
-        color = texture(myTextureSampler, UV).rgb;
-        return;
-    }*/
-    
-	//color = texture(myTextureSampler, UV).rgba;
-
-    //if (dist < EPSILON) // Edge hit
-    if (angle < ANGLE_LIMIT) // Edge hit
+    if (angle < iAngleLimit) // Edge hit
     {
         color = vec4(0.0);
         return;
     }
     
-    //vec3 hitPoint = origin + (dist * viewDir);
     vec3 hitPoint = origin + viewDir;
-    //vec3 lightDir = vec3(sin(iTime * 2.0) * 6.0, 4.0, sin(iTime * 1.25) * 5.0);
-    //vec3 tempColor = vec3(1.0, 0.5, 0.1);
 	vec3 tempColor = texture(myTextureSampler, UV).rgb;
     
     tempColor = ComputeLighting(hitPoint, iLightDir, tempColor);
     
     color = vec4(tempColor, 1.0);
-    //color = vec4(0.0,0.0,0.0, 1.0);
 }
