@@ -2,7 +2,7 @@
 
 #define RADIAN_LIMIT 2.1
 #define AMBIENT 0.1
-#define SHADES 5.0
+#define SHADES 3.0
 
 // Interpolated values from the vertex shaders
 in vec2 UV;
@@ -23,7 +23,7 @@ float RadiansFromNormal()
 	return acos( dot(iCameraFwd, Normal) );
 }
 
-vec3 ComputeLighting(vec3 point, vec3 lightColor)
+vec3 ComputeLighting(vec3 lightColor)
 {
     float intensity = dot(Normal, normalize(iLightDir));
     intensity = ceil(intensity * SHADES) / SHADES;
@@ -36,5 +36,5 @@ void main()
     if (RadiansFromNormal() < iRadianLimit) // Edge hit
         color = vec4(0.0);
 	else
-		color = vec4( ComputeLighting(iCameraGlobalPos, texture(myTextureSampler, UV).rgb), 1.0 );
+		color = vec4( ComputeLighting(texture(myTextureSampler, UV).rgb), 1.0 );
 }

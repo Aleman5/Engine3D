@@ -69,13 +69,13 @@ bool Game::OnStart()
 	ModelImporter::getInstance()->Load(nSpiderMesh, SPIDER_PATH, SPIDER_TEXTURE_PATH);
 	//nSpiderMesh->ActivateMeshDebugMode();*/
 
-	/*nHelicopter = new Node("Helicopter", nObjects);
+	nHelicopter = new Node("Helicopter", nObjects);
 	nHelicopter->transform->SetLayer(Character);
 	nHelicopter->transform->Teleport(18.0f, 0.0f, -12.0f);
 	
 	nHelicopterMesh = new Node("HelicopterMesh", nHelicopter);
 	nHelicopterMesh->transform->Scale(0.005f, 0.005f, 0.005f);
-	ModelImporter::getInstance()->Load(nHelicopterMesh, HELICOPTER_PATH, HELICOPTER_TEXTURE_PATH);*/
+	ModelImporter::getInstance()->Load(nHelicopterMesh, HELICOPTER_PATH, HELICOPTER_TEXTURE_PATH);
 	//nHelicopterMesh->ActivateMeshDebugMode();
 	
 	nWeap1 = new Node("nWeap1", nObjects);
@@ -237,7 +237,17 @@ bool Game::OnUpdate()
 
 	if (timeToStart <= 0.0f)
 	{
-		nWeap5->transform->Translate(6.0f * dir * Defs::getInstance()->deltaTime, 0.0f, 0.0f);
+		if (input->isInput(GLFW_KEY_J))
+			nWeap5->transform->Translate(0.0f, 0.0f,  6.0f * Defs::getInstance()->deltaTime);
+
+		if (input->isInput(GLFW_KEY_K))
+			nWeap5->transform->Translate(0.0f, 0.0f, -6.0f * Defs::getInstance()->deltaTime);
+
+		if (input->isInput(GLFW_KEY_N))
+			nWeap5->transform->Translate( 6.0f * Defs::getInstance()->deltaTime, 0.0f, 0.0f);
+
+		if (input->isInput(GLFW_KEY_M))
+			nWeap5->transform->Translate(-6.0f * Defs::getInstance()->deltaTime, 0.0f, 0.0f);
 
 		timeLeft -= Defs::getInstance()->deltaTime;
 
